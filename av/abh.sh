@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+mail=$1
+path="/opt/av/abh/"
+
+# make dir for results
+if [ ! -d ${path}reports/ ] ; then mkdir -p ${path}reports/; fi
+
+# scan
+output=`/usr/bin/php ${path}ai-bolit/ai-bolit-hoster.php --report=${path}reports/REPORT-@DATE@.html --mode=1 --path=/home/bitrix/`
+exitcode=$?
+
+# got recent report
+for file in ${path}reports/*; do
+  [[ ${file} -nt ${recent_report} ]] && recent_report=${file}
+done
+
+# output
+if [ "${exitcode}" = "0" ]; then
+    exit 0
+fi
+
+if [ "${exitcode}" = "1" ]; then
+    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+fi
+
+if [ "${exitcodet}" = "2" ]; then
+    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+fi
+
+# delete older then 14 day reports
+find ${path}reports/ -type f -mtime +14 -exec rm {} \;
+
+exit 0
