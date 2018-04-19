@@ -11,6 +11,7 @@ echo -e '[Service]\nExecStart=\nExecStart=/usr/bin/gitlab-ci-multi-runner "run" 
 chown -R bitrix:bitrix /home/gitlab-runner/
 
 systemctl daemon-reload
+systemctl enable gitlab-runner
 systemctl restart gitlab-runner
 
 #gitlab-runner register
