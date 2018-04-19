@@ -45,5 +45,14 @@ crontab -l | { cat; echo "10 1 * * * /opt/av/abh.sh ${mail} > /dev/null 2>&1 || 
 
 # hide process from all besides zabbix
 # Only after zabbix install
-echo 'proc /proc proc defaults,hidepid=2,gid=zabbix 0 0' >> /etc/fstab
-mount -o remount,defaults,hidepid=2,gid=zabbix /proc
+if [ -d /etc/zabbix/ ];then
+
+    echo 'proc /proc proc defaults,hidepid=2,gid=zabbix 0 0' >> /etc/fstab
+    mount -o remount,defaults,hidepid=2,gid=zabbix /proc
+
+else
+
+    echo 'proc /proc proc defaults,hidepid=2 0 0' >> /etc/fstab
+    mount -o remount,defaults,hidepid=2 /proc
+
+fi

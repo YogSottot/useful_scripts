@@ -37,7 +37,6 @@ cat <<EOT >> /etc/php.d/z_bx_custom.ini
 allow_url_fopen = Off
 mail.add_x_header = Off
 pcre.recursion_limit = 100000
-sendmail_path = sendmail -t -i
 EOT
 systemctl reload httpd
 
@@ -47,27 +46,6 @@ echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* so
 # mysql limits
 mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
 
-# mail
-yum install postfix -y
-
-# postfix limits
-mkdir -p /etc/systemd/system/postfix.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/postfix.service.d/override.conf && systemctl daemon-reload
-
-cat <<EOT >> /etc/postfix/main.cf
-#default_destination_concurrency_limit = 500
-#default_destination_recipient_limit = 500
-#initial_destination_concurrency = 50
-#fork_delay = 1s
-#in_flow_delay = 1s
-#smtpd_recipient_limit = 30000
-#mydestination =
-#mynetworks_style = host
-#fallback_transport = relay
-# mydestination = localhost.$mydomain, localhost
-EOT
-
-systemctl enable postfix && systemctl restart postfix
-
 # ntpd often desync
 systemctl stop ntpd
 systemctl disable ntpd
@@ -76,3 +54,50 @@ systemctl restart chronyd
 
 # mysql add template config
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
+
+echo "Do you wish to install postfix?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh | bash ; break;;
+        No ) exit;;
+    esac
+done
+
+echo "Do you wish to install zabbix?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+                read -p "Please enter a ip of zabbix server : " server_ip
+                read -p "Please enter a zabbix server domain : " domain
+                read -p "Please enter a hostname for this zabbix node : " hostname
+
+                curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/zabbix.sh | bash -s -- ${server_ip} ${domain} ${hostname}  ; break;;
+
+        No ) exit;;
+    esac
+done
+
+echo "Do you wish to install antivirus?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+                read -p "Please enter your email : " your_mail
+
+                curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_setup.sh | bash -s -- ${your_mail}  ; break;;
+
+        No ) exit;;
+    esac
+done
+
+
+echo "Do you wish to install backup_script?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+                read -p "Please enter your sitename : " sitename
+
+                curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www ${sitename}_\`date\ \+\\%Y\.\\%m\.\\%d\-\\%H\.\\%M\`  ; break;;
+
+        No ) exit;;
+    esac
+done

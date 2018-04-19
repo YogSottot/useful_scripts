@@ -34,7 +34,7 @@ low-priority-updates
 #innodb_buffer_pool_size = 4096M
 #innodb_buffer_pool_instances = 4
 #
-thread_pool_size = 16
+#thread_pool_size = 16
 # https://www.percona.com/blog/2006/06/05/innodb-thread-concurrency/
 #innodb_thread_concurrency = 2
 #innodb_commit_concurrency = 2
