@@ -33,9 +33,7 @@ if  yum info Percona-Server-server-* | egrep -q installed  ; then
 
 yum install percona-zabbix-templates -y
 
-config_patch="grep -i 'Include' /etc/zabbix/zabbix_agentd.conf  | grep -v '^#'"
-
-cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf  ${config_patch}/
+cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf  /etc/zabbix/zabbix_agentd.d/
 
 service zabbix-agent restart
 
