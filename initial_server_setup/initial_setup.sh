@@ -68,5 +68,11 @@ EOT
 
 systemctl enable postfix && systemctl restart postfix
 
+# ntpd often desync
+systemctl stop ntpd
+systemctl disable ntpd
+systemctl enable chronyd
+systemctl restart chronyd
+
 # mysql add template config
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
