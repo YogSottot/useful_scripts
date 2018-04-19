@@ -101,3 +101,11 @@ select yn in "Yes" "No"; do
         No ) exit;;
     esac
 done
+
+echo "Do you wish to install gitlab-runner?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/git/runner.sh | bash ; break;;
+        No ) exit;;
+    esac
+done
