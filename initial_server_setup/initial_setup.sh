@@ -9,7 +9,16 @@ yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-c
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
 chown root:bitrix -R /opt/liquidprompt
-echo -e "alias mc='mc -x'\n[[ \$- = *i* ]] && source /opt/liquidprompt/liquidprompt" >> ~/.bashrc
+
+cat <<\EOT >> ~/.bashrc
+alias mc='mc -x'
+alias mytuner='curl -sL https://raw.github.com/major/MySQLTuner-perl/master/mysqltuner.pl | perl'
+alias myprimer='curl -sL https://raw.githubusercontent.com/RootService/tuning-primer/master/tuning-primer.sh | bash'
+alias a2bud='curl -sL https://raw.githubusercontent.com/richardforth/apache2buddy/master/apache2buddy.pl | perl'
+alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php'
+[[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
+EOT
+
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
 
