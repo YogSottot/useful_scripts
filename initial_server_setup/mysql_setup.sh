@@ -46,6 +46,8 @@ low-priority-updates
 #
 #innodb_flush_log_at_trx_commit = 0
 #innodb_flush_method = O_DSYNC
+
+#max_allowed_packet = 256M
 EOT
 
 systemctl restart mysql

@@ -70,10 +70,12 @@ cat <<EOT >> /etc/postfix/canonical
 @${domain}   info@${domain}
 EOT
 
+hostname=`/bin/hostname`
+
 # добавляем отправку почты админу
 cat <<EOT >> /etc/postfix/generic
-root@localhost postmaster@${domain}
-bitrix@localhost postmaster@${domain}
+root@${hostname} postmaster@${domain}
+bitrix@${hostname} postmaster@${domain}
 EOT
 
 postmap /etc/postfix/generic

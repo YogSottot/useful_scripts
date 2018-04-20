@@ -2,6 +2,7 @@
 
 mail=$1
 path="/opt/av/abh/"
+hostname=`/bin/hostname`
 
 # make dir for results
 if [ ! -d ${path}reports/ ] ; then mkdir -p ${path}reports/; fi
@@ -21,11 +22,11 @@ if [ "${exitcode}" = "0" ]; then
 fi
 
 if [ "${exitcode}" = "1" ]; then
-    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
 if [ "${exitcodet}" = "2" ]; then
-    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
 # delete older then 14 day reports
