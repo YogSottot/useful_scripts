@@ -63,6 +63,8 @@ EOT
 cat <<EOT >> /etc/postfix/sender_relay
 @${domain} [${relay}]:${port}
 info@${domain} [${relay}]:${port}
+bitrix@${hostname} [${relay}]:${port}
+root@${hostname} [${relay}]:${port}
 EOT
 
 # добавляем для домена указание через какой аккаунт отправлять
