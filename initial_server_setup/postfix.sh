@@ -95,3 +95,4 @@ done
 # тестируем https://www.mail-tester.com/
 # echo "Subject:My message" | sendmail -t -i mail@mail.com
 # php -r "mail('your@mail.com', 'Test', 'Test');"
+# https://gist.github.com/zmwangx/2c56aa32be68daf48c2f
