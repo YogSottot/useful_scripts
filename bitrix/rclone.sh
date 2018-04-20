@@ -8,13 +8,11 @@
 # 4 - supported unzip tools are not available
 
 # use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash
-
+yum install unzip -y
 set -e
 
 #when adding a tool to the list make sure to also add it's corresponding command further in the script
 unzip_tools_list=('unzip' '7z')
-
-yum install unzip -y
 
 usage() { echo "Usage: curl https://rclone.org/install.sh | sudo bash [-s beta]" 1>&2; exit 1; }
 
