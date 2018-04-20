@@ -8,7 +8,6 @@
 # 4 - supported unzip tools are not available
 
 # use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash
-yum install unzip -y
 set -e
 
 #when adding a tool to the list make sure to also add it's corresponding command further in the script
@@ -43,8 +42,7 @@ set -e
 
 # exit if no unzip tools available
 if [ -z "${unzip_tool}" ]; then
-    printf "\nNone of the supported tools for extracting zip archives (${unzip_tools_list[*]}) were found. "
-    printf "Please install one of them and try again.\n\n"
+    yum install unzip -y
     exit 4
 fi
 
