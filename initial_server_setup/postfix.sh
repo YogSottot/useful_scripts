@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh | bash
+# bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh)
 
 # mail
 yum install cyrus-sasl-plain postfix -y
@@ -86,3 +86,7 @@ echo 'do not forget to systemctl reload httpd after testing' ; break;;
         No ) exit;;
     esac
 done
+
+# тестируем https://www.mail-tester.com/
+# echo "Subject:My message" | sendmail -t -i mail@mail.com
+# php -r "mail('your@mail.com', 'Test', 'Test');"

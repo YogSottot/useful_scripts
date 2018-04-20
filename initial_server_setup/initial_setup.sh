@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh | bash
+# bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh)
 
 # install useful programms
 yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm
@@ -67,7 +67,7 @@ curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initi
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh | bash ; break;;
+        Yes ) bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh) ; break;;
         No ) exit;;
     esac
 done
