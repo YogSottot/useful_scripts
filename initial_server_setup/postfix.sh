@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh | bash
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh | bash
 
 # mail
 yum install cyrus-sasl-plain postfix -y
