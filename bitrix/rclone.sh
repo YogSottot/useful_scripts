@@ -31,6 +31,9 @@ tmp_dir=`mktemp -d 2>/dev/null || mktemp -d -t 'rclone-install'`; cd $tmp_dir
 
 #make sure unzip tool is available and choose one to work with
 set +e
+    yum install unzip -y
+
+
 for tool in ${unzip_tools_list[*]}; do
     trash=`hash $tool 2>>errors`
     if [ "$?" -eq 0 ]; then
@@ -39,11 +42,6 @@ for tool in ${unzip_tools_list[*]}; do
     fi
 done  
 set -e
-
-# exit if no unzip tools available
-if [ -z "${unzip_tool}" ]; then
-    yum install unzip -y
-fi
 
 # Make sure we don't create a root owned .config/rclone directory #2127
 export XDG_CONFIG_HOME=config
