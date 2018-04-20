@@ -43,7 +43,6 @@ set -e
 # exit if no unzip tools available
 if [ -z "${unzip_tool}" ]; then
     yum install unzip -y
-    exit 4
 fi
 
 # Make sure we don't create a root owned .config/rclone directory #2127
