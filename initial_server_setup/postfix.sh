@@ -82,7 +82,7 @@ postmap /etc/postfix/sender_relay
 postmap /etc/postfix/mailpasswd
 
 systemctl restart postfix
-echo 'relay setup is succes' ; break;;
+echo 'do not forget to systemctl reload httpd after testing' ; break;;
         No ) exit;;
     esac
 done
