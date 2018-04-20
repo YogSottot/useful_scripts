@@ -53,6 +53,7 @@ read -p "Please enter relay port. Example: 587: " port
 read -p "Please enter mail login. Example: www@some.ru: " login
 read -p "Please enter mail password: " password
 read -p "Please enter mail domain. Example: some.ru: " domain
+hostname=`/bin/hostname`
 
 # указываем логин и пароль
 cat <<EOT >> /etc/postfix/mailpasswd
