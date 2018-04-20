@@ -27,5 +27,8 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -A https://auth.selcdn.ru -U ${login} -K ${userkey} download --skip-identical ${storage_dir} -p upload && echo OK && exit
+# to restore with bitrix owner
+sudo -i -u bitrix bash << EOF
+cd ${doc_root} && nice -n 19 ionice -c2 -n7 ~/.local/bin/swift -A https://auth.selcdn.ru -U ${login} -K ${userkey} download --skip-identical ${storage_dir} -p upload && echo OK && exit
 echo Error
+EOF
