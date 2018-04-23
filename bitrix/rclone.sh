@@ -232,6 +232,6 @@ fi
 
 backup_dir=${doc_root}/upload
 
-crontab -l | { cat; echo "20 */3 * * * nice -n 19 ionice -c2 -n7 /root/.local/bin/rclone sync ${backup_dir} selectel:${storage_dir}/upload   > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "20 */3 * * * nice -n 19 ionice -c2 -n7 /root/.local/bin/rclone --exclude-from /opt/backup/exclude_rclone sync  ${backup_dir} selectel:${storage_dir}/upload   > /dev/null 2>&1 || true"; } | crontab -
 
 exit 0
