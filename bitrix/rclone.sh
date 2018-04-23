@@ -13,21 +13,8 @@ set -e
 #when adding a tool to the list make sure to also add it's corresponding command further in the script
 unzip_tools_list=('unzip' '7z')
 
-usage() { echo "Usage: curl https://rclone.org/install.sh | sudo bash [-s beta]" 1>&2; exit 1; }
-
-#check for beta flag
-if [ -n "$1" ] && [ "$1" != "beta" ]; then
-    usage
-fi
-
-if [ -n "$1" ]; then
-    install_beta="beta "
-fi
-
-
 #create tmp directory and move to it with macOS compatibility fallback
 tmp_dir=`mktemp -d 2>/dev/null || mktemp -d -t 'rclone-install'`; cd $tmp_dir
-
 
 #make sure unzip tool is available and choose one to work with
 set +e
@@ -48,14 +35,10 @@ export XDG_CONFIG_HOME=config
 
 #check installed version of rclone to determine if update is necessary
 version=`rclone --version 2>>errors | head -n 1`
-if [ -z "${install_beta}" ]; then
-    current_version=`curl https://downloads.rclone.org/version.txt`
-else
     current_version=`curl https://beta.rclone.org/version.txt`
-fi
 
 if [ "$version" = "$current_version" ]; then
-    printf "\nThe latest ${install_beta}version of rclone ${version} is already installed.\n\n"
+    printf "\nThe latest version of rclone ${version} is already installed.\n\n"
     exit 3
 fi
 
@@ -109,13 +92,8 @@ esac
 
 
 #download and unzip
-if [ -z "${install_beta}" ]; then
     download_link="https://downloads.rclone.org/rclone-current-$OS-$OS_type.zip"
     rclone_zip="rclone-current-$OS-$OS_type.zip"
-else
-    download_link="https://beta.rclone.org/rclone-beta-latest-$OS-$OS_type.zip"
-    rclone_zip="rclone-beta-latest-$OS-$OS_type.zip"
-fi
 
 curl -O $download_link
 unzip_dir="tmp_unzip_dir_for_rclone"
