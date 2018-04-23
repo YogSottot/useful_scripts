@@ -33,17 +33,6 @@ set -e
 # Make sure we don't create a root owned .config/rclone directory #2127
 export XDG_CONFIG_HOME=config
 
-#check installed version of rclone to determine if update is necessary
-version=`rclone --version 2>>errors | head -n 1`
-    current_version=`curl https://beta.rclone.org/version.txt`
-
-if [ "$version" = "$current_version" ]; then
-    printf "\nThe latest version of rclone ${version} is already installed.\n\n"
-    exit 3
-fi
-
-
-
 #detect the platform
 OS="`uname`"
 case $OS in
