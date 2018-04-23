@@ -8,7 +8,7 @@ hostname=`/bin/hostname`
 if [ ! -d ${path}reports/ ] ; then mkdir -p ${path}reports/; fi
 
 # scan
-output=`/usr/bin/php ${path}ai-bolit/ai-bolit-hoster.php --report=${path}reports/REPORT-@DATE@.html --mode=1 --path=/home/bitrix/`
+output=`nice -n 19 ionice -c2 -n7 /usr/bin/php ${path}ai-bolit/ai-bolit-hoster.php --report=${path}reports/REPORT-@DATE@.html --mode=1 --path=/home/bitrix/`
 exitcode=$?
 
 # got recent report
