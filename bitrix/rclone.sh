@@ -7,7 +7,7 @@
 # 3 - installed version of rclone is up to date
 # 4 - supported unzip tools are not available
 
-# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash
+# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash -s -- /home/bitrix/www
 set -e
 
 #when adding a tool to the list make sure to also add it's corresponding command further in the script
@@ -179,5 +179,56 @@ esac
 version=`rclone --version 2>>errors | head -n 1`
 
 printf "\n${version} has successfully installed."
-printf '\nNow run "rclone config" for setup. Check https://rclone.org/docs/ for more details.\n\n'
+
+function getValueFromINI() {
+	local sourceData=$1; local paramName=$2;
+	## 1. Get value "platform=%OUR_VALUE%"
+	## 2. Remove illegal characters
+	echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p' | tr -d "\r" | tr -d "\n");
+}
+
+function getValueFromINI2() {
+        local sourceData=$1; local paramName=$2;
+        ## 1. Get value "platform=%OUR_VALUE%"
+        ## 2. Remove illegal characters
+        echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/");
+}
+
+sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/sMonit/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
+login=$(getValueFromINI "$sectionContent" "login");
+userkey=$(getValueFromINI "$sectionContent" "password");
+storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
+
+
+mkdir -p /root/.config/rclone/
+cat <<EOT >> /root/.config/rclone/rclone.conf
+[selectel]
+type = swift
+env_auth = false
+user = ${login}
+key = ${userkey}
+auth = https://auth.selcdn.ru/v1.0
+user_id =
+domain =
+tenant =
+tenant_id =
+tenant_domain =
+region =
+storage_url =
+auth_token =
+auth_version =
+endpoint_type = internal
+EOT
+
+doc_root=$1
+
+if [ -z ${doc_root} ]; then
+	echo Usage: $0 /path/to/document/root [backup_name]
+	exit
+fi
+
+backup_dir=${doc_root}/upload
+
+crontab -l | { cat; echo "20 */3 * * * nice -n 19 ionice -c2 -n7 /root/.local/bin/rclone sync ${backup_dir} selectel:${storage_dir}/upload   > /dev/null 2>&1 || true"; } | crontab -
+
 exit 0
