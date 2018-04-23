@@ -115,7 +115,6 @@ case $OS in
     #manuals
     mkdir -p /usr/local/share/man/man1
     cp rclone.1 /usr/local/share/man/man1/
-    mandb
     ;;
   'freebsd'|'openbsd'|'netbsd')
     #bin
