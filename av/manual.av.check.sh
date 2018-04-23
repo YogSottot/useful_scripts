@@ -3,6 +3,7 @@
 mode=$1
 search_path=$2
 mail=$3
+hostname=`/bin/hostname`
 
 # check for arguments
 if [ ! $1 ] || [ ! $2 ] || [ ! $3 ] ; then
@@ -35,11 +36,11 @@ if [ "${exitcode}" = "0" ]; then
 fi
 
 if [ "${exitcode}" = "1" ]; then
-    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
 if [ "${exitcode}" = "2" ]; then
-    hn=`/bin/hostname` ; mailx -s "Virus detected on $hn" ${mail} < ${recent_report}
+    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
 # delete older then 14 day reports
