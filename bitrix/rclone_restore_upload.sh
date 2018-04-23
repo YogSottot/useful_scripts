@@ -27,13 +27,12 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-mkdir -p /home/bitrix/.config/rclone/
-cp /root/.config/rclone/rclone.conf /home/bitrix/.config/rclone/rclone.conf
+chmod 644 /opt/backup/rclone.conf
 
 # to restore with bitrix owner
 sudo -i -u bitrix bash << EOF
-~/.local/bin/rclone sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
+~/.local/bin/rclone --config=/opt/backup/rclone.conf sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
 echo Error
 EOF
 
-rm -rf /home/bitrix/.config/rclone/
+chmod 600 /opt/backup/rclone.conf

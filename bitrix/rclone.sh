@@ -177,9 +177,7 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-
-mkdir -p /root/.config/rclone/
-cat <<EOT >> /root/.config/rclone/rclone.conf
+cat <<EOT >> /opt/backup/rclone.conf
 [selectel]
 type = swift
 env_auth = false
@@ -198,6 +196,8 @@ auth_version =
 endpoint_type = internal
 EOT
 
+chmod 600 /opt/backup/rclone.conf
+
 cd /opt/backup/ && wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/exclude_rclone.txt
 
 doc_root=$1
@@ -209,6 +209,6 @@ fi
 
 backup_dir=${doc_root}/upload
 
-crontab -l | { cat; echo "00 01 * * * nice -n 19 ionice -c2 -n7 /root/.local/bin/rclone --exclude-from /opt/backup/exclude_rclone.txt sync ${backup_dir} selectel:${storage_dir}/upload > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "00 01 * * * nice -n 19 ionice -c2 -n7 /root/.local/bin/rclone --config=/opt/backup/rclone.conf --exclude-from /opt/backup/exclude_rclone.txt sync ${backup_dir} selectel:${storage_dir}/upload > /dev/null 2>&1 || true"; } | crontab -
 
 exit 0
