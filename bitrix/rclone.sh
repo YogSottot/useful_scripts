@@ -122,7 +122,7 @@ case $OS in
     mkdir -p /home/bitrix/.local/bin/
     cp rclone /home/bitrix/.local/bin/rclone
     chmod 755 /home/bitrix/.local/bin/rclone
-    chown bitrix:bitrix /bitrix/.local/bin/rclone
+    chown bitrix:bitrix /home/bitrix/.local/bin/rclone
     #manuals
     mkdir -p /usr/local/share/man/man1
     cp rclone.1 /usr/local/share/man/man1/
@@ -200,6 +200,8 @@ EOT
 
 mkdir -p /home/bitrix/.config/rclone/
 cp /root/.config/rclone/rclone.conf /home/bitrix/.config/rclone/rclone.conf
+
+cd /opt/backup/ && wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/exclude_rclone.txt
 
 doc_root=$1
 
