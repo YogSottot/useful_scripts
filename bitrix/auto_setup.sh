@@ -29,7 +29,7 @@ sudo -i -u bitrix bash << EOF
 pip install python-swiftclient --user
 EOF
 crontab -l | { cat; echo "30 */3 * * * /opt/backup/backup_bitrixdb_native.sh $1 > /dev/null 2>&1 || true" ; } | crontab -
-crontab -l | { cat; echo "00 01 * * * /opt/backup/backup_upload.sh $1 > /dev/null 2>&1 || true"; } | crontab -
+#crontab -l | { cat; echo "00 01 * * * /opt/backup/backup_upload.sh $1 > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "20 */3 * * * /opt/backup/percona-db-stream.sh $1 $2 > /dev/null 2>&1 || true"; } | crontab -
 
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash -s -- $1
