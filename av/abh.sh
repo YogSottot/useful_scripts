@@ -25,7 +25,7 @@ if [ "${exitcode}" = "1" ]; then
     mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
-if [ "${exitcodet}" = "2" ]; then
+if [ "${exitcode}" = "2" ]; then
     mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
 fi
 
