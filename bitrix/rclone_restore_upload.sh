@@ -29,6 +29,6 @@ storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 # to restore with bitrix owner
 sudo -i -u bitrix bash << EOF
-nice -n 19 ionice -c2 -n7 ~/.local/bin/rclone sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
+~/.local/bin/rclone sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
 echo Error
 EOF
