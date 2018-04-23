@@ -198,9 +198,6 @@ auth_version =
 endpoint_type = internal
 EOT
 
-mkdir -p /home/bitrix/.config/rclone/
-cp /root/.config/rclone/rclone.conf /home/bitrix/.config/rclone/rclone.conf
-
 cd /opt/backup/ && wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/exclude_rclone.txt
 
 doc_root=$1
