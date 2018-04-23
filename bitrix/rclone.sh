@@ -220,6 +220,9 @@ auth_version =
 endpoint_type = internal
 EOT
 
+mkdir -p /home/bitrix/.config/rclone/
+cp /root/.config/rclone/rclone.conf /home/bitrix/.config/rclone/rclone.conf
+
 doc_root=$1
 
 if [ -z ${doc_root} ]; then
