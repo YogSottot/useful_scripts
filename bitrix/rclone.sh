@@ -137,11 +137,14 @@ cd $unzip_dir/*
 case $OS in
   'linux')
     #binary
+    mkdir -p /root/.local/bin/
     cp rclone /root/.local/bin/rclone
     chmod 755 /root/.local/bin/rclone
+    chown root:root /root/.local/bin/rclone
+    mkdir -p /home/bitrix/.local/bin/
     cp rclone /home/bitrix/.local/bin/rclone
     chmod 755 /home/bitrix/.local/bin/rclone
-    chown root:root /root/.local/bin/rclone
+    chown bitrix:bitrix /bitrix/.local/bin/rclone
     #manuals
     mkdir -p /usr/local/share/man/man1
     cp rclone.1 /usr/local/share/man/man1/
