@@ -32,7 +32,8 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aigno
 chmod +x *.sh
 
 # initial av install
-/opt/av/update.abh.sh ${mail} > /dev/null 2>&1
+/opt/av/update.abh.sh > /dev/null 2>&1
+/opt/av/ignore_update.sh
 
 # update cron
 crontab -l | { cat; echo "0 1 * * 4 /opt/av/update.abh.sh > /dev/null 2>&1 || true" ; } | crontab -
