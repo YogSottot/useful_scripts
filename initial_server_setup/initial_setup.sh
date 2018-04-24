@@ -8,7 +8,6 @@ yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-c
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
-chown root:bitrix -R /opt/liquidprompt
 
 cat <<\EOT >> ~/.bashrc
 alias mc='mc -x'
