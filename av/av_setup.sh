@@ -8,6 +8,10 @@ cd /opt/av/
 
 yum install postfix clamav rkhunter fail2ban clamav-update inotify-tools unhide mailx -y
 
+# TO DO maldet clamav ()
+# yum install clamav clamav-update -y
+# https://github.com/crylium/clamav-daily/blob/master/clamscan-daily-script.sh
+
 # send report
 systemctl enable postfix && systemctl restart postfix
 
