@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www имя_сайта_\`date\ \+\\%Y\.\\%m\.\\%d\-\\%H\.\\%M\`
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www
 
 mkdir -p /opt/backup/db && cd /opt/backup/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php &&

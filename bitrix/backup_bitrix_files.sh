@@ -7,7 +7,7 @@ if [ -z ${doc_root} ]; then
 fi
 
 if [ -z ${name} ]; then
-	name=backup
+	name=`/bin/hostname`
 fi
 
 backup_dir=${doc_root}/bitrix/backup
