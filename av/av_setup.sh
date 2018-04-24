@@ -6,10 +6,9 @@
 if [ ! -d /opt/av/abh/reports/ ] ; then mkdir -p /opt/av/abh/reports/; fi
 cd /opt/av/
 
-yum install postfix rkhunter fail2ban inotify-tools unhide mailx -y
+yum install postfix clamav clamav-update rkhunter fail2ban inotify-tools unhide mailx -y
 
-# NOT TO DO maldet clamav clamav-update
-# yum install clamav clamav-update -y
+# NOT TO DO maldet
 # https://github.com/crylium/clamav-daily/blob/master/clamscan-daily-script.sh
 
 # send report
