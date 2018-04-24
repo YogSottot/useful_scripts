@@ -29,12 +29,13 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_scr
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore_usr
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore_usr
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore_usr
-
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore
 chmod +x *.sh
 
 # initial av install
 /opt/av/update.abh.sh > /dev/null 2>&1
-/opt/av/ignore_update.sh
 
 # update cron
 crontab -l | { cat; echo "0 1 * * 4 /opt/av/update.abh.sh > /dev/null 2>&1 || true" ; } | crontab -
