@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# use
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/isp/kill_semaphores.sh | bash -s -- user
+
 PATH="/bin:/usr/bin"
 USER=$1
 
