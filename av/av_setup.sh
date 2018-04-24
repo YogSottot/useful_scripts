@@ -18,10 +18,10 @@ destemail =
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
 findtime = 600
-maxretry = 4
+
 [sshd]
 enabled = true
-
+maxretry = 4
 [nginx-http-auth]
 enabled = true
 
