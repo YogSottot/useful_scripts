@@ -19,7 +19,8 @@ echo ';auto_prepend_file = /home/bitrix/www/bitrix/modules/security/tools/start.
 
 mail=$1
 find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@localhost/MAILTO\='${mail}'/g'
-
+echo 'ALLOWHIDDENDIR=/etc/.hg' >> /etc/rkhunter.conf.local
+echo 'ALLOWHIDDENFILE=/etc/.hgignore' >> /etc/rkhunter.conf.local
 # ab
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/abh.sh
