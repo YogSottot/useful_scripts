@@ -3,33 +3,10 @@
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_setup.sh | bash -s -- your_mail
 
-
 if [ ! -d /opt/av/abh/reports/ ] ; then mkdir -p /opt/av/abh/reports/; fi
 cd /opt/av/
 
 yum install postfix clamav rkhunter fail2ban clamav-update inotify-tools unhide mailx -y
-
-# block some bots
-cat <<EOT >> /etc/fail2ban/jail.d/10-ssh.conf
-[DEFAULT]
-# Ban hosts for one hour:
-bantime = 3600
-destemail =
-# A host is banned if it has generated "maxretry" during the last "findtime"
-# seconds.
-findtime = 600
-
-[sshd]
-enabled = true
-maxretry = 4
-[nginx-http-auth]
-enabled = true
-
-[apache-auth]
-enabled = true
-EOT
-
-systemctl enable fail2ban.service && systemctl restart fail2ban.service
 
 # send report
 systemctl enable postfix && systemctl restart postfix
@@ -38,7 +15,7 @@ systemctl enable postfix && systemctl restart postfix
 rkhunter --propupd
 
 # bitrix av
-echo 'auto_prepend_file = /home/bitrix/www/bitrix/modules/security/tools/start.php' >> /etc/php.d/z_bx_custom.ini
+echo ';auto_prepend_file = /home/bitrix/www/bitrix/modules/security/tools/start.php' >> /etc/php.d/z_bx_custom.ini
 
 mail=$1
 find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@localhost/MAILTO\='${mail}'/g'
@@ -75,3 +52,6 @@ else
     mount -o remount,defaults,hidepid=2 /proc
 
 fi
+
+# block some bots
+curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
