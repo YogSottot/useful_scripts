@@ -1,7 +1,7 @@
 #!/bin/sh
 
 doc_root=$1
-backup_name=$2
+backup_name=`/bin/hostname`
 if [ -z ${doc_root} ]; then
 	echo Usage: $0 /path/to/document/root [backup_name]
 	exit
