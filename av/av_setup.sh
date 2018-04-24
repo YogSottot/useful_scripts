@@ -6,6 +6,9 @@
 if [ ! -d /opt/av/abh/reports/ ] ; then mkdir -p /opt/av/abh/reports/; fi
 cd /opt/av/
 
+#secure from other users
+chmod 700 /opt/av/
+
 yum install postfix clamav clamav-update rkhunter fail2ban inotify-tools unhide mailx -y
 
 # NOT TO DO maldet
