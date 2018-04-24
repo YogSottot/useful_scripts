@@ -10,6 +10,26 @@ cd /opt/av/
 yum install postfix clamav rkhunter fail2ban clamav-update inotify-tools unhide mailx -y
 
 # block some bots
+cat <<EOT >> /etc/fail2ban/jail.d/10-ssh.conf
+[DEFAULT]
+# Ban hosts for one hour:
+bantime = 3600
+destemail =
+
+[sshd]
+enabled = true
+# A host is banned if it has generated "maxretry" during the last "findtime"
+# seconds.
+findtime = 600
+maxretry = 4
+
+[nginx-http-auth]
+enabled = true
+
+[apache-auth]
+enabled = true
+EOT
+
 systemctl enable fail2ban.service && systemctl restart fail2ban.service
 
 # send report
