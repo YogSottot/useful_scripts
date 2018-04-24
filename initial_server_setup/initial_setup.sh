@@ -105,7 +105,7 @@ select yn in "Yes" "No"; do
         Yes )
                 read -p "Please enter your sitename : " sitename
 
-                curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www ${sitename}_\`date\ \+\\%Y\.\\%m\.\\%d\-\\%H\.\\%M\`  ; break;;
+                curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www ; break;;
 
         No ) exit;;
     esac
