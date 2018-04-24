@@ -22,6 +22,8 @@ unzip -o ${path}abm.zip -d $path
 # make dir for results
 if [  ! -d ${path}reports/ ] ; then mkdir -p ${path}reports/; fi
 
+echo "bitrix/html_pages/" >> ${path}/ai-bolit/.adirignore
+
 # scan
 output=`/usr/bin/php ${path}ai-bolit/ai-bolit.php --report=${path}reports/REPORT-@DATE@.html --mode=${mode} --path=${search_path}`
 exitcode=$?
