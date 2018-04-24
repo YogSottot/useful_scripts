@@ -30,6 +30,8 @@ EOT
 crontab -l | { cat; echo "00 22 * * * PATH=/sbin:/bin:/usr/sbin:/usr/bin /usr/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
 
 # Fail2Ban local configuration file
+touch /var/log/fail2ban.log
+
 cat <<EOT >> /etc/fail2ban/fail2ban.local
 [Definition]
 dbpurgeage = 648000
