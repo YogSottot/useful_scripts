@@ -24,7 +24,7 @@ find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/abh.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/manual.av.check.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/ignore_update.sh
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_scripts_update.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore_usr
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore_usr
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore_usr
@@ -37,7 +37,7 @@ chmod +x *.sh
 
 # update cron
 crontab -l | { cat; echo "0 1 * * 4 /opt/av/update.abh.sh > /dev/null 2>&1 || true" ; } | crontab -
-crontab -l | { cat; echo "5 1 * * * /opt/av/ignore_update.sh > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "5 0 * * * /opt/av/av_scripts_update.sh > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "10 1 * * * /opt/av/abh.sh ${mail} > /dev/null 2>&1 || true"; } | crontab -
 
 # hide process from all besides zabbix
