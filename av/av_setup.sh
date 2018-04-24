@@ -15,13 +15,12 @@ cat <<EOT >> /etc/fail2ban/jail.d/10-ssh.conf
 # Ban hosts for one hour:
 bantime = 3600
 destemail =
-
-[sshd]
-enabled = true
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
 findtime = 600
 maxretry = 4
+[sshd]
+enabled = true
 
 [nginx-http-auth]
 enabled = true
