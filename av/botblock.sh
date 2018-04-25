@@ -30,7 +30,7 @@ EOT
 crontab -l | { cat; echo "00 22 * * * PATH=/sbin:/bin:/usr/sbin:/usr/bin /usr/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
 
 # Fail2Ban local configuration file
-if [ -f /var/log/fail2ban.log ];then
+if [ ! -f /var/log/fail2ban.log ];then
 touch /var/log/fail2ban.log
 fi
 
