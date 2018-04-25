@@ -8,8 +8,8 @@
 yum -y install bind-utils
 wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -O /usr/local/sbin/install-ngxblocker
 chmod +x /usr/local/sbin/install-ngxblocker
-/usr/sbin/install-ngxblocker -c /etc/nginx/bx/settings -x
-setup-ngxblocker -v /etc/nginx/bx/site_avaliable -c /etc/nginx/bx/settings -e conf -x
+/usr/local/sbin/install-ngxblocker -c /etc/nginx/bx/settings -x
+/usr/local/sbin/setup-ngxblocker -v /etc/nginx/bx/site_avaliable -c /etc/nginx/bx/settings -e conf -x
 
 cat <<EOT >>/etc/nginx/bots.d/blacklist-user-agents.conf
         "~*\bUptimeRobot\b"     0;
