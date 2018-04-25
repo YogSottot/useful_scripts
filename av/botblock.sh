@@ -6,9 +6,9 @@
 # use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
 
 yum -y install bind-utils
-wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -O /usr/sbin/install-ngxblocker
-chmod +x /usr/sbin/install-ngxblocker
-/usr/sbin/install-ngxblocker -c /etc/nginx/bx/settings -x
+wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -O /usr/local/sbin/install-ngxblocker
+chmod +x /usr/local/sbin/install-ngxblocker
+/usr/sbin/install-ngxblocker -c /etc/nginx/bx/settings -x -s /usr/sbin/
 setup-ngxblocker -v /etc/nginx/bx/site_avaliable -c /etc/nginx/bx/settings -e conf -x
 
 cat <<EOT >>/etc/nginx/bots.d/blacklist-user-agents.conf
@@ -27,7 +27,7 @@ cat <<EOT >>/etc/nginx/bots.d/custom-bad-referrers.conf
         "~*\baway\.vk\.com\b"   0;
 EOT
 
-crontab -l | { cat; echo "00 22 * * * PATH=/sbin:/bin:/usr/sbin:/usr/bin /usr/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
+crontab -l | { cat; echo "00 22 * * * /usr/local/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
 
 # Fail2Ban local configuration file
 if [ ! -f /var/log/fail2ban.log ];then
