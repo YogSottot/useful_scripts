@@ -18,6 +18,7 @@ yum install postfix clamav clamav-update rkhunter fail2ban inotify-tools unhide 
 systemctl enable postfix && systemctl restart postfix
 
 # generate db
+rkhunter --update
 rkhunter --propupd
 
 # bitrix av
