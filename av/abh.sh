@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# for whitelist files
+# cksum /patch/to/file
+# put filename{tab}cksum to .aignore_usr
+
 mail=$1
 path="/opt/av/abh/"
 hostname=`/bin/hostname`
@@ -33,7 +37,3 @@ fi
 find ${path}reports/ -type f -mtime +14 -exec rm {} \;
 
 exit 0
-
-# for whitelist files
-# cksum /patch/to/file
-# put filename{tab}cksum to .aignore_usr
