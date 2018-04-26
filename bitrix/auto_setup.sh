@@ -4,6 +4,7 @@
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www
 
 mkdir -p /opt/backup/db && cd /opt/backup/
+chmod 700 /opt/backup/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_upload.sh &&
