@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_setup.sh | bash -s -- old_ip new_ip
+# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/isp/import_vm_bitrix.sh | bash -s -- old_ip new_ip
 # после импорта нужно поменять старый ip на новый не только в /etc/sysconfig/network-scripts/ifcfg-eth0
 old_ip=$1
 new_ip=$2
