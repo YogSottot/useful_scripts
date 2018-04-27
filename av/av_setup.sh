@@ -50,32 +50,32 @@ crontab -l | { cat; echo "5 0 * * * /opt/av/av_scripts_update.sh > /dev/null 2>&
 crontab -l | { cat; echo "10 1 * * * /opt/av/abh.sh ${mail} > /dev/null 2>&1 || true"; } | crontab -
 
 # hide process from all besides monitoring tools
-groupadd monitoring
+#groupadd monitoring
 
-if [ -d /etc/zabbix/ ];then
+#if [ -d /etc/zabbix/ ];then
 
-    usermod -a -G monitoring zabbix
-    systemctl stop zabbix-agent.service && systemctl start zabbix-agent.service
+#    usermod -a -G monitoring zabbix
+#    systemctl stop zabbix-agent.service && systemctl start zabbix-agent.service
 
-fi
+#fi
 
-if [ -d /etc/munin/ ];then
+#if [ -d /etc/munin/ ];then
 
-    usermod -a -G monitoring munin
-    systemctl stop munin-node.service & systemctl stop munin-fcgi-graph.service & systemctl start munin-node.service & systemctl start munin-fcgi-graph.service
+#    usermod -a -G monitoring munin
+#    systemctl stop munin-node.service & systemctl stop munin-fcgi-graph.service & systemctl start munin-node.service & systemctl start munin-fcgi-graph.service
 
 
-fi
+#fi
 
-if [ -d /etc/nagios/ ];then
+#if [ -d /etc/nagios/ ];then
 
-    usermod -a -G monitoring nagios
-    systemctl stop nagios.service && systemctl start nagios.service
+#    usermod -a -G monitoring nagios
+#    systemctl stop nagios.service && systemctl start nagios.service
 
-fi
+#fi
 
-echo 'proc /proc proc defaults,hidepid=2,gid=monitoring 0 0' >> /etc/fstab
-mount -o remount,defaults,hidepid=2,gid=monitoring /proc
+#echo 'proc /proc proc defaults,hidepid=2,gid=monitoring 0 0' >> /etc/fstab
+#mount -o remount,defaults,hidepid=2,gid=monitoring /proc
 
 # block some bots
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
