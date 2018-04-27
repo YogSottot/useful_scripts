@@ -62,7 +62,8 @@ fi
 if [ -d /etc/munin/ ];then
 
     usermod -a -G monitoring munin
-    systemctl stop munin-node.service && systemctl start munin-node.service
+    systemctl stop munin-node.service & systemctl stop munin-fcgi-graph.service & systemctl start munin-node.service & systemctl start munin-fcgi-graph.service
+
 
 fi
 
