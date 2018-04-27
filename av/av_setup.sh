@@ -49,19 +49,32 @@ crontab -l | { cat; echo "0 1 * * 4 /opt/av/update.abh.sh > /dev/null 2>&1 || tr
 crontab -l | { cat; echo "5 0 * * * /opt/av/av_scripts_update.sh > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "10 1 * * * /opt/av/abh.sh ${mail} > /dev/null 2>&1 || true"; } | crontab -
 
-# hide process from all besides zabbix
-# Only after zabbix install
+# hide process from all besides monitoring tools
+groupadd monitoring
+
 if [ -d /etc/zabbix/ ];then
 
-    echo 'proc /proc proc defaults,hidepid=2,gid=zabbix 0 0' >> /etc/fstab
-    mount -o remount,defaults,hidepid=2,gid=zabbix /proc
-
-else
-
-    echo 'proc /proc proc defaults,hidepid=2 0 0' >> /etc/fstab
-    mount -o remount,defaults,hidepid=2 /proc
+    usermod -a -G monitoring zabbix
+    systemctl stop zabbix-agent.service && systemctl start zabbix-agent.service
 
 fi
+
+if [ -d /etc/munin/ ];then
+
+    usermod -a -G monitoring munin
+    systemctl stop munin-node.service && systemctl start munin-node.service
+
+fi
+
+if [ -d /etc/nagios/ ];then
+
+    usermod -a -G monitoring nagios
+    systemctl stop nagios.service && systemctl start nagios.service
+
+fi
+
+echo 'proc /proc proc defaults,hidepid=2,gid=monitoring 0 0' >> /etc/fstab
+mount -o remount,defaults,hidepid=2,gid=monitoring /proc
 
 # block some bots
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
