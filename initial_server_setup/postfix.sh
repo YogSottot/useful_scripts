@@ -20,6 +20,9 @@ cat <<\EOT >> /etc/postfix/main.cf
 #mynetworks_style = host
 #fallback_transport = relay
 # mydestination = localhost.$mydomain, localhost
+mailbox_size_limit = 0
+message_size_limit = 0
+virtual_mailbox_limit = 0
 EOT
 
 systemctl enable postfix && systemctl restart postfix
