@@ -42,7 +42,7 @@ systemctl reload nginx
 
 # php settings
 cat <<EOT >> /etc/php.d/z_bx_custom.ini
-allow_url_fopen = Off
+;allow_url_fopen = Off
 mail.add_x_header = Off
 pcre.recursion_limit = 100000
 EOT
