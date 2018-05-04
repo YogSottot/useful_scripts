@@ -111,7 +111,7 @@ case $OS in
     mkdir -p /home/bitrix/.local/bin/
     cp rclone /home/bitrix/.local/bin/rclone
     chmod 755 /home/bitrix/.local/bin/rclone
-    chown bitrix:bitrix /home/bitrix/.local/bin/rclone
+    chown bitrix:bitrix /home/bitrix/.local/ -R
     ;;
   'freebsd'|'openbsd'|'netbsd')
     #bin
