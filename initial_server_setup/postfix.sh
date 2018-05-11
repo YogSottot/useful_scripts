@@ -28,7 +28,7 @@ EOT
 systemctl enable postfix && systemctl restart postfix
 
 cat <<EOT >> /etc/php.d/z_bx_custom.ini
-sendmail_path = sendmail -t -i
+sendmail_path = sendmail -t -i 
 EOT
 
 echo "Do you wish to setup relay?"
@@ -84,6 +84,18 @@ root@${hostname} postmaster@${domain}
 bitrix@${hostname} postmaster@${domain}
 EOT
 
+       echo "Do you use mail.ru as sender relay?"
+           select yn in "Yes" "No"; do
+               case $yn in
+                  Yes )
+# для mail.ru и их 550 error
+cat <<EOT >> /etc/php.d/z_bx_custom.ini
+sendmail_path = sendmail -t -i -f  ${login}
+EOT
+No ) exit;;
+esac
+done
+
 postmap /etc/postfix/generic
 postmap /etc/postfix/canonical
 postmap /etc/postfix/sender_relay
@@ -95,6 +107,8 @@ echo 'do not forget to systemctl reload httpd after testing' ; break;;
     esac
 done
 
+# https://serverfault.com/questions/147921/forcing-the-from-address-when-postfix-relays-over-smtp
+# https://dev.1c-bitrix.ru/community/webdev/user/224396/blog/10266/
 # тестируем https://www.mail-tester.com/
 # echo "Subject:My message" | sendmail -t -i mail@mail.com
 # php -r "mail('your@mail.com', 'Test', 'Test');"
