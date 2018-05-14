@@ -37,7 +37,7 @@ select yn in "Yes" "No"; do
         Yes )
 
 cat <<EOT >> /etc/postfix/main.cf
-#inet_protocols = ipv4
+inet_protocols = ipv4
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/mailpasswd
 smtp_sasl_security_options = noanonymous
@@ -77,6 +77,9 @@ cat <<EOT >> /etc/postfix/canonical
 EOT
 
 hostname=`/bin/hostname`
+
+# отключаем локальную доставку
+find /etc/postfix/main.cf -type f -print0 | xargs -0 sed -i 's/mydestination\ \=\ \$myhostname\,\ localhost\.\$mydomain\,\ localhost/smydestination\ \=\ localhost\.\$mydomain\, localhost/g'
 
 # добавляем отправку почты админу
 cat <<EOT >> /etc/postfix/generic
