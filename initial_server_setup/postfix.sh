@@ -84,17 +84,6 @@ root@${hostname} postmaster@${domain}
 bitrix@${hostname} postmaster@${domain}
 EOT
 
-       echo "Do you use mail.ru as sender relay?"
-           select yn in "Yes" "No"; do
-               case $yn in
-                  Yes )
-# для mail.ru и их 550 error
-cat <<EOT >> /etc/php.d/z_bx_custom.ini
-sendmail_path = sendmail -t -i -f  ${login}
-EOT
-No ) exit;;
-esac
-done
 
 postmap /etc/postfix/generic
 postmap /etc/postfix/canonical
@@ -105,6 +94,19 @@ systemctl restart postfix
 echo 'do not forget to systemctl reload httpd after testing' ; break;;
         No ) exit;;
     esac
+done
+
+echo "Do you use mail.ru as sender relay?"
+           select yn in "Yes" "No"; do
+               case $yn in
+                  Yes )
+# для mail.ru и их 550 error
+cat <<EOT >> /etc/php.d/z_bx_custom.ini
+sendmail_path = sendmail -t -i -f  ${login}
+EOT
+break;;
+    No ) exit;;
+esac
 done
 
 # https://serverfault.com/questions/147921/forcing-the-from-address-when-postfix-relays-over-smtp
