@@ -30,12 +30,12 @@ if [ "${exitcode}" = "0" ]; then
 fi
 
 if [ "${exitcode}" = "1" ]; then
-    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
+    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html")" ${mail} < ${recent_report}
     ${cleanrep}
 fi
 
 if [ "${exitcode}" = "2" ]; then
-    mailx -s "Virus detected on ${hostname}" ${mail} < ${recent_report}
+    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html")" ${mail} < ${recent_report}
     ${cleanrep}
 fi
 
