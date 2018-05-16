@@ -27,6 +27,7 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
+chmod 755 /opt/backup/
 chmod 644 /opt/backup/rclone.conf
 
 # to restore with bitrix owner
@@ -36,3 +37,4 @@ echo Error
 EOF
 
 chmod 600 /opt/backup/rclone.conf
+chmod 700 /opt/backup/
