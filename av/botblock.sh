@@ -40,7 +40,7 @@ dbpurgeage = 648000
 EOT
 cat <<EOT >> /etc/fail2ban/jail.local
 [DEFAULT]
-ignoreip = 127.0.0.1/8
+ignoreip = 127.0.0.1/8 38.123.140.0/24
 # Default banning action (e.g. iptables, iptables-new,
 # iptables-multiport, shorewall, etc) It is used to define
 # action_* variables. Can be overridden globally or per
