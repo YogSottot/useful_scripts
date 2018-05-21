@@ -16,7 +16,6 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/pe
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-stream.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-single-db.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-single-db-5.6.sh &&
 
 chmod +x *.sh
 yum -y install http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm

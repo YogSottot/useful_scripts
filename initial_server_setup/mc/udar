@@ -1,0 +1,105 @@
+#!/bin/sh
+
+# This is a parser for Dar archives in Midnight Commander. You need
+# the GPL dar program (version >= 2.3.0) written by Denis Corbin.
+
+# Author: Guus Jansman
+
+# Limitations:
+# - The archive file can not be changed
+# - Symbolic and hard links are not handled properly
+# - Block and character special files are not handled
+# - Files not stored in (differential) backups are not handled
+# - Dar files in archives are not handled (due filename restriction)
+
+DAR=dar
+
+# dar expects the basename (without number and extension)
+BASENAME="`echo "$2" | sed -e 's/\.[0-9]*\.[Dd][Aa][Rr]$//'`"
+
+mcdarfs_list ()
+{
+$DAR -l "$BASENAME" -N -Q -as 2>/dev/null | gawk -v uuid=${UID-0} '
+BEGIN { flag=0 }
+/^-------/ { flag++; if (flag > 1) exit 0; next }
+/^$/ { next }
+{
+    if (flag == 0) next
+    line=$0
+    split(line, record, " ")
+
+    # Do not display removed files
+    if (record[1] == "[" && record[2] == "REMOVED")
+    {
+        next
+    }
+
+    # We want "line" to start with permutation
+    # TODO: better algorithm
+    while (length(record[1]) != 10 || match(substr(record[1], 2, 1), "[r-]") == 0)
+    {
+        # line without real contents
+        if (length(line) == 0) {
+            next
+        }
+        line=substr(line, length(record[1])+1)
+        while (length(line) != 0 && substr(line, 1, 1) != " ")
+        {
+            line=substr(line, 2)
+        }
+        split(line, record, " ")
+    }
+
+    perm=record[1]
+    # Block and character special files not supported
+    # Change [bc] to [bcl] if symbolic links should not show up either
+    if (match(substr(perm, 1, 1), "[bc]") != 0)
+    {
+        next
+    }
+    uid=record[2]
+    if (match(uid, "^[0-9]*$") != 0)
+    {
+        uid=sprintf("%-8d", uid)
+    }
+    gid=record[3]
+    if (match(gid, "^[0-9]*$") != 0)
+    {
+        gid=sprintf("%-8d", gid)
+    }
+    size=record[4]
+    month=record[6]
+    day=record[7]
+    tm=substr(record[8], 1, 5)
+    year=record[9]
+    name=substr(line, index(line, sprintf("%s:", tm))+14)
+    # TODO: find symbolic link target (probably the link has to be extracted)
+    printf "%s    1 %s %s %8d %3s %02d %04d %s %s\n", perm, uid, gid, size, month, day, year, tm, name
+}'
+}
+
+mcdarfs_copyout ()
+{
+    # Dummy directory necessary since dar cannot output to stdout or named file
+    mkdir "$3.dir.tmp"
+    chmod 700 "$3.dir.tmp"
+    if [ ! -d "$3.dir.tmp" ]; then exit 1; fi
+    $DAR -x "$BASENAME" -N -O -Q -wa -g "$2" -R "$3.dir.tmp" >/dev/null 2>&1
+    if [ -e "$3.dir.tmp/$2" ]; then
+        mv "$3.dir.tmp/$2" "$3"
+        rm -rf "$3.dir.tmp"
+    else
+        rm -rf "$3.dir.tmp"
+        exit 1
+    fi
+}
+
+umask 077
+cmd="$1"
+shift
+case "$cmd" in
+    list)    mcdarfs_list    "$@" ;;
+    copyout) mcdarfs_copyout "$@" ;;
+    *)       exit 1 ;;
+esac
+exit 0
