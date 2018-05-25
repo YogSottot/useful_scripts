@@ -3,6 +3,8 @@
 # use
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh)
 
+# wget http://www.1c-bitrix.ru/download/files/scripts/bitrix_server_test.php -O /home/bitrix/www/
+
 # https://marketplace.1c-bitrix.ru/solutions/dev2fun.imagecompress/
 # cd /home/bitrix/www/upload/
 # find -type f -name "*.jpg" -exec jpegoptim --strip-all --all-progressive {} \;
