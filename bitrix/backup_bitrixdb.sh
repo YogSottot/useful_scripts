@@ -36,7 +36,7 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 cd ${doc_root} &&
-nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 xz -C crc32 -0 | split -a 4 -b 100M -d - ${backup_dir}/${name}.sql.xz_
+nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 xz -C crc32 -0 | split -a 4 -C 100M -d - ${backup_dir}/${name}.sql.xz_
 
 
 function getValueFromINI() {
