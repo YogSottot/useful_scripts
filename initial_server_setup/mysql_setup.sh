@@ -23,7 +23,7 @@ log-queries-not-using-indexes
 #slow-query-log = 1
 #slow-query-log-file = /var/log/mysql/slow.log
 low-priority-updates
-#sort_buffer_size = 1M
+#sort_buffer_size = 256K
 #join_buffer_size = 132K
 
 #
