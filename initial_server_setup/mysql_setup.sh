@@ -48,6 +48,14 @@ low-priority-updates
 #innodb_flush_method = O_DSYNC
 
 #max_allowed_packet = 256M
+
+# Database charset parameters
+#character-set-server = utf8
+#collation-server = utf8_unicode_ci
+#init-connect = "SET NAMES utf8 COLLATE utf8_unicode_ci"
+skip-character-set-client-handshake
+skip-name-resolve
+
 EOT
 
 systemctl restart mysql
