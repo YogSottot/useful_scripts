@@ -23,6 +23,9 @@ log-queries-not-using-indexes
 #slow-query-log = 1
 #slow-query-log-file = /var/log/mysql/slow.log
 low-priority-updates
+#sort_buffer_size = 1M
+#join_buffer_size = 132K
+
 #
 #query_cache_size = 128M
 #query_cache_type = 0
