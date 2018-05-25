@@ -2,7 +2,13 @@
 
 # use
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh)
+
 # https://marketplace.1c-bitrix.ru/solutions/dev2fun.imagecompress/
+# cd /home/bitrix/www/upload/
+# find -type f -name "*.jpg" -exec jpegoptim --strip-all --all-progressive {} \;
+# find -type f -name "*.jpeg" -exec jpegoptim --strip-all --all-progressive {} \;
+# find -type f -name "*.png" -exec optipng -o7 {} \;
+
 # install useful programms
 yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
 
