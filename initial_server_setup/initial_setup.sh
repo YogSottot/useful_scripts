@@ -2,9 +2,9 @@
 
 # use
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/initial_setup.sh)
-
+# https://marketplace.1c-bitrix.ru/solutions/dev2fun.imagecompress/
 # install useful programms
-yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm
+yum -y install --enablerepo=epel ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
