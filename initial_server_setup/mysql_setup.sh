@@ -18,7 +18,7 @@ tmpdir = /run/mysqld
 #max_heap_table_size = 128M
 #tmp_table_size = 128M
 #
-long_query_time = 1
+long_query_time = 0.03
 log-queries-not-using-indexes
 #slow-query-log = 1
 #slow-query-log-file = /var/log/mysql/slow.log
