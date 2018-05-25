@@ -50,6 +50,9 @@ low-priority-updates
 #max_allowed_packet = 256M
 
 # Database charset parameters
+#character-set-server = utf8mb4
+#collation-server = utf8mb4_unicode_ci
+#init-connect = "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
 #character-set-server = utf8
 #collation-server = utf8_unicode_ci
 #init-connect = "SET NAMES utf8 COLLATE utf8_unicode_ci"
