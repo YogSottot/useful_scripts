@@ -17,4 +17,7 @@ fi
 /usr/bin/tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
 /usr/bin/tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
 
+# for site links
+# /usr/bin/tar cfp - -C /home/bitrix/ext_www/ dev.domain.tld | gzip -c > ${backup_dir}/dev.domain.tld_`date +\%Y.\%m.\%d-\%H.\%M`.tgz > /dev/null 2>&1 
+
 
