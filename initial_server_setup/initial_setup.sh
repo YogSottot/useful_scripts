@@ -26,6 +26,7 @@ alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/mast
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
 EOT
 
+mkdir ~/.config/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
 
@@ -39,7 +40,7 @@ EOF
 ## some settings for bitrix
 
 # less priority for swap
-echo vm.swappiness=1 >> /etc/sysctl.d/90-override.conf && sysctl -p
+echo vm.swappiness=1 >> /etc/sysctl.d/90-override.conf && sysctl --system
 
 # systemd's units autorestart
 mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-failure' >> /etc/systemd/system/nginx.service.d/override.conf && echo -e '[Service]\nRestart=on-failure' >> /etc/systemd/system/httpd.service.d/override.conf && mkdir -p /etc/systemd/system/memcached.service.d && echo -e '[Service]\nRestart=on-failure' >> /etc/systemd/system/memcached.service.d/override.conf && systemctl daemon-reload
@@ -58,7 +59,7 @@ EOT
 systemctl reload httpd
 
 # system limits
-echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 100000\n* hard nofile 100000' > /etc/security/limits.d/20-nproc.conf  && sysctl -p
+echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 100000\n* hard nofile 100000' > /etc/security/limits.d/20-nproc.conf  && sysctl --system
 
 # mysql limits
 mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload

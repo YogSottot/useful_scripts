@@ -61,7 +61,7 @@ low-priority-updates
 #init-connect = "SET NAMES utf8 COLLATE utf8_unicode_ci"
 skip-character-set-client-handshake
 skip-name-resolve
-
+sync_binlog = 0
 EOT
 
 systemctl restart mysql
