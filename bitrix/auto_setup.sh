@@ -10,6 +10,7 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/ba
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone_restore_upload.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrix_files.sh &&
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_configs.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db-stream.sh &&
@@ -31,5 +32,7 @@ EOF
 crontab -l | { cat; echo "30 */3 * * * /opt/backup/backup_bitrixdb_native.sh $1 > /dev/null 2>&1 || true" ; } | crontab -
 #crontab -l | { cat; echo "00 01 * * * /opt/backup/backup_upload.sh $1 > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "#20 */3 * * * /opt/backup/percona-db-stream.sh $1 $2 > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "20 1 * * * /opt/backup/backup_configs.sh $1 > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "10 1 * * * /opt/backup/backup_bitrix_files.sh $1 > /dev/null 2>&1 || true"; } | crontab -
 
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash -s -- $1

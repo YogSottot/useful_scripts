@@ -62,7 +62,7 @@ max_connect_errors = 10000
 #character-set-server = utf8
 #collation-server = utf8_unicode_ci
 #init-connect = "SET NAMES utf8 COLLATE utf8_unicode_ci"
-skip-character-set-client-handshake
+#skip-character-set-client-handshake
 skip-name-resolve
 skip-networking
 sync_binlog = 0
