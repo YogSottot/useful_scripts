@@ -7,7 +7,7 @@ if [ -z ${doc_root} ]; then
 fi
 
 if [ -z ${name} ]; then
-	name=backup
+	name=`/bin/hostname`
 fi
 
 dbconn=${doc_root}/bitrix/php_interface/dbconn.php
@@ -36,7 +36,7 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 cd ${doc_root} &&
-nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 xz -C crc32 -0 | split -a 4 -C 100M -d - ${backup_dir}/${name}.sql.xz_
+nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 gzip | split -a 4 -C 100M -d - ${backup_dir}/${name}.sql.gz_
 
 
 function getValueFromINI() {
@@ -46,10 +46,17 @@ function getValueFromINI() {
 	echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p' | tr -d "\r" | tr -d "\n");
 }
 
+function getValueFromINI2() {
+        local sourceData=$1; local paramName=$2;
+        ## 1. Get value "platform=%OUR_VALUE%"
+        ## 2. Remove illegal characters
+        echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/");
+}
+
 sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/sMonit/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
 login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
-storage_dir=$(getValueFromINI "$sectionContent" "dir");
+storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-/opt/backup/supload.sh -u ${login} -k ${userkey} -d 48h -r ${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_Only ${backup_dir} && rm -rf ${backup_dir}/${name}.sql.xz_* && echo OK && exit
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 172800" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only/ ${storage_dir} ${backup_dir}/ && rm -rf ${backup_dir}/* && echo OK && exit
 echo Error

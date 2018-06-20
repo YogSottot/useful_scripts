@@ -7,6 +7,7 @@ mkdir -p /opt/backup/db && cd /opt/backup/
 chmod 700 /opt/backup/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh &&
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone_restore_upload.sh &&
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrix_files.sh &&
