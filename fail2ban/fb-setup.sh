@@ -23,8 +23,6 @@ ignoreip = 127.0.0.1/8 38.123.140.0/24
 # iptables-multiport, shorewall, etc) It is used to define
 # action_* variables. Can be overridden globally or per
 # section within jail.local file
-banaction = iptables-multiport
-banaction_allports = iptables-allports
 
 # Ban hosts for one hour:
 bantime = 3600
