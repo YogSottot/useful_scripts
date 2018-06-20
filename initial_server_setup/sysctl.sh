@@ -123,6 +123,7 @@ net.ipv4.tcp_synack_retries = 2
 net.ipv4.tcp_tw_recycle = 0
 net.ipv4.tcp_tw_reuse = 0
 net.ipv4.tcp_max_tw_buckets = 1440000
+net.ipv4.tcp_fastopen = 3
 vm.swappiness=1
 vm.min_free_kbytes=67584
 net.ipv4.ip_local_port_range=1024 65535
