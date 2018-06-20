@@ -27,6 +27,8 @@ low-priority-updates
 sort_buffer_size = 256K
 join_buffer_size = 256K
 
+key_buffer_size = 16M
+
 query_cache_size = 0
 query_cache_type = 0
 #query_cache_limit = 64M
