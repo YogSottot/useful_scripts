@@ -15,7 +15,9 @@ cat <<EOT >>/etc/nginx/bots.d/blacklist-user-agents.conf
         "~*\bUptimeRobot\b"     0;
         "~*\bYandexBot\b"       0;
         "~*\bYandexImages\b"    0;
-        "~*\bMail.ru\b"         0;
+        "~*\bUptimeRobot/2.0\b" 0;
+        
+        "~*\bbingbot\b"         3;
 EOT
 
 cat <<EOT >>/etc/nginx/bots.d/whitelist-domains.conf

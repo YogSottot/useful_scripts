@@ -3,7 +3,7 @@
 # https://github.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/blob/master/AUTO-CONFIGURATION.md
 # https://github.com/mitchellkrogza/Fail2Ban-Blacklist-JAIL-for-Repeat-Offenders-with-Perma-Extended-Banning
 
-# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
+# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/fb-setup.sh | bash
 
 yum install fail2ban -y
 
