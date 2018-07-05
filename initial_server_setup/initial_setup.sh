@@ -30,6 +30,8 @@ mkdir ~/.config/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
 
+tuned-adm profile virtual-guest
+
 sudo -i -u bitrix bash << EOF
 mkdir ~/.config
 echo -e "alias mc='mc -x'" >> ~/.bashrc
