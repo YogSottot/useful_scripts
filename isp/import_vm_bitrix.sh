@@ -8,3 +8,4 @@ new_ip=$2
 find /opt/webdir/ -type f -print0 | xargs -0 sed -i "s/${old_ip}/${new_ip}/g"
 find /etc/ansible/ -type f -print0 | xargs -0 sed -i "s/${old_ip}/${new_ip}/g"
 find /etc/hosts -type f -print0 | xargs -0 sed -i "s/${old_ip}/${new_ip}/g"
+find /etc/munin/ -type f -print0 | xargs -0 sed -i "s/${old_ip}/${new_ip}/g"
