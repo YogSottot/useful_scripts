@@ -74,6 +74,13 @@ systemctl restart chronyd
 # mysql add template config
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
 
+# nginx additional settings
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo_rewrites.conf -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/ssl.common.conf -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -P /etc/nginx/bx/conf/
+
+
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
     case $yn in

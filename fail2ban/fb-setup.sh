@@ -132,4 +132,4 @@ chmod 755 /etc/fail2ban/ip.blacklist
 systemctl enable fail2ban.service && systemctl restart fail2ban.service
 
 echo "Do not forget to add ignore ip to fail2ban and botblock"
-nginx -t
+

@@ -31,5 +31,5 @@ EOT
 
 crontab -l | { cat; echo "00 22 * * * /usr/local/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
 
-echo "Do not forget to add ignore ip to botblock"
-nginx -t
+
+curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/fb-setup.sh | bash
