@@ -14,11 +14,11 @@ cat <<EOT >> /etc/mysql/conf.d/z_bx_custom.cnf
 #max_connections = 55
 #thread_cache_size = 128
 #
-tmpdir = /run/mysqld
+#tmpdir = /run/mysqld
 #max_heap_table_size = 128M
 #tmp_table_size = 128M
 #
-long_query_time = 0.03
+long_query_time = 0.002
 log-queries-not-using-indexes
 #slow-query-log = 1
 #slow-query-log-file = /var/log/mysql/slow.log
@@ -27,10 +27,10 @@ low-priority-updates
 sort_buffer_size = 256K
 join_buffer_size = 256K
 
-key_buffer_size = 16M
+key_buffer_size = 8M
 
-query_cache_size = 0
-query_cache_type = 0
+#query_cache_size = 0
+#query_cache_type = 0
 #query_cache_limit = 64M
 #query_cache_min_res_unit = 1K
 #
