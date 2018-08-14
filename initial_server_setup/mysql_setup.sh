@@ -68,6 +68,7 @@ max_connect_errors = 10000
 skip-name-resolve
 skip-networking
 sync_binlog = 0
+default_password_lifetime=0
 EOT
 
 systemctl restart mysql
