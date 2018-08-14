@@ -7,7 +7,7 @@ hostname=`/bin/hostname`
 
 # check for arguments
 if [ ! $1 ] || [ ! $2 ] || [ ! $3 ] ; then
-    echo "Syntax: mode (1 or 2) search_path mail_for_report"
+    echo "Syntax: mode (normal 1 or paranoid 2) search_path mail_for_report"
     echo;exit
 fi
 
