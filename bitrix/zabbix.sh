@@ -13,7 +13,7 @@ firewall-cmd --permanent --zone=special --add-source=${ip} && firewall-cmd --rel
 firewall-cmd --permanent --zone=special --add-port=10050/tcp && firewall-cmd --reload
 
 # install agent
-yum -y install http://repo.zabbix.com/zabbix/3.5/rhel/7/x86_64/zabbix-release-3.5-1.el7.noarch.rpm
+yum -y install http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
 yum -y install zabbix-agent
 
 
