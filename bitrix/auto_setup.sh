@@ -23,7 +23,7 @@ chmod +x *.sh
 yum -y install http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
 yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm
 yum -y install https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-utilities-1.6.5-1.el7.noarch.rpm
-yum -y install python-pip percona-xtrabackup-24 qpress pv
+yum -y install python-pip percona-xtrabackup-24 qpress pv percona-toolkit
 pip install python-swiftclient --user
 
 # for restore upload directly from bitrix
