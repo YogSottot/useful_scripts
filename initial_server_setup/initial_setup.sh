@@ -31,6 +31,9 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_s
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
 
+# nano syntax highlighting
+touch ~/.nanorc &&  find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
+
 tuned-adm profile virtual-guest
 
 sudo -i -u bitrix bash << EOF
@@ -38,6 +41,8 @@ mkdir ~/.config
 echo -e "alias mc='mc -x'" >> ~/.bashrc
 echo -e '[[ \$- = *i* ]] && source /opt/liquidprompt/liquidprompt' >> ~/.bashrc
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
+touch ~/.nanorc
+find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
 EOF
 
 ## some settings for bitrix
