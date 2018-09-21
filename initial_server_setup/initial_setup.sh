@@ -28,6 +28,7 @@ EOT
 
 mkdir ~/.config/htop
 mkdir /opt/letsencrypt/
+chown bitrix. /opt/letsencrypt/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/htoprc -P ~/.config/htop/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
