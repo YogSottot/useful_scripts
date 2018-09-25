@@ -89,7 +89,7 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/ssl
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -P /etc/nginx/bx/conf/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/block_access.conf -P /etc/nginx/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -P /etc/nginx/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -P /etc/nginx/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -P /etc/nginx/bx/conf/
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
