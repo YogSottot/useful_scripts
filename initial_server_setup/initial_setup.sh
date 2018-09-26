@@ -66,12 +66,12 @@ EOT
 systemctl reload httpd
 
 # system limits
-echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 100000\n* hard nofile 100000' > /etc/security/limits.d/20-nproc.conf  && sysctl --system
+echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 1000000\n* hard nofile 1000000' > /etc/security/limits.d/20-nproc.conf  && sysctl --system
 
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/sysctl.sh | bash
 
 # mysql limits
-mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
+mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=1000000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
 
 # ntpd often desync
 systemctl stop ntpd
