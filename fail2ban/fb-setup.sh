@@ -46,6 +46,7 @@ enabled = true
 
 [proftpd]
 enabled = true
+# fix NOTICE  Jail started without 'journalmatch' set.
 backend  = polling
 journalmatch =
 
@@ -67,7 +68,9 @@ maxretry = 1
 
 [blacklist]
 enabled = true
-logpath  = /var/log/fail2ban.*
+# until it will be fixed or 0.11 with ban-increment released https://github.com/fail2ban/fail2ban/issues/1379
+#logpath  = /var/log/fail2ban.*
+logpath  = /var/log/fail2ban.log
 filter = blacklist
 banaction = blacklist
 bantime  = 31536000   ; 1 year
@@ -105,26 +108,35 @@ filter   = nginx-shells
 logpath  = %(nginx_access_log)s
 bantime  = 86400
 maxretry = 1
+
+[bantime.increment]
+bantime = 1m
+bantime.increment = false
+bantime.factor = 2
+bantime.maxtime = 10w
+maxretry = 3
+findtime = 1d
+
 EOT
 
 # Fail2Ban-Blacklist
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginxrepeatoffender.conf  -P /etc/fail2ban/filter.d/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginxrepeatoffender.conf -N -P /etc/fail2ban/filter.d/
 
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-x00.conf  -P /etc/fail2ban/filter.d/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-x00.conf -N -P /etc/fail2ban/filter.d/
 
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-wordpress.conf  -P /etc/fail2ban/filter.d/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-wordpress.conf -N -P /etc/fail2ban/filter.d/
 
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-scripts.conf  -P /etc/fail2ban/filter.d/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-scripts.conf -N -P /etc/fail2ban/filter.d/
 
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-shells.conf  -P /etc/fail2ban/filter.d/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-shells.conf -N -P /etc/fail2ban/filter.d/
 
-wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_fail2ban_addon/action.d/nginxrepeatoffender.conf -O /etc/fail2ban/action.d/nginxrepeatoffender.conf
+wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_fail2ban_addon/action.d/nginxrepeatoffender.conf -N -O /etc/fail2ban/action.d/nginxrepeatoffender.conf
 
-wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_fail2ban_addon/filter.d/nginx-limit-req.local  -O /etc/fail2ban/filter.d/nginx-limit-req.local
+wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_fail2ban_addon/filter.d/nginx-limit-req.local -N -O /etc/fail2ban/filter.d/nginx-limit-req.local
 
-wget https://raw.githubusercontent.com/mitchellkrogza/Fail2Ban-Blacklist-JAIL-for-Repeat-Offenders-with-Perma-Extended-Banning/master/filter.d/blacklist.conf -O /etc/fail2ban/filter.d/blacklist.conf
+wget https://raw.githubusercontent.com/mitchellkrogza/Fail2Ban-Blacklist-JAIL-for-Repeat-Offenders-with-Perma-Extended-Banning/master/filter.d/blacklist.conf -N -O /etc/fail2ban/filter.d/blacklist.conf
 
-wget https://raw.githubusercontent.com/mitchellkrogza/Fail2Ban-Blacklist-JAIL-for-Repeat-Offenders-with-Perma-Extended-Banning/master/action.d/blacklist.conf -O /etc/fail2ban/action.d/blacklist.conf
+wget https://raw.githubusercontent.com/mitchellkrogza/Fail2Ban-Blacklist-JAIL-for-Repeat-Offenders-with-Perma-Extended-Banning/master/action.d/blacklist.conf -N -O /etc/fail2ban/action.d/blacklist.conf
 
 touch /etc/fail2ban/ip.blacklist
 chmod 755 /etc/fail2ban/ip.blacklist

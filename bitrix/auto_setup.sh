@@ -5,19 +5,19 @@
 
 mkdir -p /opt/backup/db && cd /opt/backup/
 chmod 700 /opt/backup/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone_restore_upload.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrix_files.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_configs.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db-stream.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-stream.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore.sh &&
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-single-db.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone_restore_upload.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrix_files.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_configs.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db-stream.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-stream.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore.sh &&
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-single-db.sh &&
 
 chmod +x *.sh
 yum -y install http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm

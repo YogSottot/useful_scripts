@@ -6,7 +6,7 @@
 # use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/botblock.sh | bash
 
 yum -y install bind-utils
-wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -O /usr/local/sbin/install-ngxblocker
+wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -N -O /usr/local/sbin/install-ngxblocker
 chmod +x /usr/local/sbin/install-ngxblocker
 /usr/local/sbin/install-ngxblocker -c /etc/nginx/bx/settings -x
 /usr/local/sbin/setup-ngxblocker -v /etc/nginx/bx/site_avaliable -c /etc/nginx/bx/settings -e conf -x

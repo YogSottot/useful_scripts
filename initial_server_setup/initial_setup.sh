@@ -29,8 +29,8 @@ EOT
 mkdir ~/.config/htop
 mkdir /opt/letsencrypt/
 chown bitrix. /opt/letsencrypt/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/htoprc -P ~/.config/htop/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/htoprc -N -P ~/.config/htop/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 source /opt/liquidprompt/liquidprompt
 
 # nano syntax highlighting
@@ -42,7 +42,7 @@ sudo -i -u bitrix bash << EOF
 mkdir ~/.config
 echo -e "alias mc='mc -x'" >> ~/.bashrc
 echo -e '[[ \$- = *i* ]] && source /opt/liquidprompt/liquidprompt' >> ~/.bashrc
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -O ~/.config/liquidpromptrc
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 touch ~/.nanorc
 find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
 EOF
@@ -83,13 +83,13 @@ systemctl restart chronyd
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
 
 # nginx additional settings
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo_rewrites.conf -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/ssl.common.conf -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/block_access.conf -P /etc/nginx/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -P /etc/nginx/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo_rewrites.conf -N -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/ssl.common.conf -N -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -N -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/block_access.conf -N -P /etc/nginx/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -N -P /etc/nginx/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/conf/
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do

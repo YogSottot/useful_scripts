@@ -29,16 +29,16 @@ find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@
 echo 'ALLOWHIDDENDIR=/etc/.hg' >> /etc/rkhunter.conf.local
 echo 'ALLOWHIDDENFILE=/etc/.hgignore' >> /etc/rkhunter.conf.local
 # ab
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/abh.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/manual.av.check.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_scripts_update.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore_usr
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore_usr
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore_usr
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/abh.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/manual.av.check.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_scripts_update.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore_usr
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore_usr
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore_usr
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.adirignore
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aurlignore
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/.aignore
 chmod +x *.sh
 
 # initial av install
