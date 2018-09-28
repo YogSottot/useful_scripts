@@ -31,6 +31,14 @@ destemail =
 # seconds.
 findtime = 600
 
+#bantime = 1m
+#bantime.increment = true
+#bantime.factor = 2
+#bantime.maxtime = 2w
+#maxretry = 3
+#findtime = 1d
+
+
 [sshd]
 enabled = true
 maxretry = 4
@@ -51,7 +59,7 @@ backend  = polling
 journalmatch =
 
 [nginxrepeatoffender]
-enabled = true
+enabled = false
 logpath = %(nginx_access_log)s
 filter = nginxrepeatoffender
 banaction = nginxrepeatoffender
@@ -109,13 +117,6 @@ logpath  = %(nginx_access_log)s
 bantime  = 86400
 maxretry = 1
 
-[bantime.increment]
-bantime = 1m
-bantime.increment = false
-bantime.factor = 2
-bantime.maxtime = 10w
-maxretry = 3
-findtime = 1d
 
 EOT
 
