@@ -46,7 +46,7 @@ key_buffer_size = 8M
 #innodb_read_io_threads = 8
 #innodb_write_io_threads = 8
 #
-#table_open_cache = 14584
+table_open_cache = 240000
 #table_definition_cache = 2000
 #
 #innodb_flush_log_at_trx_commit = 0
