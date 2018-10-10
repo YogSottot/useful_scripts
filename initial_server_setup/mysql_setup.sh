@@ -25,7 +25,7 @@ log-queries-not-using-indexes
 low-priority-updates
 
 sort_buffer_size = 256K
-join_buffer_size = 256K
+join_buffer_size = 1M
 
 key_buffer_size = 8M
 
