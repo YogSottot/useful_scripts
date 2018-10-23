@@ -23,7 +23,17 @@ cat <<\EOT >> /etc/postfix/main.cf
 mailbox_size_limit = 0
 message_size_limit = 0
 virtual_mailbox_limit = 0
+mydestination = localhost.$mydomain, localhost
+virtual_alias_maps = hash:/etc/postfix/virtual
 EOT
+
+# добавляем отправку почты локальных пользователей
+cat <<EOT >> /etc/postfix/virtual
+root@${hostname} bitrix@localhost
+bitrix@${hostname} root@localhost
+EOT
+
+postmap /etc/postfix/virtual
 
 systemctl enable postfix && systemctl restart postfix
 
@@ -67,9 +77,10 @@ EOT
 cat <<EOT >> /etc/postfix/sender_relay
 @${domain} [${relay}]:${port}
 info@${domain} [${relay}]:${port}
-bitrix@${hostname} [${relay}]:${port}
-root@${hostname} [${relay}]:${port}
 EOT
+#bitrix@${hostname} [${relay}]:${port}
+#root@${hostname} [${relay}]:${port}
+
 
 # добавляем для домена указание через какой аккаунт отправлять
 cat <<EOT >> /etc/postfix/canonical
@@ -82,10 +93,11 @@ hostname=`/bin/hostname`
 find /etc/postfix/main.cf -type f -print0 | xargs -0 sed -i 's/mydestination\ \=\ \$myhostname\,\ localhost\.\$mydomain\,\ localhost/smydestination\ \=\ localhost\.\$mydomain\, localhost/g'
 
 # добавляем отправку почты админу
-cat <<EOT >> /etc/postfix/generic
-root@${hostname} postmaster@${domain}
-bitrix@${hostname} postmaster@${domain}
-EOT
+#cat <<EOT >> /etc/postfix/generic
+#root@${hostname} postmaster@${domain}
+#bitrix@${hostname} postmaster@${domain}
+#EOT
+
 
 
 postmap /etc/postfix/generic
