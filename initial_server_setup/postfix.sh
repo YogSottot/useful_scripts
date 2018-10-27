@@ -19,7 +19,8 @@ cat <<\EOT >> /etc/postfix/main.cf
 #mydestination =
 #mynetworks_style = host
 #fallback_transport = relay
-# mydestination = localhost.$mydomain, localhost
+# для кривых корпоративных сеток, если не может правильно отрезолвить адрес внутреннего домена
+# smtp_fallback_relay = [mail.domain.tld]:25
 mailbox_size_limit = 0
 message_size_limit = 0
 virtual_mailbox_limit = 0
@@ -59,8 +60,6 @@ smtp_use_tls = yes
 sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay
 sender_canonical_maps = hash:/etc/postfix/canonical
 smtp_generic_maps = hash:/etc/postfix/generic
-# для кривых корпоративных сеток, если не может правильно отрезолвить адрес внутреннего домена
-# smtp_fallback_relay = [mail.domain.tld]:25
 EOT
 
 read -p "Please enter your relay. Example: smtp.yandex.ru: " relay
