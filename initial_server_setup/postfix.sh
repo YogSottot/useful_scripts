@@ -5,7 +5,7 @@
 
 # mail
 yum install cyrus-sasl-plain postfix -y
-
+hostname=`/bin/hostname`
 # postfix limits
 mkdir -p /etc/systemd/system/postfix.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/postfix.service.d/override.conf && systemctl daemon-reload
 
@@ -66,7 +66,7 @@ read -p "Please enter relay port. Example: 587: " port
 read -p "Please enter mail login. Example: www@some.ru: " login
 read -p "Please enter mail password: " password
 read -p "Please enter mail domain. Example: some.ru: " domain
-hostname=`/bin/hostname`
+
 
 # указываем логин и пароль
 cat <<EOT >> /etc/postfix/mailpasswd
