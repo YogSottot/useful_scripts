@@ -12,7 +12,7 @@
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install --enablerepo=epel net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
+yum -y install --enablerepo=epel wget chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt

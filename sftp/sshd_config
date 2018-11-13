@@ -1,0 +1,12 @@
+Subsystem sftp internal-sftp
+Match Group sftp
+# Match User username
+# ChrootDirectory /home
+ X11Forwarding no
+ AllowTcpForwarding no
+ ForceCommand internal-sftp -l INFO -f LOCAL6
+
+
+adduser userlogin -g600 -o -u600 -d /home/bitrix/
+groupadd sftp
+usermod -G -a sftp userlogin
