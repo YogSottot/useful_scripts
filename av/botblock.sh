@@ -27,6 +27,7 @@ EOT
 
 cat <<EOT >>/etc/nginx/bots.d/custom-bad-referrers.conf
         "~*\baway\.vk\.com\b"   0;
+        "~*\bok\.ru\b"  0;
 EOT
 
 crontab -l | { cat; echo "00 22 * * * /usr/local/sbin/update-ngxblocker -c /etc/nginx/bx/settings -n > /dev/null 2>&1 || true" ; } | crontab -
