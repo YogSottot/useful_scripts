@@ -118,7 +118,7 @@ bantime  = 86400
 maxretry = 1
 
 [nginx-referrer-spam]
-enabled  = true
+enabled  = false
 port     = http,https
 filter   = nginx-referrer-spam
 logpath  = %(nginx_access_log)s
