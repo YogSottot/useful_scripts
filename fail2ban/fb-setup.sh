@@ -117,6 +117,14 @@ logpath  = %(nginx_access_log)s
 bantime  = 86400
 maxretry = 1
 
+[nginx-referrer-spam]
+enabled  = true
+port     = http,https
+filter   = nginx-referrer-spam
+logpath  = %(nginx_access_log)s
+bantime  = 86400
+maxretry = 2
+
 
 EOT
 
@@ -130,6 +138,8 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-scripts.conf -N -P /etc/fail2ban/filter.d/
 
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-shells.conf -N -P /etc/fail2ban/filter.d/
+
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/filter.d/nginx-referrer-spam.conf -N -P /etc/fail2ban/filter.d/
 
 wget https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/_fail2ban_addon/action.d/nginxrepeatoffender.conf -N -O /etc/fail2ban/action.d/nginxrepeatoffender.conf
 
