@@ -1,0 +1,6 @@
+[bitrix]
+an.loc ansible_ssh_host=
+cmrt ansible_ssh_host=
+
+[test]
+nginx.loc ansible_ssh_host=
