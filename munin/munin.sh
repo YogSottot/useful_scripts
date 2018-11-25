@@ -12,6 +12,6 @@ chmod +x /usr/share/munin/plugins/memcached2_
 
 ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_bytes' && ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_commands' && ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_conns' && ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_evictions' && ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_items' && ln -s '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_memory'
 
-echo -e 'user bitrix\nenv.host unix:///tmp/memcached.sock\nenv.port 0\nenv.timescale 3\nenv.cmds get set delete incr decr touch\nenv.leitime -1' > /etc/munin/plugin-conf.d/memcache
+echo -e '[memcached_*]\nuser bitrix\nenv.host unix:///tmp/memcached.sock\nenv.port 0\nenv.timescale 3\nenv.cmds get set delete incr decr touch\nenv.leitime -1' > /etc/munin/plugin-conf.d/memcache
 
 systemctl restart munin-node
