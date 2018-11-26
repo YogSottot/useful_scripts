@@ -39,7 +39,7 @@ postmap /etc/postfix/virtual
 systemctl enable postfix && systemctl restart postfix
 
 cat <<EOT >> /etc/php.d/z_bx_custom.ini
-sendmail_path = sendmail -t -i 
+sendmail_path = /usr/sbin/sendmail -t -i 
 EOT
 
 echo "Do you wish to setup relay?"
