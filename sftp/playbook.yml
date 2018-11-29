@@ -9,7 +9,7 @@
       name: sftp
       state: present
    - name: Ensure user "{{ item.user }}" exists
-      user:
+     user:
        name: "{{ item.user }}"
        uid: 600
        group: bitrix
@@ -20,7 +20,7 @@
        password: "{{ item.pass }}"
        #state: absent
        #force: yes
-      loop:
+     loop:
       - user: 'aorza'
         pass: "{{ 'pass1' | password_hash('sha512') }}"
       - user: 'dkarikh'
