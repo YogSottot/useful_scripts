@@ -10,22 +10,22 @@
       state: present
    - name: Ensure user "{{ item.user }}" exists
       user:
-      name: "{{ item.user }}"
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: "{{ item.pass }}"
-      #state: absent
-      #force: yes
-     loop:
-     - user: 'aorza'
-       pass: "{{ 'pass1' | password_hash('sha512') }}"
-     - user: 'dkarikh'
-       pass: "{{ 'pass1' | password_hash('sha512') }}"
-     - user: 'nhovzunov'
-       pass: "{{ 'pass1' | password_hash('sha512') }}"
-     - user: 'karikh'
-       pass: "{{ 'pass1' | password_hash('sha512') }}"
+       name: "{{ item.user }}"
+       uid: 600
+       group: bitrix
+       groups: sftp
+       non_unique: yes
+       create_home: no
+       home: /home/bitrix
+       password: "{{ item.pass }}"
+       #state: absent
+       #force: yes
+      loop:
+      - user: 'aorza'
+        pass: "{{ 'pass1' | password_hash('sha512') }}"
+      - user: 'dkarikh'
+        pass: "{{ 'pass1' | password_hash('sha512') }}"
+      - user: 'nhovzunov'
+        pass: "{{ 'pass1' | password_hash('sha512') }}"
+      - user: 'karikh'
+        pass: "{{ 'pass1' | password_hash('sha512') }}"
