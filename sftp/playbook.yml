@@ -1,88 +1,31 @@
 ---
 # playbook.yml file.
 # ansible all -i localhost, -m debug -a "msg={{ 'mypass' | password_hash('sha512') }}"
-- hosts: cmrt
+- hosts: bitrix
   become: yes
   tasks:
    - name: Ensure group "sftp" exists
      group:
       name: sftp
       state: present
-   - name: Add the user 'dkarikh'
-     user:
-      name: dkarikh
+   - name: Ensure user "{{ item.user }}" exists
+      user:
+      name: "{{ item.user }}"
       uid: 600
       group: bitrix
       groups: sftp
       non_unique: yes
       create_home: no
       home: /home/bitrix
-      password: $6$IpdKCNfLIcpv/e8i$gc7nYyBYywebamuMGd/2TOYSeZq3mUG5ccpqNREGX6bt1OE86HilrWjPv6rE0XdbcPlGGrGkf3fpeugH/wHwc.
-   - name: Add the user 'nhovzunov'
-     user:
-      name: nhovzunov
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$yTanbPqMEKspN6dU$HiN7SYE2wGefnhHk./pZfM8K8ncXOo//nnw5.lUGC0ONuwZOymsKRn5eFMTrxMiTq58IO/FX0mmNzDK35YzSc/
-   - name: Add the user 'aorza'
-     user:
-      name: aorza
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$D4tCBkltMB2skoaa$1P6GCl39ho9NCqbcXSnCYOVip/WcCklPQXHhSWf031lqHt.AgAFmBiymnK34jFXFGs5GdID20pUvl3aFXWKxn/
-   - name: Add the user 'dshemyakina'
-     user:
-      name: dshemyakina
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$JVXav4TOmo9havCO$iwbCYWJ.rrPAFA8erESD/CVIkCf29EUpkNns4KE1t9LTXE.q7OV65TybboQS5z3joPBx3a.7rmVySKrIAfMTf0
-    
-- hosts: an.loc
-  become: yes
-  tasks:
-   - name: Ensure group "sftp" exists
-     group:
-      name: sftp
-      state: present
-   - name: Add the user 'dkarikh'
-     user:
-      name: dkarikh
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$JdW.0sGcIgX.kDLz$dX1TLb1NSspaVxJvARQN5ZQW4iFVYuW1gsoUxM0es.Ddt2JNI6h0RK5zxQUsWtrJUT2pSa1sSg99ie9rqHt7I0
-   - name: Add the user 'nhovzunov'
-     user:
-      name: nhovzunov
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$HIZ9hs3cX5p3tHKu$m3b7yavz1mmiJBUTD9xUOv4ju/joMD9fw.oHRvk3whKooHYAiPHoUuuGCrbVXt5BSYyA8ysWM0wioZL2/ZjNJ/
-   - name: Add the user 'aorza'
-     user:
-      name: aorza
-      uid: 600
-      group: bitrix
-      groups: sftp
-      non_unique: yes
-      create_home: no
-      home: /home/bitrix
-      password: $6$FHW1DH2KoEQ3pgd7$4CyyNO/jKdA9B2U4R6hyECrwSlZCu2KnI7BP85SBsDTNNG7H2COvdZCcSUYHS5Wrm017RqJ1LkBH1dLHSuxS50
+      password: "{{ item.pass }}"
+      #state: absent
+      #force: yes
+     loop:
+     - user: 'aorza'
+       pass: "{{ 'pass1' | password_hash('sha512') }}"
+     - user: 'dkarikh'
+       pass: "{{ 'pass1' | password_hash('sha512') }}"
+     - user: 'nhovzunov'
+       pass: "{{ 'pass1' | password_hash('sha512') }}"
+     - user: 'karikh'
+       pass: "{{ 'pass1' | password_hash('sha512') }}"
