@@ -61,7 +61,8 @@ cat <<EOT >> /etc/php.d/z_bx_custom.ini
 ;allow_url_fopen = Off
 mail.add_x_header = Off
 pcre.recursion_limit = 100000
-cgi.fix_pathinfo=0
+cgi.fix_pathinfo = 0
+max_input_vars = 100000
 EOT
 systemctl reload httpd
 
