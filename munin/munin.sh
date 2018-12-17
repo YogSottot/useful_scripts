@@ -22,6 +22,6 @@ wget https://raw.githubusercontent.com/munin-monitoring/contrib/master/plugins/p
 
 chmod +x /etc/munin/plugins/php_fpm_process
 
-echo -e '[php_fpm_process]\nenv.sock /var/run/php-fpm/default.socket\nenv.path /status' > /etc/munin/plugin-conf.d/php_fpm.conf
+echo -e '[php_fpm_process]\nuser bitrix\nenv.sock /var/run/php-fpm/default.socket\nenv.path /status' > /etc/munin/plugin-conf.d/php_fpm.conf
 
 systemctl restart munin-node
