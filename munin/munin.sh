@@ -16,7 +16,7 @@ ln -fs '/usr/share/munin/plugins/memcached2_' '/etc/munin/plugins/memcached_byte
 
 echo -e '[memcached_*]\nuser bitrix\nenv.host unix:///tmp/memcached.sock\nenv.port 0\nenv.timescale 3\nenv.cmds get set delete incr decr touch\nenv.leitime -1' > /etc/munin/plugin-conf.d/memcache
 
-yum install perl-FCGI-Client perl-Module-Pluggable
+yum install perl-FCGI-Client perl-Module-Pluggable -y
 
 wget https://raw.githubusercontent.com/munin-monitoring/contrib/master/plugins/php/php_fpm_process -N -P /etc/munin/plugins/
 
