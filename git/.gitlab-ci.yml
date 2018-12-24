@@ -1,0 +1,26 @@
+job1:
+  stage:    deploy
+  variables:
+   GIT_STRATEGY: none
+  script:
+    - cd /home/bitrix/ext_www/dev.site.tld/
+    - git checkout develop
+    - git fetch origin develop
+    - git pull origin develop
+  only:
+    - develop
+  tags:
+    - site.tld-dev
+job2:
+  stage:    deploy
+  variables:
+   GIT_STRATEGY: none
+  script:
+    - cd /home/bitrix/www/
+    - git checkout master
+    - git fetch origin master
+    - git pull origin master
+  only:
+    - master
+  tags:
+    - site.tld-master
