@@ -29,9 +29,10 @@ find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@
 echo 'ALLOWHIDDENDIR=/etc/.hg' >> /etc/rkhunter.conf.local
 echo 'ALLOWHIDDENFILE=/etc/.hgignore' >> /etc/rkhunter.conf.local
 echo 'ALLOWHIDDENDIR=/dev/shm/byobu-*/.last.tmux' >> /etc/rkhunter.conf.local
-echo 'ALLOWDEVFILE=/dev/shm/byobu-*/*' >> /etc/rkhunter.conf.local
-echo 'ALLOWDEVFILE=/dev/shm/byobu-*/*/*' >> /etc/rkhunter.conf.local
-echo 'RTKT_FILE_WHITELIST=/dev/shm/byobu-*/.last.tmux/*' >> /etc/rkhunter.conf.local
+echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/.last.tmux/*' >> /etc/rkhunter.conf.local
+echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*/*' >> /etc/rkhunter.conf.local
+echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*' >> /etc/rkhunter.conf.local
+
 # ab
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/abh.sh
