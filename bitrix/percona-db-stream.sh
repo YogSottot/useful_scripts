@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 doc_root=$1
 backup_name=`/bin/hostname`

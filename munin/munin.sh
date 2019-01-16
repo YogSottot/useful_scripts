@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -eu
 # use
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/munin/munin.sh)
 

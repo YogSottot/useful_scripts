@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 backup_dir=$1
 backup_name=$2

@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -eu
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www
 

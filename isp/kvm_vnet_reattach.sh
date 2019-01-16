@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -eu
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/isp/kvm_vnet_reattach.sh | bash
 

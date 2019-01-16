@@ -1,4 +1,6 @@
 #!/bin/sh
+set -eu
+
 doc_root=$1
 if [ -z ${doc_root} ]; then
 	echo Usage: $0 /path/to/document/root

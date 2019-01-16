@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 mode=$1
 search_path=$2

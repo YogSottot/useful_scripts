@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/av_setup.sh | bash -s -- your_mail

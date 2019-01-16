@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 path="/opt/av/abh/"
 if [ ! -d  ${path} ]; then mkdir -p ${path}; fi

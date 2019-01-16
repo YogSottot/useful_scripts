@@ -1,4 +1,6 @@
 #!/bin/sh
+set -eu
+
 doc_root=$1
 name=$2
 if [ -z ${doc_root} ]; then
