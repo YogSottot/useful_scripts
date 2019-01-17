@@ -192,3 +192,7 @@ bitrix/stop_redirect.php
 
 # включайки
 include_areas/
+
+# если используем local
+# /*
+# !/local
