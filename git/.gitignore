@@ -7,12 +7,15 @@
 *.rar
 *.zip
 *.gz
+*.gz.[0-9]
+*.gzip
 *.tgz
 *.bzip
 *.bz2
 *.xz
 *.lzma
 *.cab
+*.tar.gz
 
 # Packing-only formats
 *.iso
@@ -111,12 +114,9 @@ Vagrantfile
 /*.iml
 *.log
 *.sql
-*.txt
+#*.txt
+/*.txt
 *.dt
-*.gzip
-*.gz.[0-9]
-*.sql
-*.log
 *.mp3
 *.exe
 *.db
@@ -125,7 +125,6 @@ Vagrantfile
 *.psd
 *.[oa]
 *~
-*.tar.gz
 *.bak
 *.old
 /*~
@@ -144,6 +143,8 @@ Vagrantfile
 .ht*
 .DS_Store
 Thumbs.db
+/web.config
+/robots.txt*
 
 bitrix/activities/
 bitrix/admin/
