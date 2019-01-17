@@ -12,7 +12,7 @@ set -eu
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install --enablerepo=epel wget chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
+yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
@@ -26,8 +26,8 @@ alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/mast
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
 EOT
 
-mkdir ~/.config/htop
-mkdir /opt/letsencrypt/
+mkdir -p ~/.config/htop
+mkdir -p /opt/letsencrypt/
 chown bitrix. /opt/letsencrypt/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/htoprc -N -P ~/.config/htop/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
