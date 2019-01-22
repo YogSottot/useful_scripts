@@ -30,8 +30,8 @@ EOT
 
 # добавляем отправку почты локальных пользователей
 cat <<EOT >> /etc/postfix/virtual
-root@${hostname} bitrix@localhost
-bitrix@${hostname} root@localhost
+root@${hostname} root@localhost
+bitrix@${hostname} bitrix@localhost
 EOT
 
 postmap /etc/postfix/virtual
@@ -77,7 +77,7 @@ EOT
 # указываем привязку доменов и конкретных отправителей к внешним службам
 cat <<EOT >> /etc/postfix/sender_relay
 @${domain} [${relay}]:${port}
-info@${domain} [${relay}]:${port}
+${login} [${relay}]:${port}
 EOT
 #bitrix@${hostname} [${relay}]:${port}
 #root@${hostname} [${relay}]:${port}
@@ -85,7 +85,7 @@ EOT
 
 # добавляем для домена указание через какой аккаунт отправлять
 cat <<EOT >> /etc/postfix/canonical
-@${domain}   info@${domain}
+@${domain}   ${login}
 EOT
 
 hostname=`/bin/hostname`
