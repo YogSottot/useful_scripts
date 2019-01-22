@@ -118,7 +118,7 @@ echo "Do you use mail.ru as sender relay?"
                   Yes )
 # для mail.ru и их 550 error
 cat <<EOT >> /etc/php.d/z_bx_custom.ini
-sendmail_path = sendmail -t -i -f  ${login}
+sendmail_path = /usr/sbin/sendmail -t -i -f  ${login}
 EOT
 break;;
     No ) exit;;
