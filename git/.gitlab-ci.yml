@@ -1,7 +1,8 @@
+---
 job1:
-  stage:    deploy
+  stage: deploy
   variables:
-   GIT_STRATEGY: none
+    GIT_STRATEGY: none
   script:
     - cd /home/bitrix/ext_www/dev.site.tld/
     - git checkout develop
@@ -12,14 +13,20 @@ job1:
   tags:
     - site.tld-dev
 job2:
-  stage:    deploy
+  stage: deploy
   variables:
-   GIT_STRATEGY: none
+    GIT_STRATEGY: none
   script:
     - cd /home/bitrix/www/
     - git checkout master
-    - git fetch origin master
+    # Examples of autocommit the local changes made by clients
+    - git add .
+    - git commit -m "Autocommit of the local changes" || true
+    - git push origin master || true
     - git pull origin master
+    # This dir should exist in dev branch, but not in master
+    - rm -rf local/demo/
+    - git ls-files -z local/demo/ | xargs -0 git update-index --skip-worktree
   only:
     - master
   tags:
