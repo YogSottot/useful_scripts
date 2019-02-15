@@ -22,8 +22,8 @@ job2:
     # Examples of autocommit the local changes made by clients
     - git add .
     - git commit -m "Autocommit of the local changes" || true
-    - git push origin master || true
     - git pull origin master
+    - git push origin master || true
     # This dir should exist in dev branch, but not in master
     - rm -rf local/demo/
     - git ls-files -z local/demo/ | xargs -0 git update-index --skip-worktree
