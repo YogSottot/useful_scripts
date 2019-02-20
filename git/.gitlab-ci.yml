@@ -6,7 +6,6 @@ job1:
   script:
     - cd /home/bitrix/ext_www/dev.site.tld/
     - git checkout develop
-    - git fetch origin develop
     - git pull origin develop
   only:
     - develop
