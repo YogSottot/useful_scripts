@@ -140,55 +140,60 @@ Thumbs.db
 /web.config
 /robots.txt*
 
-bitrix/activities/
-bitrix/admin/
-bitrix/backup/
-bitrix/cache/
-bitrix/catalog_export/
-bitrix/components/bitrix/
-bitrix/crontab/
-bitrix/css/
-bitrix/fonts/
-bitrix/gadgets/
-bitrix/html_pages/
-bitrix/image_uploader/
-bitrix/images/
-bitrix/js/
-bitrix/managed_cache/
-bitrix/modules/
-bitrix/panel/
-bitrix/php_interface/dbconn.php
-bitrix/themes/
-bitrix/tools/
-bitrix/tmp/
-bitrix/wizards/
+/bitrix/activities/
+/bitrix/admin/
+/bitrix/backup/
+/bitrix/cache/
+/bitrix/catalog_export/
+/bitrix/components/bitrix/
+/bitrix/crontab/
+/bitrix/css/
+/bitrix/fonts/
+/bitrix/gadgets/
+/bitrix/html_pages/
+/bitrix/image_uploader/
+/bitrix/images/
+/bitrix/js/
+/bitrix/managed_cache/
+/bitrix/modules/
+/bitrix/panel/
+/bitrix/php_interface/dbconn.php
+/bitrix/themes/
+/bitrix/tools/
+/bitrix/tmp/
+/bitrix/wizards/
 
-bitrix/.access.php
-bitrix/.settings.php
-bitrix/.settings_extra.php
-bitrix/coupon_activation.php
-bitrix/footer.php
-bitrix/header.php
-bitrix/index.php
-bitrix/license_key.php
-bitrix/p3p.xml
-bitrix/rss.php
-bitrix/site_checker*.log
-bitrix/spread.php
-bitrix/urlrewrite.php
-bitrix/virtual_file_system.php
-bitrix/web.config
-bitrix/click.php
+/bitrix/.access.php
+/bitrix/.settings.php
+/bitrix/.settings_extra.php
+/bitrix/coupon_activation.php
+/bitrix/footer.php
+/bitrix/header.php
+/bitrix/index.php
+/bitrix/license_key.php
+/bitrix/p3p.xml
+/bitrix/rss.php
+/bitrix/site_checker*.log
+/bitrix/spread.php
+/bitrix/urlrewrite.php
+/bitrix/virtual_file_system.php
+/bitrix/web.config
+/bitrix/click.php
 
-bitrix/template/
-bitrix/otp/
-bitrix/redirect.php
-bitrix/rk.php
-bitrix/stop_redirect.php
+/bitrix/template/
+/bitrix/otp/
+/bitrix/redirect.php
+/bitrix/rk.php
+/bitrix/stop_redirect.php
+
+/.access.php
+/urlrewrite.php
 
 /images
 /pictures
 /site_gm
+/test
+/demo
 
 # включайки
 include_areas/
@@ -196,3 +201,4 @@ include_areas/
 # если используем local
 # /*
 # !/local
+#/local/templates/main/include/
