@@ -11,7 +11,7 @@ set -eu
 
 cat <<EOT >> /etc/mysql/conf.d/z_bx_custom.cnf
 [mysqld]
-#max_connections = 55
+max_connections = 60
 #thread_cache_size = 128
 #
 #tmpdir = /run/mysqld
@@ -39,7 +39,8 @@ key_buffer_size = 8M
 #innodb_buffer_pool_size = 4096M
 #innodb_buffer_pool_instances = 4
 #
-#thread_pool_size = 16
+# https://www.percona.com/doc/percona-server/5.7/performance/threadpool.html
+thread_handling=pool-of-threads
 # https://www.percona.com/blog/2006/06/05/innodb-thread-concurrency/
 #innodb_thread_concurrency = 2
 #innodb_commit_concurrency = 2
