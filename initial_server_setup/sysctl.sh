@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 # set locale temporarily to english
 # due to some non-english locale issues
 export LC_ALL=en_US.UTF-8

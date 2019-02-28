@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 # Uses xtrabackup or innobackupex backup directories to restore an entire database.
 # Author: Phil Buescher
 # License: None - I release all rights to this ugly script to whoever wants to use it for any purpose.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -e
 # for whitelist files
 # cksum /patch/to/file
 # put filename{tab}cksum to .aignore_usr

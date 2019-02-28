@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
 doc_root=$1
 if [ -z ${doc_root} ]; then

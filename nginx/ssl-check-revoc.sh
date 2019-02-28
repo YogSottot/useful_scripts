@@ -16,7 +16,7 @@
 #               1 - the certificate is revoked
 #               2 - error
 #==============================================================================
-set -eu
+set -e
 
 path="/tmp"
 verbose=$(echo " "${*}" " | grep -o " \-v ")

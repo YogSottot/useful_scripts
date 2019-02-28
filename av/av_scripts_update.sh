@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -e
 
 path="/opt/av/"
 wget -q https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/update.abh.sh -O ${path}update.abh.sh

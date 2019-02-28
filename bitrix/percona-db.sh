@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
 rm -rf /opt/backup/db.prev
 mv /opt/backup/db /opt/backup/db.prev

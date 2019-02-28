@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -e
 # error codes
 # 0 - exited without problems
 # 1 - parameters not supported were used or some unexpected error occured

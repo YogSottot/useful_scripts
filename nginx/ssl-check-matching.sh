@@ -16,7 +16,7 @@
 #               1 - certificate and private key are NOT match
 #               2 - error
 #==============================================================================
-set -eu
+set -e
 
 params=$(echo "${*}" | sed 's/[\t ]\{1,\}/ /g' | sed 's/^[ ]\{1,\}//' | sed 's/[ ]\{1,\}$//')
 verbose=$(echo " "${params}" " | grep -o " \-v ")

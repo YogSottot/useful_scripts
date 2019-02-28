@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -e
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/zabbix.sh | bash -s -- ip server hostname
 ip=$1
