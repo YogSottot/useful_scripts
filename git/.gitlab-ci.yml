@@ -6,7 +6,9 @@ job1:
   script:
     - cd /home/bitrix/ext_www/dev.site.tld/
     - git checkout develop
+    - git commit -am "Autocommit of the local changes from develop" || true
     - git pull origin develop
+    - git push origin develop || true
   only:
     - develop
   tags:
@@ -19,8 +21,7 @@ job2:
     - cd /home/bitrix/www/
     - git checkout master
     # Examples of autocommit the local changes made by clients
-    - git add .
-    - git commit -m "Autocommit of the local changes" || true
+    - git commit -am "Autocommit of the local changes from master" || true
     - git pull origin master
     - git push origin master || true
     # This dir should exist in dev branch, but not in master
