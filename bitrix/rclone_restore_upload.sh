@@ -34,7 +34,7 @@ chmod 644 /opt/backup/rclone.conf
 
 # to restore with bitrix owner
 sudo -i -u bitrix bash << EOF
-~/.local/bin/rclone --config=/opt/backup/rclone.conf sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
+/usr/local/bin/rclone --config=/opt/backup/rclone.conf sync selectel:${storage_dir}/upload ${backup_dir} && echo OK && exit
 echo Error
 EOF
 
