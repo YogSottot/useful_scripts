@@ -7,7 +7,7 @@ job1:
     - cd /home/bitrix/ext_www/dev.site.tld/
     - git checkout develop
     - git commit -am "Autocommit of the local changes from develop" || true
-    - git pull origin develop
+    - git pull --strategy=recursive -X ours origin develop
     - git push origin develop || true
   only:
     - develop
@@ -22,7 +22,7 @@ job2:
     - git checkout master
     # Examples of autocommit the local changes made by clients
     - git commit -am "Autocommit of the local changes from master" || true
-    - git pull origin master
+    - git pull --strategy=recursive -X ours origin master
     - git push origin master || true
     # This dir should exist in dev branch, but not in master
     - rm -rf local/demo/
