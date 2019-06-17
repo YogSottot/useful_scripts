@@ -50,7 +50,7 @@ EOF
 ## some settings for bitrix
 
 # systemd's units autorestart
-mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/nginx.service.d/override.conf && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/httpd.service.d/override.conf && mkdir -p /etc/systemd/system/memcached.service.d && echo -e '[Service]\nRestart=on-failure' >> /etc/systemd/system/memcached.service.d/override.conf && systemctl daemon-reload
+mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/nginx.service.d/override.conf && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/httpd.service.d/override.conf && mkdir -p /etc/systemd/system/memcached.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/memcached.service.d/override.conf && systemctl daemon-reload
 
 # nginx settings
 echo 'gzip_vary on;' >> /etc/nginx/bx/settings/z_bx_custom.conf
