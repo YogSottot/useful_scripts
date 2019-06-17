@@ -6,19 +6,8 @@ set -e
 # add to crontab
 # */5 * * * * /opt/memcache_monitor.sh > /dev/null 2>&1
 
-/usr/bin/timeout -k 5 15 /usr/bin/memcached-tool /tmp/memcached.sock stats
-
-if (($? == 124)); then
-  systemctl restart memcached.service
-  exit 124
-fi
-
-if (($? == 137)); then
-  systemctl restart memcached.service
-  exit 124
-fi
-
-if (($? == 128+9)); then
-  systemctl restart memcached.service
-  exit 124
+if  /usr/bin/timeout -k 5 15 /usr/bin/memcached-tool /tmp/memcached.sock stats ; then
+        exit 0
+else
+        systemctl restart memcached.service
 fi
