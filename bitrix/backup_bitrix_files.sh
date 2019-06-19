@@ -37,5 +37,5 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-cd ${doc_root} && nice -n 19 ionice -c2 -n7 tar czf - --exclude 'bitrix/tmp/*' --exclude 'bitrix/updates/*' --exclude 'bitrix/backup/*' --exclude 'bitrix/*cache/*' --exclude 'bitrix/html_pages/*' --exclude 'upload' bitrix/html_pages/.config.php . | pv -L 10m  | nice -n 19 ionice -c2 -n7 split -a 4 -C 100M -d - ${backup_dir}/${name}.tar.gz_ && nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 259200" --object-name `date +%Y-%m-%d-%H:%M`/ ${storage_dir} ${backup_dir}/ && rm -rf ${backup_dir}/* && echo OK && exit
+cd ${doc_root} && nice -n 19 ionice -c2 -n7 tar czf - --exclude 'bitrix/tmp/*' --exclude 'bitrix/updates/*' --exclude 'bitrix/backup/*' --exclude 'bitrix/*cache/*' --exclude 'bitrix/html_pages/*' --exclude 'upload' bitrix/html_pages/.config.php . | pv -L 10m  | nice -n 19 ionice -c2 -n7 split -a 4 -C 100M -d - ${backup_dir}/${name}.tar.gz_ && nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 259200" --object-name `date +%Y-%m-%d-%H:%M`/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && echo OK && exit
 echo Error

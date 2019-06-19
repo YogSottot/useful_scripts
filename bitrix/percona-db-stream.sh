@@ -46,5 +46,5 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 172800" --object-threads 1 --object-name `date +%Y-%m-%d-%H:%M`_Percona/ ${storage_dir} ${backup_dir}/ && rm -rf ${backup_dir}/* && rm -rf ${backup_dir}/.my.cnf && rm -rf ${backup_dir}/.settings.php && echo OK && exit
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 172800" --object-threads 1 --object-name `date +%Y-%m-%d-%H:%M`_Percona/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && rm -rf ${backup_dir}/.my.cnf && rm -rf ${backup_dir}/.settings.php && echo OK && exit
 echo Error
