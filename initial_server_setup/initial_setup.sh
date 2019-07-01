@@ -80,6 +80,12 @@ systemctl disable ntpd
 systemctl enable chronyd
 systemctl restart chronyd
 
+systemctl stop stunnel.service
+systemctl disable stunnel
+systemctl stop httpd-scale.service
+systemctl disable httpd-scale.service
+find /etc/cron.d/bx_httpd-scale -type f -print0 | xargs -0 sed -i 's/* * * * */#* * * * */g' 
+
 # mysql add template config
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
 
