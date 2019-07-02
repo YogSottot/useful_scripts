@@ -98,6 +98,10 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/blo
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -N -P /etc/nginx/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/conf/
 
+find /etc/nginx/bx/site_avaliable/ -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n include\ bx\/conf\/seo\.conf\;/g'
+
+nginx -t && systemctl reload nginx
+
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
     case $yn in
