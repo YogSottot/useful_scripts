@@ -47,10 +47,10 @@ maxretry = 4
 enabled = true
 
 [nginx-http-auth]
-enabled = true
+enabled = false
 
 [apache-auth]
-enabled = true
+enabled = false
 
 [proftpd]
 enabled = true
