@@ -24,6 +24,7 @@ Server=${server},${ip}
 StartAgents=3
 ServerActive=${server},${ip}
 Hostname=${hostname}
+Timeout=30
 EOT
 
 systemctl enable zabbix-agent
