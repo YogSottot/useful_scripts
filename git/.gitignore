@@ -121,6 +121,11 @@ Vagrantfile
 *~
 *.bak
 *.old
+*.xls
+*.xlsx
+*.pdf
+*.doc
+*.docx
 /*~
 */_*
 /_*
