@@ -10,7 +10,7 @@ cd /opt/av/
 #secure from other users
 chmod 700 /opt/av/
 
-yum install postfix clamav clamav-update rkhunter fail2ban inotify-tools unhide mailx -y
+yum install postfix clamav clamav-update rkhunter fail2ban inotify-tools unhide mailx unzip -y
 
 # NOT TO DO maldet
 # https://github.com/crylium/clamav-daily/blob/master/clamscan-daily-script.sh
