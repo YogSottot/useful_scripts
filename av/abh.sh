@@ -11,8 +11,10 @@ hostname=`/bin/hostname`
 # make dir for results
 if [ ! -d ${path}reports/ ] ; then mkdir -p ${path}reports/; fi
 
+full_date=`date '+%Y-%m-%d_%H:%M:%S'` ;
+
 # scan
-output=`nice -n 19 ionice -c2 -n7 /usr/bin/php ${path}ai-bolit/ai-bolit-hoster.php --report=${path}reports/REPORT-@DATE@.html --mode=1 --path=/home/bitrix/`
+output=`nice -n 19 ionice -c2 -n7 /usr/bin/php ${path}ai-bolit/ai-bolit-hoster.php --report=${path}reports/REPORT-${full_date}.html --mode=1 --path=/home/bitrix/`
 exitcode=$?
 
 # clean reports older then 14 day
@@ -30,12 +32,12 @@ if [ "${exitcode}" = "0" ]; then
 fi
 
 if [ "${exitcode}" = "1" ]; then
-    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html")" ${mail} < ${recent_report}
+    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html; charset=UTF-8")" ${mail} < ${recent_report}
     ${cleanrep}
 fi
 
 if [ "${exitcode}" = "2" ]; then
-    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html")" ${mail} < ${recent_report}
+    mailx -s "$(echo -e  "Virus detected on ${hostname}\nContent-Type: text/html; charset=UTF-8")" ${mail} < ${recent_report}
     ${cleanrep}
 fi
 
