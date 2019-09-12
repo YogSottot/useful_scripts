@@ -25,3 +25,11 @@ firewall-cmd --reload
 firewall-cmd --zone=public --remove-port=443/tcp --permanent
 firewall-cmd --zone=public --remove-port=80/tcp --permanent
 firewall-cmd --reload
+
+# if zabbix
+# firewall-cmd --zone=special --remove-source=ip_zabbix_server --permanent                                                                                                                                         
+# firewall-cmd --zone=special --remove-port=10050/tcp --permanent
+# firewall-cmd --reload
+# firewall-cmd --permanent --zone=qrator --add-source=ip_zabbix_server
+# firewall-cmd --permanent --zone=qrator --add-port=10050/tcp
+# firewall-cmd --reload
