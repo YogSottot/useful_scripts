@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # use
-# bash <(https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/qrator.sh)
+# bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/av/qrator.sh)
 
 # open ports only for qrator upstream servers
 firewall-cmd --new-zone=qrator --permanent 
