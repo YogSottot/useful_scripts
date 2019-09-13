@@ -33,3 +33,6 @@ firewall-cmd --reload
 # firewall-cmd --permanent --zone=qrator --add-source=ip_zabbix_server
 # firewall-cmd --permanent --zone=qrator --add-port=10050/tcp
 # firewall-cmd --reload
+
+# revert
+# firewall-cmd --zone=public --add-port=443/tcp --permanent && firewall-cmd --zone=public --add-port=80/tcp --permanent && firewall-cmd --reload
