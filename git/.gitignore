@@ -163,6 +163,7 @@ Thumbs.db
 /bitrix/modules/
 /bitrix/panel/
 /bitrix/php_interface/dbconn.php
+/bitrix/stack_cache/
 /bitrix/themes/
 /bitrix/tools/
 /bitrix/tmp/
