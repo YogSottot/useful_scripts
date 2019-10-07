@@ -37,8 +37,7 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir ${backup_dir}
 fi
 
-cd ${doc_root} &&
-nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 gzip | split -a 4 -C 100M -d - ${backup_dir}/${name}.sql.gz_
+
 
 
 function getValueFromINI() {
@@ -60,5 +59,5 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 172800" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && echo OK && exit
+cd ${doc_root} && nice -n 19 ionice -c2 -n7 mysqldump -e --add-drop-table --add-locks --skip-lock-tables --single-transaction --quick -h${host} -uroot --default-character-set=${charset} ${database} | pv -L 10m  | nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz && nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 172800" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && echo OK && exit
 echo Error
