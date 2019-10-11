@@ -5,7 +5,6 @@ www/bitrix/managed_cache/
 www/bitrix/stack_cache/
 www/upload/resize_cache/
 www/upload/tmp/
-www/test/
 *.log
 *.gz
 *.tar
