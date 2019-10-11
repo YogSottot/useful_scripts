@@ -84,3 +84,10 @@ fi
 restic cache --cleanup
 
 exit 0
+
+
+# useful links
+# https://github.com/fukawi2/resticctl
+# https://github.com/alphapapa/restic-runner
+# https://github.com/erikw/restic-systemd-automatic-backup
+# 
