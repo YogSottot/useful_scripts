@@ -1,0 +1,16 @@
+# rc template for restic wiht swift repo on selectel
+
+# restic
+export ST_AUTH="https://auth.selcdn.ru/v1.0"
+export ST_USER=""
+export ST_KEY=""
+export RESTIC_PASSWORD=""
+export RESTIC_REPOSITORY="swift:container_name:/www"
+
+keep_policy=(
+#--keep-last 2
+--keep-daily 14
+--keep-weekly 4
+--keep-monthly 2
+#--keep-yearly 10
+)

@@ -1,0 +1,16 @@
+www/bitrix/backup/
+www/bitrix/cache/
+www/bitrix/html_pages/
+www/bitrix/managed_cache/
+www/bitrix/stack_cache/
+www/upload/resize_cache/
+www/upload/tmp/
+www/test/
+*.log
+*.gz
+*.tar
+*.sql
+*.zip
+*.bak
+lost+found
+.bash*
