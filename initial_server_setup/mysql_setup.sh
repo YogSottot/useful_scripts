@@ -70,6 +70,11 @@ skip-name-resolve
 skip-networking
 sync_binlog = 0
 default_password_lifetime=0
+
+# if hdd
+# innodb_flush_neighbors=1
+# if ssd
+# innodb_flush_neighbors=0
 EOT
 
 systemctl restart mysql
