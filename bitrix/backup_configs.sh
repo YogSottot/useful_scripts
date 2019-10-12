@@ -13,13 +13,16 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir ${backup_dir}
 fi
 
-/usr/bin/tar cfp - -C /etc/ nginx/ | gzip -c > ${backup_dir}/nginx.tgz
-/usr/bin/tar cfp - -C /etc/ httpd/ | gzip -c > ${backup_dir}/httpd.tgz
-/usr/bin/tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
-/usr/bin/tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
-/usr/bin/tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
-/usr/bin/tar cfp - -C /opt/backup/ restic/ | gzip -c > ${backup_dir}/restic.tgz
+tar cfp - -C /etc/ nginx/ | gzip -c > ${backup_dir}/nginx.tgz
+tar cfp - -C /etc/ httpd/ | gzip -c > ${backup_dir}/httpd.tgz
+tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
+tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
+tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
+tar cfp - -C /opt/backup/ restic/ | gzip -c > ${backup_dir}/restic.tgz
 
+cd ${backup_dir}
+tar cfp configs.tar *.tgz
+rm -f *.tgz
 # for site links
 # /usr/bin/tar cfp - -C /home/bitrix/ext_www/ dev.domain.tld/ | gzip -c > ${backup_dir}/dev.domain.tld_`date +%Y.%m.%d-%H.%M`.tgz 
 
