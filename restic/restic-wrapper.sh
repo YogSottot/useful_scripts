@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPTNAME=$(basename $0)
-LOCKDIR="/var/lock/${SCRIPTNAME}"
+LOCKDIR="/var/lock/${SCRIPTNAME}_${rc_file}"
 PIDFILE="${LOCKDIR}/pid"
 
 if ! mkdir $LOCKDIR 2>/dev/null
@@ -47,14 +47,14 @@ source "$rc_dir/$rc_file.rc"
 #export RESTIC_PASSWORD=$var_inside_your_rc_file
 cd ${BACKUP_ROOT}
 
-/usr/local/bin/restic "${@:3}" > /tmp/restic_log_${@:3:1} 2>&1
+/usr/local/bin/restic "${@:3}" > /tmp/restic_log_${rc_file}_${@:3:1} 2>&1
 exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:3:1}
 else
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:3:1}
 fi
 
 /usr/local/bin/restic cache --cleanup
