@@ -8,7 +8,7 @@ chmod 700 /opt/backup/
 cd /opt/backup/restic/
 
 # for mounting
-yum install fuse mailx -y
+yum install bzip2 fuse mailx -y
 
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-wrapper.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-restore.sh
