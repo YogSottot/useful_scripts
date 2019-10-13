@@ -25,7 +25,6 @@ fi
 trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 # Do stuff
-cd /home/bitrix
 # rc files to work with
 rc_dir="/opt/backup/restic/rc.files"
 rc_file="$1"
@@ -46,15 +45,16 @@ fi
 source "$rc_dir/$rc_file.rc"
 #export RESTIC_REPOSITORY=$var_inside_your_rc_file
 #export RESTIC_PASSWORD=$var_inside_your_rc_file
+cd ${BACKUP_ROOT}
 
 /usr/local/bin/restic "${@:3}" > /tmp/restic_log_${@:3:1} 2>&1
 exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
 else
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${@:3:1}
 fi
 
 /usr/local/bin/restic cache --cleanup

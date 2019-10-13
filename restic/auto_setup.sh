@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- rc_file relative_to_home_bitrix_site_dir your_mail
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- rc_file relative_to_backup_root_site_dir your_mail
 
 mkdir -p /opt/backup/restic/{rc.files,exclude} && cd /opt/backup/
 chmod 700 /opt/backup/

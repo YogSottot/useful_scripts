@@ -6,6 +6,7 @@ export ST_USER=""
 export ST_KEY=""
 export RESTIC_PASSWORD=""
 export RESTIC_REPOSITORY="swift:container_name:/www"
+export BACKUP_ROOT="/home/bitrix/"
 
 keep_policy=(
 #--keep-last 2
