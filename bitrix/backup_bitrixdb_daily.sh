@@ -1,7 +1,8 @@
 #!/bin/sh
 
-doc_root=$1
-name=$2
+doc_root="$1"
+mail="$2"
+name="$3"
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -72,9 +73,9 @@ exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup bitrixdb daily on ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
+    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
 else
-    mailx -s "$(echo -e  "Backup bitrixdb daily on ${hostname} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
+    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
 fi
 
 rm -rf ${backup_dir}/*
