@@ -7,9 +7,14 @@ mkdir -p /opt/backup/restic/{rc.files,exclude} && cd /opt/backup/
 chmod 700 /opt/backup/
 cd /opt/backup/restic/
 
+# for mounting
+yum install fuse mailx -y
+
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-wrapper.sh
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-restore.sh
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.rc  -N -P /opt/backup/restic/rc.files/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.txt -N -P /opt/backup/restic/exclude/
+chmod +x *.sh
 
 wget https://github.com/restic/restic/releases/download/v0.9.5/restic_0.9.5_linux_amd64.bz2
 bunzip2 restic_0.9.5_linux_amd64.bz2

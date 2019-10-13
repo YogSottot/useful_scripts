@@ -57,7 +57,7 @@ fi
 # restic snapshots
 
 # this will restore to /home/bitrix/www without upload
-# restic restore da519e28 --target /home/bitrix/ --exclude www/upload
+# restic restore latest --target /home/bitrix/ --exclude www/upload
 
 # restore only one file or dir
 # restic restore da519e28 --target /home/bitrix/ --include www/bitrix/some_file.php
@@ -76,6 +76,9 @@ fi
 # grafana?
 # https://forum.restic.net/t/restic-grafana-dashboard/1662
 
+# restic mount repo
+# restic mount --allow-other /home/bitrix/www-mount/
+# ln -s /home/bitrix/www-mount/snapshots/latest/www /home/bitrix/www
 
 /usr/local/bin/restic forget --prune --keep-daily 15 --keep-weekly 4 --keep-monthly 4  > /dev/null 2>&1
 
