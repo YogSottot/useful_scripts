@@ -13,3 +13,6 @@ www/upload/tmp/
 *.bak
 lost+found
 .bash*
+.DS_Store
+Thumbs.db
+.idea/
