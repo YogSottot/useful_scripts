@@ -1,8 +1,10 @@
 #!/bin/sh
-set -e
 
 doc_root=$1
 name=$2
+
+SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
+
 if [ -z ${doc_root} ]; then
 	echo Usage: $0 /path/to/document/root [backup_name]
 	exit
@@ -39,8 +41,6 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 
-
-
 function getValueFromINI() {
 	local sourceData=$1; local paramName=$2;
 	## 1. Get value "platform=%OUR_VALUE%"
@@ -66,14 +66,14 @@ mysqldump -e --add-drop-table --add-locks \
 --skip-lock-tables --single-transaction --quick \
 -h${host} -uroot --default-character-set=${charset} \
 ${database} | pv -L 10m  | \
-nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz > /tmp/backup_bitrixdb_hourly_log 2>&1 && \
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only_hourly/ ${storage_dir} ${backup_dir}/ >> /tmp/backup_bitrixdb_hourly_log 2>&1
+nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz > /tmp/"${SCRIPT_NAME}"_log 2>&1 && \
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only_hourly/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_log 2>&1
 
 exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup bitrixdb hourly on ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/backup_bitrixdb_hourly_log
+    mailx -s "$(echo -e  "Backup bitrixdb hourly on ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
 fi
 
 rm -rf ${backup_dir}/*
