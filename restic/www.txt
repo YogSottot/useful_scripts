@@ -1,10 +1,13 @@
 www/bitrix/backup/
 www/bitrix/cache/
+www/bitrix/catalog_export/
 www/bitrix/html_pages/
 www/bitrix/managed_cache/
 www/bitrix/stack_cache/
+www/bitrix/tmp/
 www/upload/resize_cache/
 www/upload/tmp/
+www/sitemap*.xml
 *.log
 *.gz
 *.tar
