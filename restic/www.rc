@@ -8,6 +8,9 @@ export RESTIC_PASSWORD=""
 export RESTIC_REPOSITORY="swift:container_name:/www"
 export BACKUP_ROOT="/home/bitrix/"
 
+# if use msmtp
+#export sendmail="/usr/bin/msmtp"
+
 keep_policy=(
 #--keep-last 2
 --keep-daily 14
