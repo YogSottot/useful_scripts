@@ -7,7 +7,7 @@ name="$3"
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
 if [ -z ${doc_root} ]; then
-	echo Usage: $0 /path/to/document/root [backup_name]
+	echo Usage: $0 /path/to/document/root mail [backup_name]
 	exit
 fi
 
@@ -61,7 +61,7 @@ trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 # Do stuff
 
 #backup_dir=${doc_root}/bitrix/backup
-backup_dir=/opt/backup/backup
+backup_dir=/opt/backup/backup_"${name}"
 
 if [ ! -e ${backup_dir} ]; then
 	mkdir -p ${backup_dir}
@@ -94,7 +94,7 @@ mysqldump -e --add-drop-table --add-locks \
 -h${host} -uroot --default-character-set=${charset} \
 ${database} | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only_hourly/ ${storage_dir} ${backup_dir}/ > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} ${backup_dir}/ > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
