@@ -3,6 +3,7 @@ www/bitrix/cache/
 www/bitrix/catalog_export/
 www/bitrix/html_pages/
 www/bitrix/managed_cache/
+www/bitrix/php_interface/include/catalog_export/logs/
 www/bitrix/stack_cache/
 www/bitrix/tmp/
 www/upload/resize_cache/
