@@ -9,6 +9,9 @@ www/bitrix/tmp/
 www/bitrix/updates/
 www/upload/resize_cache/
 www/upload/tmp/
+www/upload/1c_catalog/
+www/upload/1c_catalog_history/
+www/upload/1c_exchange/
 www/sitemap*.xml
 *.log
 *.gz
