@@ -10,8 +10,8 @@ cd /opt/backup/restic/
 # for mounting
 yum install bzip2 fuse mailx -y
 
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-wrapper.sh
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-restore.sh
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-wrapper.sh -N -P /opt/backup/restic/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-restore.sh -N -P /opt/backup/restic/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.rc  -N -P /opt/backup/restic/rc.files/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.txt -N -P /opt/backup/restic/exclude/
 chmod +x *.sh
