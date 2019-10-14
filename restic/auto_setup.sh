@@ -26,7 +26,7 @@ restic generate --bash-completion /etc/bash_completion.d/restic
 source /etc/bash_completion.d/restic
 
 #crontab -l | { cat; echo "30 1 * * * /opt/backup/restic/restic-wrapper.sh $1 $3 --exclude-file=/opt/backup/restic/exclude/$1.txt backup $2 > /dev/null 2>&1 || true && /opt/backup/restic/restic-wrapper.sh $1 $3 forget --prune \${keep_policy[@]} > /dev/null 2>&1 || true"; } | crontab -
-crontab -l | { cat; echo "30 1 * * * /opt/backup/restic/restic-wrapper.sh $1 $3 backup --exclude-file=/opt/backup/restic/exclude/$1.txt $2 > /dev/null 2>&1 || true && /opt/backup/restic/restic-wrapper.sh $1 $3 diff \$(restic snapshots --json | jq -r '.[-2:][].id') > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "30 1 * * * /opt/backup/restic/restic-wrapper.sh $1 $3 backup --exclude-file=/opt/backup/restic/exclude/$1.txt $2 > /dev/null 2>&1 && /opt/backup/restic/restic-wrapper.sh $1 $3 diff \$(restic snapshots --json | jq -r '.[-2:][].id') > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "30 3 * * 7 /opt/backup/restic/restic-wrapper.sh $1 $3 forget --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "30 3 1 */2 * /opt/backup/restic/restic-wrapper.sh $1 $3 check > /dev/null 2>&1 || true"; } | crontab -
 
