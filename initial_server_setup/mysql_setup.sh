@@ -75,8 +75,6 @@ default_password_lifetime=0
 # innodb_flush_neighbors=1
 # if ssd
 # innodb_flush_neighbors=0
-
-innodb_strict_mode=OFF
 EOT
 
 systemctl restart mysql
