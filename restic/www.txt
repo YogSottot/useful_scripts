@@ -13,6 +13,7 @@ www/upload/1c_catalog/
 www/upload/1c_catalog_history/
 www/upload/1c_exchange/
 www/*sitemap*.xml
+*.log.old
 *.log
 *.gz
 *.tar
