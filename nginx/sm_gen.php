@@ -18,7 +18,7 @@ echo $fileContent;
 
 /*
 https://stackoverflow.com/questions/5292937/php-function-to-get-the-subdomain-of-a-url
-put in nginx
+put in nginx, works only with php-fpm
 location ^~ /sitemap {
     rewrite ^/sitemap(.*)\.xml /sm_gen.php last;
 }
