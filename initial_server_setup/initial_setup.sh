@@ -12,7 +12,7 @@ set -e
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng
+yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng ImageMagick php-pecl-imagick
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
@@ -66,6 +66,7 @@ pcre.recursion_limit = 100000
 cgi.fix_pathinfo = 0
 max_input_vars = 100000
 EOT
+mv -f /etc/php.d/20-curl.ini.disabled /etc/php.d/20-curl.ini
 systemctl reload httpd
 
 # system limits
