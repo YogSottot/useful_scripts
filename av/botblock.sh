@@ -18,7 +18,8 @@ cat <<EOT >>/etc/nginx/bots.d/blacklist-user-agents.conf
         "~*\bYandexImages\b"    0;
         "~*\bUptimeRobot/2.0\b" 0;
         "~*(?:\b)WEBDAV(?:\b)"  0;
-        
+		"~*\bMail.ru\b"         0;
+        "~*(?:\b)Mail.RU_Bot(?:\b)"   0;
         "~*\bbingbot\b"         3;
 EOT
 
