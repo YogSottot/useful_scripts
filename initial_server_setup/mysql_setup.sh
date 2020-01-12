@@ -76,6 +76,8 @@ default_password_lifetime=0
 # if ssd
 # innodb_flush_neighbors=0
 
+thread_stack=256K
+
 # disagree with https://dev.1c-bitrix.ru/community/forums/messages/forum32/topic122887/message621578/#message621578
 innodb_strict_mode = ON
 EOT
