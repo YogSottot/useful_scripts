@@ -101,6 +101,7 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qra
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/block_access.conf -N -P /etc/nginx/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -N -P /etc/nginx/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/conf/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/brotli.conf -N -P /etc/nginx/bx/settings/
 
 find /etc/nginx/bx/site_avaliable/ -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n include\ bx\/conf\/seo\.conf\;/g'
 
