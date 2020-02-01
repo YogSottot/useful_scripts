@@ -12,16 +12,16 @@ set -e
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng ImageMagick php-pecl-imagick
+yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng ImageMagick php-pecl-imagick mysqltuner
 
 # install liquidprompt
 cd /opt/ && git clone https://github.com/nojhan/liquidprompt
 
 cat <<\EOT >> ~/.bashrc
 alias mc='mc -x'
-alias mytuner='curl -sL https://raw.github.com/major/MySQLTuner-perl/master/mysqltuner.pl | perl'
-alias myprimer='curl -sL https://raw.githubusercontent.com/RootService/tuning-primer/master/tuning-primer.sh | bash'
-alias a2bud='curl -sL https://raw.githubusercontent.com/richardforth/apache2buddy/master/apache2buddy.pl | perl'
+#alias mytuner='curl -sL https://raw.github.com/major/MySQLTuner-perl/master/mysqltuner.pl | perl'
+#alias myprimer='curl -sL https://raw.githubusercontent.com/RootService/tuning-primer/master/tuning-primer.sh | bash'
+#alias a2bud='curl -sL https://raw.githubusercontent.com/richardforth/apache2buddy/master/apache2buddy.pl | perl'
 alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php'
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
 EOT
