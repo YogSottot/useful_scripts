@@ -94,16 +94,18 @@ find /etc/cron.d/bx_httpd-scale -type f -print0 | xargs -0 sed -i 's/* * * * */#
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mysql_setup.sh | bash
 
 # nginx additional settings
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo_rewrites.conf -N -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/conf/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/ssl.common.conf -N -P /etc/nginx/bx/conf/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -N -P /etc/nginx/bx/conf/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/block_access.conf -N -P /etc/nginx/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.htpasswd -N -P /etc/nginx/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/conf/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/brotli.conf -N -P /etc/nginx/bx/settings/
 
-find /etc/nginx/bx/site_avaliable/ -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n include\ bx\/conf\/seo\.conf\;/g'
+mkdir -p /etc/nginx/bx/site_settings/default/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -N -P /etc/nginx/bx/site_settings/default/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/site_settings/default/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/locations.conf -N -P /etc/nginx/bx/site_settings/default/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/site_settings/default/
+
+find /etc/nginx/bx/site_avaliable/s* -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n\ include\ bx\/site_settings\/default\/\*\.conf\;/g'
 
 nginx -t && systemctl reload nginx
 
