@@ -5,6 +5,7 @@ set -e
 
 # mail
 yum install cyrus-sasl-plain postfix -y
+alternatives --set mta /usr/sbin/sendmail.postfix
 hostname=`/bin/hostname`
 # postfix limits
 mkdir -p /etc/systemd/system/postfix.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/postfix.service.d/override.conf && systemctl daemon-reload
