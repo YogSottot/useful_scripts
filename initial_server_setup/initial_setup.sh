@@ -105,7 +105,7 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acm
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/locations.conf -N -P /etc/nginx/bx/site_settings/default/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/site_settings/default/
 
-find /etc/nginx/bx/site_avaliable/s* -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n\ include\ bx\/site_settings\/default\/\*\.conf\;/g'
+#find /etc/nginx/bx/site_avaliable/s* -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n\ include\ bx\/site_settings\/default\/\*\.conf\;/g'
 
 nginx -t && systemctl reload nginx
 
