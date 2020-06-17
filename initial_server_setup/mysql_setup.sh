@@ -79,7 +79,7 @@ default_password_lifetime=0
 thread_stack=256K
 
 # disagree with https://dev.1c-bitrix.ru/community/forums/messages/forum32/topic122887/message621578/#message621578
-innodb_strict_mode = ON
+# innodb_strict_mode = ON
 EOT
 
 systemctl restart mysql
