@@ -1,0 +1,12 @@
+# https://linux.die.net/man/8/logrotate
+/home/bitrix/www/*.log
+{
+    su bitrix bitrix
+    daily
+    rotate 7
+    copytruncate
+    notifempty
+    missingok
+    compress
+    sharedscripts
+}

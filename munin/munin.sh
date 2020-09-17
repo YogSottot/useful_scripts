@@ -3,6 +3,9 @@ set -e
 # use
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/munin/munin.sh)
 
+# cat /etc/tmpfiles.d/munin.conf 
+# d /var/run/munin 0770 munin munin -
+
 # systemd's units change
 mkdir -p /etc/systemd/system/munin-node.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=100000\nLimitSTACK=infinity\nPrivateTmp=false' >> /etc/systemd/system/munin-node.service.d/override.conf && systemctl daemon-reload 
 
