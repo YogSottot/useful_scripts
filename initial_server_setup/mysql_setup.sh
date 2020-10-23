@@ -53,8 +53,8 @@ table_open_cache = 240000
 #innodb_flush_log_at_trx_commit = 0
 #innodb_flush_method = O_DSYNC
 
-#interactive_timeout = 600
-#wait_timeout = 1200
+interactive_timeout = 600
+wait_timeout = 600
 max_connect_errors = 10000
 #max_allowed_packet = 256M
 
