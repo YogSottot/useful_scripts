@@ -55,7 +55,7 @@ mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-f
 # nginx settings
 # pagespeed: rollback gzip, explicit configuration in /etc/nginx/bx/settings/z_bx_custom.conf:1
 echo 'gzip_vary on;' >> /etc/nginx/bx/settings/z_bx_custom.conf
-echo 'server_tokens off;' >> /etc/nginx/bx/settings/z_bx_custom.conf	
+#echo 'server_tokens off;' >> /etc/nginx/bx/settings/z_bx_custom.conf	
 systemctl reload nginx
 
 # php settings
