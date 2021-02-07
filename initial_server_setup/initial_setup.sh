@@ -15,7 +15,10 @@ set -e
 yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng ImageMagick php-pecl-imagick mysqltuner
 
 # install liquidprompt
-cd /opt/ && git clone https://github.com/nojhan/liquidprompt
+#cd /opt/ && git clone https://github.com/nojhan/liquidprompt
+mkdir -p /opt/liquidprompt
+# ver 2.0.1
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidprompt -N -O /opt/liquidprompt/liquidprompt
 
 cat <<\EOT >> ~/.bashrc
 alias mc='mc -x'
