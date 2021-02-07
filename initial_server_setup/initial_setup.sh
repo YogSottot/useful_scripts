@@ -23,6 +23,7 @@ alias mc='mc -x'
 #alias myprimer='curl -sL https://raw.githubusercontent.com/RootService/tuning-primer/master/tuning-primer.sh | bash'
 #alias a2bud='curl -sL https://raw.githubusercontent.com/richardforth/apache2buddy/master/apache2buddy.pl | perl'
 alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php'
+alias lst='ls -alt --time-style=long-iso'
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
 EOT
 
@@ -41,6 +42,7 @@ tuned-adm profile virtual-guest
 sudo -i -u bitrix bash << EOF
 mkdir ~/.config
 echo -e "alias mc='mc -x'" >> ~/.bashrc
+echo -e "alias lst='ls -alt --time-style=long-iso'" >> ~/.bashrc
 echo -e '[[ \$- = *i* ]] && source /opt/liquidprompt/liquidprompt' >> ~/.bashrc
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 touch ~/.nanorc
