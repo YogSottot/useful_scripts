@@ -28,6 +28,7 @@ alias mc='mc -x'
 alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php'
 alias lst='ls -alt --time-style=long-iso'
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
+export VISUAL=nano
 EOT
 
 mkdir -p ~/.config/htop
@@ -47,6 +48,7 @@ mkdir ~/.config
 echo -e "alias mc='mc -x'" >> ~/.bashrc
 echo -e "alias lst='ls -alt --time-style=long-iso'" >> ~/.bashrc
 echo -e '[[ \$- = *i* ]] && source /opt/liquidprompt/liquidprompt' >> ~/.bashrc
+echo -e 'export VISUAL=nano' >> ~/.bashrc
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 touch ~/.nanorc
 find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
