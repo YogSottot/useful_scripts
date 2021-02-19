@@ -20,8 +20,12 @@ www/*sitemap*.xml
 *.sql
 *.zip
 *.bak
+*.tmp
 lost+found
 .bash*
 .DS_Store
 Thumbs.db
 .idea/
+*.png.webp
+*.jpg.webp
+*.jpeg.webp
