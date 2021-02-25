@@ -41,7 +41,7 @@ key_buffer_size = 8M
 #innodb_buffer_pool_instances = 4
 #
 # https://www.percona.com/doc/percona-server/5.7/performance/threadpool.html
-thread_handling=pool-of-threads
+# thread_handling=pool-of-threads
 # https://www.percona.com/blog/2006/06/05/innodb-thread-concurrency/
 #innodb_thread_concurrency = 2
 #innodb_commit_concurrency = 2
