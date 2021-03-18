@@ -1,0 +1,24 @@
+https://www.percona.com/doc/percona-xtrabackup/2.4/backup_scenarios/incremental_backup.html
+https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/pit_recovery_ibk.html
+
+# make base
+xtrabackup --backup --compress --target-dir=/opt/backup/db
+# make incremental
+xtrabackup --backup --compress --target-dir=/opt/backup/inc1 --incremental-basedir=/opt/backup/db
+
+# decompress base
+xtrabackup --decompress --remove-original --target-dir=/opt/backup/db
+# decompress inc1
+xtrabackup --decompress --remove-original --target-dir=/opt/backup/inc1
+
+# prepare aply-log in base
+xtrabackup --prepare --apply-log-only --target-dir=/opt/backup/db
+# prepare with incremental
+xtrabackup --prepare --target-dir=/opt/backup/db --incremental-dir=/opt/backup/inc1
+
+# restore
+systemctl stop mysql
+mv /var/lib/mysql /var/lib/mysql.old
+xtrabackup --move-back --target-dir=/opt/backup/db
+chown -R mysql:mysql /var/lib/mysql
+systemctl start mysql
