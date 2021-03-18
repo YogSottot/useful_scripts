@@ -81,8 +81,6 @@ exitcode="$?"
 # output
 if [ "${exitcode}" -ne "0" ]; then
     mailx -s "$(echo -e  "Backup percona hourly for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
-else
-    mailx -s "$(echo -e  "Backup percona hourly for ${name} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
 fi
 
 exit 0
