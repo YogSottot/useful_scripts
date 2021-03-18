@@ -22,7 +22,7 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-single-db.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-db-inc.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_percona_inc_hourly.sh
-wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_precona_full_daily.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_percona_full_daily.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-inc.sh
 
 chmod +x *.sh
