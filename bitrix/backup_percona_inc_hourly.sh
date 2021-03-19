@@ -68,11 +68,11 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-# delete inc older then 36 hours
-/usr/bin/find ${backup_dir} -mindepth 1 -maxdepth 1 -type d -mmin +2160 -exec rm -rf {} \; && \
+# delete inc older then 15 hours
+/usr/bin/find ${backup_dir} -mindepth 1 -maxdepth 1 -type d -mmin +900 -exec rm -rf {} \; && \
 # make inc backup for the current base
 nice -n 19 ionice -c2 -n7 \
-xtrabackup --backup --compress --target-dir=${backup_dir}/${name} --incremental-basedir=${incremental_basedir}  > /tmp/"${SCRIPT_NAME}"_log 2>&1
+xtrabackup --backup --lock-ddl --compress --target-dir=${backup_dir}/${name} --incremental-basedir=${incremental_basedir}  > /tmp/"${SCRIPT_NAME}"_log 2>&1
 
 # nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_percona_daily_"${name}"/ ${storage_dir} ${backup_dir}/${name}/ > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
