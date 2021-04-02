@@ -92,11 +92,15 @@ cat <<\EOT >> /etc/cron.d/iav_scan_schedule
 EOT
 
 # костыли костылики
-sed -i '/skip-system-owner/d' /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/ai_bolit.py
-rm -rf /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/__pycache__/*
-systemctl restart imunify-antivirus.service
+#sed -i '/skip-system-owner/d' /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/ai_bolit.py
+#rm -rf /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/__pycache__/*
+#systemctl restart imunify-antivirus.service
 
 # or you can edit /etc/login.defs set min uid/gid 600 and max system to 599
+sed -i "s/UID_MIN                  1000/UID_MIN                  600/g" /etc/login.defs
+sed -i "s/SYS_UID_MAX               999/SYS_UID_MAX               599/g" /etc/login.defs
+sed -i "s/GID_MIN                  1000/GID_MIN                  600/g" /etc/login.defs
+sed -i "s/SYS_GID_MAX               999/SYS_GID_MAX               599/g" /etc/login.defs
 
 # mail
 # imunify-antivirus config update '{"ADMIN_CONTACTS": {"emails": ["${mail}",]}'
