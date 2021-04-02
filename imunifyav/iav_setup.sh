@@ -96,6 +96,8 @@ sed -i '/skip-system-owner/d' /opt/alt/python38/lib/python3.8/site-packages/defe
 rm -rf /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/__pycache__/*
 systemctl restart imunify-antivirus.service
 
+# or you can edit /etc/login.defs set min uid/gid 600 and max system to 599
+
 # mail
 # imunify-antivirus config update '{"ADMIN_CONTACTS": {"emails": ["${mail}",]}'
 # imunify-antivirus notifications-config update '{"admin": {"default_emails": ["${mail}"]}}'
