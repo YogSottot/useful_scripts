@@ -80,9 +80,16 @@ imunify-antivirus config update '{"RESOURCE_MANAGEMENT": {"io_limit": 1}}'
 imunify-antivirus config update '{"RESOURCE_MANAGEMENT": {"ram_limit": 500}}'
 
 # cron
-imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"day_of_month": 1}}'
-imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"hour": 3}}'
+#imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"day_of_month": 1}}'
+#imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"hour": 3}}'
+imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"interval": "none"}}' 
+#imunify-antivirus config update '{"PERMISSIONS": {"allow_malware_scan": true}}'
 
+# shedule
+cat <<\EOT >> /etc/cron.d/iav_scan_schedule 
+# 0 4 * * * root /usr/bin/imunify-antivirus update sigs ; /usr/bin/systemctl restart imunify-antivirus.service ; /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --file-mask="*.php" --no-follow-symlinks --intensity-cpu 1 --intensity-io 1 >/dev/null 2>&1
+0 4 * * * root /usr/bin/imunify-antivirus update sigs ; /usr/bin/systemctl restart imunify-antivirus.service ; /usr/bin/imunify360-agent malware user scan --background >/dev/null 2>&1
+EOT
 
 # костыли костылики
 sed -i '/skip-system-owner/d' /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/ai_bolit.py
