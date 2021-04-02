@@ -16,8 +16,7 @@ yum install -y mailx jq oniguruma
 
 if [ ! -d /etc/sysconfig/imunify360/ ] ; then 
 mkdir -p /etc/sysconfig/imunify360/
-echo -e '[paths]\nui_path = /opt/iav/.imunifyav\n\n[integration_scripts]\nusers = /opt/iav/get-users.sh\ndomains = /opt/iav/get-domains.sh\n' >> /etc/sysconfig/imunify360/integration.conf
-; fi
+echo -e '[paths]\nui_path = /opt/iav/.imunifyav\n\n[integration_scripts]\nusers = /opt/iav/get-users.sh\ndomains = /opt/iav/get-domains.sh\n' >> /etc/sysconfig/imunify360/integration.conf ; fi
 
 mkdir -p /opt/iav/.imunifyav
 ln -s /opt/iav/.imunifyav /home/bitrix/www/
