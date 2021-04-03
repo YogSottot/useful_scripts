@@ -62,6 +62,11 @@ cat <<\EOT >> /etc/sysconfig/imunify360/malware-filters-admin-conf/ignored.txt
 ^/home/bitrix/ext_www/(.*)/bitrix/html_pages/(.*)
 ^/home/bitrix/ext_www/(.*)/upload/(.*)
 EOT
+
+# we need imunify-antivirus >=5.5.7 for  next command, so
+# temp fix, to remove later
+yum -y update imunify-antivirus --enablerepo="imunify360-rollout-*-bypass"
+
 imunify360-agent malware rebuild patterns
 
 
