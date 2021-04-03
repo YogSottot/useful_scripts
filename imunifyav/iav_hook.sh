@@ -30,7 +30,7 @@
 #	exit
 #fi
 
-hostname=`/bin/hostname`
+hostname=$(/bin/hostname)
 
 MAIL_ENABLE=yes				# default no, change to "yes" for enabling
 MAIL_TO="your_mail"	# for multiple email addresses, use commas
@@ -48,48 +48,48 @@ init_data()
 	# echo $data > /tmp/imunify-script-dump.json
 
 	# parse JSON data with jq for getting event_id
-	event_id=$(jq -r '.event_id' <<< ${data})
+	event_id=$(jq -r '.event_id' <<< "${data}")
 }
 
 # parser_* helper functions to assign vars from json data
 
 parser_realtime_malware_found()
 {
-	period_started=$(jq -r '.period_started' <<< ${data})
-	period_finished=$(jq -r '.period_finished' <<< ${data})
-	malicious_total=$(jq -r '.malicious_total' <<< ${data})
-	malicious_files=$(jq -r '.malicious_files[]' <<< ${data})
+	period_started=$(jq -r '.period_started' <<< "${data}")
+	period_finished=$(jq -r '.period_finished' <<< "${data}")
+	malicious_total=$(jq -r '.malicious_total' <<< "${data}")
+	malicious_files=$(jq -r '.malicious_files[]' <<< "${data}")
 }
 
 parser_malware_found()
 {
-	period_started=$(jq -r '.started' <<< ${data})
-	period_finished=$(jq -r '.completed' <<< ${data})
-	malicious_total=$(jq -r '.total_malicious' <<< ${data})
-	malicious_files=$(jq -r '.malicious_files[]' <<< ${data})
+	period_started=$(jq -r '.started' <<< "${data}")
+	period_finished=$(jq -r '.completed' <<< "${data}")
+	malicious_total=$(jq -r '.total_malicious' <<< "${data}")
+	malicious_files=$(jq -r '.malicious_files[]' <<< "${data}")
 }
 
 parser_scan_started()
 {
-	period_started=$(jq -r '.started' <<< ${data})
-	scan_id=$(jq -r '.scan_id' <<< ${data})
+	period_started=$(jq -r '.started' <<< "${data}")
+	scan_id=$(jq -r '.scan_id' <<< "${data}")
 }
 
 parser_scan_finished()
 {
-	period_started=$(jq -r '.started' <<< ${data})
-	period_finished=$(jq -r '.completed' <<< ${data})
-	scan_id=$(jq -r '.scan_id' <<< ${data})
-	malicious_total=$(jq -r '.total_malicious' <<< ${data})
-	malicious_files=$(jq -r '.malicious_files[]' <<< ${data})
+	period_started=$(jq -r '.started' <<< "${data}")
+	period_finished=$(jq -r '.completed' <<< "${data}")
+	scan_id=$(jq -r '.scan_id' <<< "${data}")
+	malicious_total=$(jq -r '.total_malicious' <<< "${data}")
+	malicious_files=$(jq -r '.malicious_files[]' <<< "${data}")
 }
 
 parser_script_blocked()
 {
-	period_started=$(jq -r '.period_started' <<< ${data})
-	period_finished=$(jq -r '.period_finished' <<< ${data})
-	malicious_total=$(jq -r '.events_total' <<< ${data})
-	malicious_files=$(jq -r '.blocked_scripts[].path' <<< ${data})
+	period_started=$(jq -r '.period_started' <<< "${data}")
+	period_finished=$(jq -r '.period_finished' <<< "${data}")
+	malicious_total=$(jq -r '.events_total' <<< "${data}")
+	malicious_files=$(jq -r '.blocked_scripts[].path' <<< "${data}")
 }
 
 # human-readable message
@@ -98,18 +98,18 @@ format_msg()
 	if [ "${event_id}" = "USER_SCAN_STARTED" ] ||
 	    [ "${event_id}" = "CUSTOM_SCAN_STARTED" ]; then
 		echo "Scan ID: $scan_id, ${event_msg} \
-			$(date -ud "@"${period_started}) \
+			$(date -ud "@""${period_started}") \
 			on $(hostname)"
 	elif [ "${event_id}" = "USER_SCAN_FINISHED" ] ||
 	    [ "${event_id}" = "CUSTOM_SCAN_FINISHED" ]; then
 		echo "Scan ID: $scan_id. \
-			During the period from $(date -ud "@"${period_started}) to \
-			$(date -ud "@"${period_finished}) on $(hostname) \
+			During the period from $(date -ud "@""${period_started}") to \
+			$(date -ud "@""${period_finished}") on $(hostname) \
 			${event_msg} a total of ${malicious_total} malware file(s): \
 			${malicious_files}."
 	else
-		echo "During the period from $(date -ud "@"${period_started}) to \
-			$(date -ud "@"${period_finished}) on $(hostname) \
+		echo "During the period from $(date -ud "@""${period_started}") to \
+			$(date -ud "@""${period_finished}") on $(hostname) \
 			${event_msg} a total of ${malicious_total} malware file(s): \
 			${malicious_files}."
 	fi
@@ -141,8 +141,8 @@ file_save()
 {
 	msg=$(format_msg)
 	test -d "$DIR_NAME" || mkdir "/tmp/${DIR_NAME}"
-	savefile=$(mktemp --tmpdir ${DIR_NAME}/imunify-script-${event_id}.XXXXXXXXXXXXXXXXXXXXXXX)
-	echo $msg > $savefile
+	savefile=$(mktemp --tmpdir ${DIR_NAME}/imunify-script-"${event_id}".XXXXXXXXXXXXXXXXXXXXXXX)
+	echo "$msg" > "$savefile"
 }
 
 # digest the payload gave by imunity-notifier handling the supported events

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 mail=$1
@@ -7,14 +7,14 @@ mail=$1
 
 # https://docs.imunifyav.com/cli/
 
-if [ -z ${mail} ]; then
-	echo Usage: $0 your_mail
+if [ -z "${mail}" ]; then
+	echo Usage: "$0" your_mail
 	exit
 fi
 
 yum install -y mailx jq oniguruma
 
-if [ ! -d /etc/sysconfig/imunify360/ ] ; then 
+if [ ! -d /etc/sysconfig/imunify360/ ] ; then
 mkdir -p /etc/sysconfig/imunify360/
 echo -e '[paths]\nui_path = /opt/iav/.imunifyav\n\n[integration_scripts]\nusers = /opt/iav/get-users.sh\ndomains = /opt/iav/get-domains.sh\n' >> /etc/sysconfig/imunify360/integration.conf ; fi
 
@@ -86,11 +86,11 @@ imunify-antivirus config update '{"RESOURCE_MANAGEMENT": {"ram_limit": 500}}'
 # cron
 #imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"day_of_month": 1}}'
 #imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"hour": 3}}'
-imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"interval": "none"}}' 
+imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"interval": "none"}}'
 #imunify-antivirus config update '{"PERMISSIONS": {"allow_malware_scan": true}}'
 
 # shedule
-cat <<\EOT >> /etc/cron.d/iav_scan_schedule 
+cat <<\EOT >> /etc/cron.d/iav_scan_schedule
 10 1 * * * root /usr/bin/imunify-antivirus update sigs >/dev/null 2>&1 ; /usr/bin/systemctl restart imunify-antivirus.service >/dev/null 2>&1 && /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --file-mask="*.php,*.js,*.html,*htaccess" --no-follow-symlinks --intensity-cpu 3 --intensity-io 3 >/dev/null 2>&1
 EOT
 
