@@ -86,9 +86,30 @@ imunify-antivirus config update '{"MALWARE_SCAN_SCHEDULE": {"interval": "none"}}
 
 # shedule
 cat <<\EOT >> /etc/cron.d/iav_scan_schedule 
-# 0 4 * * * root /usr/bin/imunify-antivirus update sigs ; /usr/bin/systemctl restart imunify-antivirus.service ; /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --file-mask="*.php" --no-follow-symlinks --intensity-cpu 1 --intensity-io 1 >/dev/null 2>&1
-0 4 * * * root /usr/bin/imunify-antivirus update sigs ; /usr/bin/systemctl restart imunify-antivirus.service ; /usr/bin/imunify360-agent malware user scan --background >/dev/null 2>&1
+10 1 * * * root /usr/bin/imunify-antivirus update sigs >/dev/null 2>&1 ; /usr/bin/systemctl restart imunify-antivirus.service >/dev/null 2>&1 ; /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --file-mask="*.php,*.js,*.html,*htaccess" --no-follow-symlinks --intensity-cpu 1 --intensity-io 1 >/dev/null 2>&1
+# 10 1 * * * root /usr/bin/imunify-antivirus update sigs >/dev/null 2>&1 ; /usr/bin/systemctl restart imunify-antivirus.service >/dev/null 2>&1 ; /usr/bin/imunify360-agent malware user scan --background >/dev/null 2>&1
 EOT
+
+systemctl stop aibolit-resident.service
+#systemctl stop imunify-antivirus.service
+systemctl stop imunify-notifier.service
+
+systemctl disable aibolit-resident.service
+#systemctl disable imunify-antivirus.service
+systemctl disable imunify-notifier.service
+
+systemctl disable aibolit-resident.socket
+systemctl disable imunify-antivirus-sensor.socket
+systemctl disable imunify-antivirus-user.socket
+systemctl disable imunify-antivirus.socket
+systemctl disable imunify-notifier.socket
+
+systemctl stop aibolit-resident.socket
+#systemctl stop imunify-antivirus-sensor.socket
+#systemctl stop imunify-antivirus-user.socket
+#systemctl stop imunify-antivirus.socket
+#systemctl stop imunify-notifier.socket
+
 
 # костыли костылики
 #sed -i '/skip-system-owner/d' /opt/alt/python38/lib/python3.8/site-packages/defence360agent/malwarelib/scan/ai_bolit.py
@@ -107,9 +128,11 @@ sed -i "s/SYS_GID_MAX               999/SYS_GID_MAX               599/g" /etc/lo
 
 # manual scan
 # imunify-antivirus update sigs
-# imunify-antivirus malware on-demand start --path='/home/bitrix/www' --ignore-mask='/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*' --no-follow-symlinks --intensity-cpu 1 --intensity-io 1
+# imunify-antivirus malware on-demand start --path='/home/bitrix/www' --ignore-mask='/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*' --file-mask="*.php,*.js,*.html,.htaccess" --no-follow-symlinks --intensity-cpu 1 --intensity-io 1
 
-# /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --no-follow-symlinks --intensity-cpu 1 --intensity-io 1
+# /usr/bin/imunify-antivirus malware on-demand start --path='/home/bitrix/' --ignore-mask='/home/bitrix/.bx_temp/*,/home/bitrix/.cache/*,/home/bitrix/www/bitrix/backup/*,/home/bitrix/www/bitrix/cache/*,/home/bitrix/www/bitrix/managed_cache/*,/home/bitrix/www/bitrix/stack_cache/*,/home/bitrix/www/bitrix/html_pages/*,/home/bitrix/www/upload/*,/home/bitrix/ext_www/*/bitrix/backup/*,/home/bitrix/ext_www/*/bitrix/cache/*,/home/bitrix/ext_www/*/bitrix/managed_cache/*,/home/bitrix/ext_www/*/bitrix/stack_cache/*,/home/bitrix/ext_www/*/bitrix/html_pages/*,/home/bitrix/ext_www/*/upload/*' --file-mask="*.php,*.js,*.html,.htaccess" --no-follow-symlinks --intensity-cpu 1 --intensity-io 1
+
+# imunify-antivirus malware on-demand list
 
 # /usr/bin/imunify360-agent malware user scan
 
