@@ -3,6 +3,7 @@
 backup_dir="$1"
 mail="$2"
 incremental_basedir="$3"
+hostname=`/bin/hostname`
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -80,7 +81,7 @@ exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup percona hourly for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
+    mailx -s "$(echo -e  "Backup percona hourly for ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_log
 fi
 
 exit 0

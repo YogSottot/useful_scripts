@@ -3,6 +3,7 @@
 backup_dir="$1"
 mail="$2"
 name="$3"
+hostname=`/bin/hostname`
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -77,9 +78,9 @@ exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup percona daily for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${name}"_log
+    mailx -s "$(echo -e  "Backup percona daily for ${hostname} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${name}"_log
 else
-    mailx -s "$(echo -e  "Backup percona daily for ${name} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${name}"_log
+    mailx -s "$(echo -e  "Backup percona daily for ${hostname} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${name}"_log
 fi
 
 exit 0
