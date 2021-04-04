@@ -42,8 +42,8 @@ trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 # Do stuff
 
-if [ ! -e ${backup_dir} ]; then
-	mkdir -p ${backup_dir}
+if [ ! -e ${backup_dir}/${name} ]; then
+	mkdir -p ${backup_dir}/${name}
 fi
 
 function getValueFromINI() {
@@ -64,7 +64,6 @@ sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/sMonit/config.ini | sed -e '/
 login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
-
 
 rm -rf ${backup_dir}/${name}.prev && \
 mv ${backup_dir}/${name} ${backup_dir}/${name}.prev && \
