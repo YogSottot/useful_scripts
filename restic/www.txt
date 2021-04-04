@@ -7,6 +7,7 @@ www/bitrix/php_interface/include/catalog_export/logs/
 www/bitrix/stack_cache/
 www/bitrix/tmp/
 www/bitrix/updates/
+www/.imunifyav
 www/upload/resize_cache/
 www/upload/tmp/
 www/upload/1c_catalog/
