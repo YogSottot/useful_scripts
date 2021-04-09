@@ -19,4 +19,15 @@ systemctl daemon-reload
 systemctl enable gitlab-runner
 systemctl restart gitlab-runner
 
-#gitlab-runner register
+# gitlab-runner register
+
+# Enter a description for the runner:
+# name_of_the_project / or hostname of the server
+
+# Enter tags for the runner (comma-separated):
+# name_of_the_project-master / name_of_the_project-develop
+
+# Enter an executor: docker-ssh, parallels, docker-ssh+machine, kubernetes, virtualbox, docker+machine, custom, docker, shell, ssh:
+# shell
+
+# set up Integration Settings → Pipelines emails in gitlab
