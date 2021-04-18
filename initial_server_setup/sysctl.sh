@@ -105,6 +105,10 @@ cat >> "/etc/sysctl.d/101-sysctl.conf" <<EOF
 # centminmod added
 fs.nr_open=12000000
 fs.file-max=9000000
+kernel.msgmni = 64000
+kernel.sem = 250 256000 32 1024
+kernel.shmmax=134217728
+kernel.shmall=134217728
 net.core.wmem_max=16777216
 net.core.rmem_max=16777216
 net.ipv4.tcp_rmem=8192 87380 16777216                                          
@@ -172,6 +176,10 @@ cat >> "/etc/sysctl.conf" <<EOF
 # centminmod added
 fs.nr_open=12000000
 fs.file-max=9000000
+kernel.msgmni = 64000
+kernel.sem = 250 256000 32 1024
+kernel.shmmax=134217728
+kernel.shmall=134217728
 net.core.wmem_max=16777216
 net.core.rmem_max=16777216
 net.ipv4.tcp_rmem=8192 87380 16777216                                          
