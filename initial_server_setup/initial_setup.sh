@@ -118,7 +118,11 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo
 
 nginx -t && systemctl reload nginx
 
+# logrotate
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/bitrixlog -N -P /etc/logrotate.d/
+
+# disable httpd access logs
+find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/CustomLog/#CustomLog/g' 
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
