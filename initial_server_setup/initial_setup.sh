@@ -118,6 +118,8 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo
 
 nginx -t && systemctl reload nginx
 
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/bitrixlog -N -P /etc/logrotate.d/
+
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
     case $yn in

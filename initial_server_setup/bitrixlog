@@ -1,0 +1,12 @@
+/home/bitrix/www/*.log /home/bitrix/ext_www/*/*.log {
+        su bitrix bitrix
+        daily
+        dateext
+        dateformat -%Y-%m-%d
+        rotate 30
+        copytruncate
+        notifempty
+        missingok
+        compress
+        sharedscripts
+        }
