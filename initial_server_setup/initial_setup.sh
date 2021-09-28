@@ -109,10 +109,14 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/.ht
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/brotli.conf -N -P /etc/nginx/bx/settings/
 
 mkdir -p /etc/nginx/bx/site_settings/default/
-wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -N -P /etc/nginx/bx/site_settings/default/
+wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/qrator.conf -N -P /etc/nginx/bx/maps/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acme_well_known.conf -N -P /etc/nginx/bx/site_settings/default/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/locations.conf -N -P /etc/nginx/bx/site_settings/default/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/site_settings/default/
+
+# cf updater
+# wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/cloudflare_ip_updater.sh -N -P /etc/cron.daily/
+
 
 #find /etc/nginx/bx/site_avaliable/s* -type f -print0 | xargs -0 sed -i 's/all\ websites/all\ websites\n\ include\ bx\/site_settings\/default\/\*\.conf\;/g'
 
