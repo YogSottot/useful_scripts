@@ -10,7 +10,24 @@
 7 5 * * 0 /home/bitrix/www/bitrix/php_interface/include/classes/imageOptim/wepb_cleaner.sh >/dev/null 2>/home/bitrix/www/logs/wepb_cleaner.log
 ```
 
-Добавляем локацию в nginx в ```/etc/nginx/bx/site_settings/default/01_webp.conf```. Где ```default``` заменяем на нужный сайт, также меняем в скриптах пути к сайту.
+Добавляем в nginx в ```/etc/nginx/bx/maps/webp.conf```  
+
+```nginx
+map $http_accept $webp_suffix {
+    "~*webp" ".webp";
+}
+
+map $msie $cache_control {
+    "1" "private";
+}
+
+map $msie $vary_header {
+   default "Accept";
+   "1" "";
+}
+```
+
+Добавляем локацию в nginx в ```/etc/nginx/bx/site_settings/default/01_webp.conf```. Где ```default``` заменяем на нужный сайт, также меняем в скриптах пути к сайту.  
 
 ```nginx
 location ~* ^(.+\.(png|jpg|jpeg))$ {
@@ -26,5 +43,4 @@ location ~* ^(.+\.(png|jpg|jpeg))$ {
 ```
 Создано на основе информации отсюда https://dev.1c-bitrix.ru/support/forum/forum32/topic115309/  
 
-Или просто ставим этот модуль https://marketplace.1c-bitrix.ru/solutions/dev2fun.imagecompress/
-
+Или просто ставим этот модуль https://marketplace.1c-bitrix.ru/solutions/dev2fun.imagecompress/  
