@@ -12,7 +12,7 @@ set -e
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng libwebp-tools ImageMagick php-pecl-imagick mysqltuner 
+yum -y install --enablerepo=epel wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion bash-completion-extras yum-utils nano tmux deltarpm jpegoptim optipng libwebp-tools ImageMagick php-pecl-imagick mysqltuner smem
 # gifsicle ghostscript nodejs
 # npm install -g svgo
 
