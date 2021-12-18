@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-# if AS815
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh | bash -s -- 815
+# if AS815 AS10439 AS14061
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh | bash -s -- 815 10439 14061
 # wget  https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh
 # chmod +x firewalld-asn.sh
-ASN="$1"
-
+#ASN="$1"
 mkdir -p /tmp/ASN/
+
+for ASN in "$@"
+do
 # get list from https://asn.ipinfo.app
 wget https://asn.ipinfo.app/api/download/list/AS${ASN} -O /tmp/ASN/${ASN}
 # sort ipv4 and ipv6
@@ -24,6 +26,8 @@ firewall-cmd --permanent --zone=drop --add-source=ipset:${ASN}-6
 # load ip list from files
 firewall-cmd --permanent --ipset=${ASN}-4 --add-entries-from-file=/tmp/ASN/${ASN}-4
 firewall-cmd --permanent --ipset=${ASN}-6 --add-entries-from-file=/tmp/ASN/${ASN}-6
+
+done
 
 # reload firewalld
 firewall-cmd --reload
