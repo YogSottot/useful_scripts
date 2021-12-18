@@ -19,8 +19,8 @@ fi
 ## Remove and delete ${ASN}-6 ipset if it exists
 if firewall-cmd --permanent --get-ipsets | grep -q "${ASN}-6"; then
   firewall-cmd --permanent --zone=drop --remove-source=ipset:${ASN}-6
-  firewall-cmd --reload
   firewall-cmd --permanent --delete-ipset=${ASN}-6
+  firewall-cmd --reload
 fi
 
 # get list from https://asn.ipinfo.app
