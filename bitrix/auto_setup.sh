@@ -25,6 +25,7 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_percona_full_daily.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona-restore-inc.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/config.ini
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh
 
 chmod +x *.sh
 #yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm
