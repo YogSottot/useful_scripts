@@ -61,3 +61,6 @@ rm -rf  /tmp/ASN/
 # --ipset=<ipset> --get-entries List entries of an ipset [P]
 # --ipset=<ipset> --remove-entries-from-file=<entry> Remove entries from an ipset [P]
 # firewall-cmd --permanent --zone=drop --remove-source=
+
+# block country
+# https://github.com/vtgcyberjunkie/firewalld-block-ipset/blob/master/firewalld-block-ipset.sh
