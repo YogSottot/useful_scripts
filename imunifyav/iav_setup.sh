@@ -74,6 +74,7 @@ imunify360-agent malware rebuild patterns
 
 
 # https://docs.imunifyav.com/config_file_description/
+imunify-antivirus config update '{"MALWARE_SCANNING": {"hyperscan": true}}'
 # ionice
 imunify-antivirus config update '{"MALWARE_SCAN_INTENSITY": {"cpu": 2}}'
 imunify-antivirus config update '{"MALWARE_SCAN_INTENSITY": {"io": 2}}'
