@@ -1,0 +1,43 @@
+web:
+    image: 'gitlab/gitlab-ce:8.17.3-ce.0'
+    restart: always
+    hostname: 'git.example.com'
+    environment:
+        GITLAB_OMNIBUS_CONFIG: |
+            external_url 'https://git.example.com'
+            nginx['listen_port'] = 80
+            nginx['listen_https'] = false
+            nginx['proxy_set_headers'] = {"X-Forwarded-Proto" => "https","X-Forwarded-Ssl" => "on"}
+            nginx['real_ip_trusted_addresses'] = [ '172.17.0.0/24', '172.17.0.1', '2001:0db8::/32' ]
+            nginx['real_ip_header'] = 'X-Real-IP'
+            nginx['real_ip_recursive'] = 'on'
+            gitlab_rails['gitlab_shell_ssh_port'] = 2211
+            gitlab_rails['time_zone'] = 'Europe/Berlin'
+            gitlab_rails['omniauth_enabled'] = true
+            gitlab_rails['omniauth_providers'] = [{"name" => "bitbucket","app_id" => "VbYgi6ufoluzgthMHy","app_secret" => "hBkFGi8zGZgfizukztHuhV9ABcNhA3N","url" => "https://bitbucket.org/"}]
+            gitlab_rails['gitlab_email_from'] = 'git@example.com'
+            gitlab_rails['gitlab_email_reply_to'] = 'noreply@example.com'
+            gitlab_rails['smtp_enable'] = true
+            gitlab_rails['smtp_address'] = "mail.example.com"
+            gitlab_rails['smtp_port'] = 587
+            gitlab_rails['smtp_user_name'] = "username"
+            gitlab_rails['smtp_password'] = "password"
+            gitlab_rails['smtp_authentication'] = "login"
+            gitlab_rails['smtp_enable_starttls_auto'] = true
+            gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+            gitlab_rails['gitlab_default_projects_features_container_registry'] = false
+            registry['enable'] = true
+            registry_external_url 'https://registry.example.com'
+            registry_nginx['listen_port'] = 5001
+            registry_nginx['listen_https'] = false
+            registry_nginx['proxy_set_headers'] = {"X-Forwarded-Proto" => "https","X-Forwarded-Ssl" => "on", "Host" => "registry.example.com"}
+            # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+        - '127.0.0.1:8016:80'
+        - '127.0.0.1:4436:443'
+        - '2211:22'
+        - '127.0.0.1:5001:5001'
+    volumes:
+        - '/gitlab/config:/etc/gitlab'
+        - '/gitlab/logs:/var/log/gitlab'
+        - '/gitlab/data:/var/opt/gitlab'
