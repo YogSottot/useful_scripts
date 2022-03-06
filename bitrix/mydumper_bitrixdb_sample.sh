@@ -3,8 +3,8 @@
 # yum install libzstd -y 
 
 doc_root="$1"
-mail="$1"
-name="$2"
+mail="$2"
+name="$3"
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
