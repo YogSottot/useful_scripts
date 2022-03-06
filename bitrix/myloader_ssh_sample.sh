@@ -14,6 +14,6 @@ mysql --execute="update ${database}.b_option set VALUE='dev.example.tld' where M
 # set установка для разработки
 mysql --execute="update ${database}.b_option set VALUE='Y' where MODULE_ID='main' and NAME='update_devsrv';"
 # URL сервера (без http://): для сайта s1
-mysql --execute="update sitemanager.b_lang set SERVER_NAME='dev.example.tld' where LID='s1';"
+mysql --execute="update ${database}.b_lang set SERVER_NAME='dev.example.tld' where LID='s1';"
 # Доменное имя: (список доменных имен, каждое в новой строке) для сайта s1 / s2 / s3
-mysql --execute="INSERT INTO sitemanager.b_lang_domain (LID, domain) VALUES ('s1','dev.example.tld'),('s1','dev2.example.tld'),('s2','dev3.example.tld'),('s2','dev4.example.tld'),('s3','dev5.example.tld'),('s3','dev2.example.org');"
+mysql --execute="INSERT INTO ${database}.b_lang_domain (LID, domain) VALUES ('s1','dev.example.tld'),('s1','dev2.example.tld'),('s2','dev3.example.tld'),('s2','dev4.example.tld'),('s3','dev5.example.tld'),('s3','dev2.example.org');"
