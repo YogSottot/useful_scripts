@@ -1,0 +1,18 @@
+[Unit]
+Description=Uvicorn systemd service.
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/bitrix/.local/bin/poetry run uvicorn  --proxy-headers --reload --forwarded-allow-ips='*' --uds /home/bitrix/ext_www/domain.tld/uvicorn.sock app.main:app
+User=bitrix
+Group=bitrix
+WorkingDirectory=/home/bitrix/ext_www/domain.tld/
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

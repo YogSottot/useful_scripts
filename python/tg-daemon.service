@@ -1,0 +1,17 @@
+[Unit]
+Description=tg-daemon
+After=network.target
+
+[Service]
+Type=simple
+Environment=PYTHONPATH=/home/bitrix/ext_www/domain.tld
+WorkingDirectory=/home/bitrix/ext_www/domain.tld
+ExecStart=/home/bitrix/.local/bin/poetry run python3.9 daemon/daemon.py
+User=bitrix
+Group=bitrix
+TimeoutStopSec=5
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
