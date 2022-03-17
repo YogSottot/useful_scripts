@@ -6,6 +6,8 @@ doc_root="$1"
 mail="$2"
 name="$3"
 
+cpu=`nproc --ignore=1`
+
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
 if [ -z ${doc_root} ]; then
@@ -62,7 +64,6 @@ trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 # Do stuff
 
-
 #backup_dir=${doc_root}/bitrix/backup
 backup_dir=/opt/backup/mydumper
 
@@ -89,8 +90,11 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-mydumper --threads 6 --compress --less-locking --use-savepoints  --regex '^(?=(?:(sitemanager\.)))(?!(?:(sitemanager\.stat_action_archive$|sitemanager\.b_stat_guest$)))' --outputdir /opt/backup/mydumper/ && rsync -a /opt/backup/mydumper sem.dev:/opt/backup/ 
- > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+mydumper --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+ 
+mydumper --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$)" --outputdir "${backup_dir}"   >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+
+mydumper --version > "${backup_dir}"/mydumper_version
 
 exitcode="$?"
 
@@ -101,5 +105,5 @@ else
     mailx -s "$(echo -e  "Backup MYDUMPER Monthly for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 fi
 
-rm -rf ${backup_dir}/*
+#rm -rf ${backup_dir}/*
 exit 0
