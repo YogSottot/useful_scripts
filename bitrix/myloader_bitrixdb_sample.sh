@@ -6,6 +6,8 @@ database="$1"
 mail="$2"
 name="$3"
 
+cpu=`nproc --ignore=1`
+
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
 if [ -z ${database} ]; then
@@ -50,7 +52,7 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir -p ${backup_dir}
 fi
 
-myloader  --database ${database} --directory ${backup_dir} --overwrite-tables --innodb-optimize-keys > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+myloader --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
