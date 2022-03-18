@@ -142,6 +142,7 @@ Vagrantfile
 /mailru-verification*.html
 .ht*
 .DS_Store
+._.DS_Store
 Thumbs.db
 /web.config
 /robots.txt*
