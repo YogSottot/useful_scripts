@@ -7,6 +7,9 @@ ssh spec.prod "/opt/backup/percona-db.sh"
 printf "Start percona restore\n"
 /opt/backup/percona-restore.sh
 
+printf "Start mysql_upgrade\n"                                                                                                                                                            
+/usr/bin/mysql_upgrade
+
 printf "Update db settings after restore\n"
 /opt/backup/update_db.sh ${database}
 
