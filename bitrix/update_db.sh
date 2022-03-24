@@ -1,15 +1,6 @@
-#!/bin/sh
-# https://github.com/mydumper/mydumper/releases
-# yum install libzstd -y 
+#!/usr/bin/env bash
 
 database="$1"
-mail="$2"
-
-printf "Start mydumper backup\n"
-ssh sem "/opt/backup/mydumper_bitrixdb_sample.sh /home/bitrix/www/ ${mail}"
-
-printf "Start myloader restore\n"
-/opt/backup/myloader_bitrixdb_sample.sh ${database} ${mail}
 
 printf "Start update db settings\n"
 # disable auto backup
