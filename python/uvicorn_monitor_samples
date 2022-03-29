@@ -1,0 +1,48 @@
+https://unix.stackexchange.com/questions/464979/restarting-service-based-on-log-output-keywords
+https://unixhealthcheck.com/blog?id=437
+
+#!/bin/bash
+
+regex="peewee\.InterfaceError"
+
+journalctl -f -n 0 -u uvicorn.service |
+while read line
+do
+    if [[ "$line" =~ $regex ]]; then
+        systemctl restart uvicorn.service
+    fi
+done
+
+
+[Unit]
+Description=Uvicorn Monitor service.
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash  /home/bitrix/uvicorn_monitor.sh
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+#!/bin/bash
+
+regex="peewee.InterfaceError"
+sysd_svc=$( systemctl | grep uvicorn.service | awk '{print $1}' )
+
+echo "Info, service '$sysd_svc' will be restarted on match with '$regex'"
+
+while read -r line
+do
+        # note we DONT quote $regex because we're using ~=
+        if [[ "$line" =~ $regex ]]; then
+                echo "Info, restarting as line matched : $line"
+                systemctl restart "$sysd_svc"
+        else
+                echo "Info, line didn't match: $line"
+        fi
+
+done < <( journalctl -f -n 0 -u uvicorn.service)
