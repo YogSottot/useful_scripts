@@ -19,6 +19,11 @@ mysql --execute="INSERT INTO ${database}.b_lang_domain (LID, domain) VALUES ('s1
 # отключить хранение сессий в бд
 mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='security' AND b_option.NAME='session';"
 
+# отключить TOTP
+mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='security' AND b_option.NAME='otp_enabled';"
+mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='security' AND b_option.NAME='otp_mandatory_using';"
+
+
 # отключение pull/push-сервера
 mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='nginx';"
 mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='push';"
