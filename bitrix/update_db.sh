@@ -22,6 +22,7 @@ mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE
 # set pull-server on server
 mysql --execute="UPDATE ${database}.b_option SET VALUE='personal' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='server_mode';"
 mysql --execute="UPDATE ${database}.b_option SET VALUE='BRfYy36Yjct' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='signature_key';"
+mysql --execute="UPDATE ${database}.b_option SET VALUE='http://dev.example.org:8895/bitrix/pub/' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='path_to_publish ';"
 
 # mysql --execute="select * from sitemanager.b_lang"
 # mysql --execute="select * from sitemanager.b_lang_domain"
