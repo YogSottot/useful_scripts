@@ -17,13 +17,13 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/ww
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.txt -N -P /opt/backup/restic/exclude/
 chmod +x *.sh
 
-wget https://github.com/restic/restic/releases/download/v0.10.0/restic_0.10.0_linux_amd64.bz2
-bunzip2 restic_0.10.0_linux_amd64.bz2
-mv restic_0.10.0_linux_amd64 /usr/local/bin/restic
+wget https://github.com/restic/restic/releases/download/v0.13.1/restic_0.13.1_linux_amd64.bz2
+bunzip2 restic_0.13.1_linux_amd64.bz2
+mv restic_0.13.1_linux_amd64 /usr/local/bin/restic
 chmod +x /usr/local/bin/restic
-restic self-update
+/usr/local/bin/restic self-update
 
-restic generate --bash-completion /etc/bash_completion.d/restic
+/usr/local/bin/restic generate --bash-completion /etc/bash_completion.d/restic
 source /etc/bash_completion.d/restic
 
 #crontab -l | { cat; echo "30 1 * * *  /opt/backup/restic/restic-wrapper.sh $1 $3 --exclude-file=/opt/backup/restic/exclude/$1.txt backup $2 > /dev/null 2>&1 || true && /opt/backup/restic/restic-wrapper.sh $1 $3 forget --prune \${keep_policy[@]} > /dev/null 2>&1 || true"; } | crontab -

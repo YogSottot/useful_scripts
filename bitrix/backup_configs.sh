@@ -21,6 +21,9 @@ tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
 tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
 tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
 tar cfp - -C /opt/backup/ restic/ | gzip -c > ${backup_dir}/restic.tgz
+tar cfp - -C /etc/ logrotate.d/ | gzip -c > ${backup_dir}/logrotate.d.tgz
+tar cfp - -C /etc/ sysconfig/ | gzip -c > ${backup_dir}/sysconfig.tgz
+php -v > ${backup_dir}/php_version.txt
 cd ${doc_root} && cd bitrix/html_pages/ && tar cfpz ${backup_dir}/composite_config.tgz .config.php
 
 cd ${backup_dir}
