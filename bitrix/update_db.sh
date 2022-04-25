@@ -32,6 +32,15 @@ mysql --execute="UPDATE ${database}.b_option SET VALUE='personal' WHERE b_option
 mysql --execute="UPDATE ${database}.b_option SET VALUE='BRfYy36Yjct' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='signature_key';"
 mysql --execute="UPDATE ${database}.b_option SET VALUE='http://dev.example.org:8895/bitrix/pub/' WHERE b_option.MODULE_ID='pull' AND b_option.NAME='path_to_publish ';"
 
+# смена почты
+mysql --execute="update sitemanager.b_option set VALUE='test@domain.tld' where MODULE_ID='main' and NAME='all_bcc';"
+mysql --execute="update sitemanager.b_option set VALUE='test@domain.tld' where MODULE_ID='main' and NAME='email_from';"
+mysql --execute="update sitemanager.b_option set VALUE='test@domain.tld' where MODULE_ID='sale' and NAME='order_email';"
+
+mysql --execute="update sitemanager.b_lang set EMAIL='test@domain.tld' where LID='s1';"
+mysql --execute="update sitemanager.b_lang set EMAIL='test@domain.tld' where LID='s2';"
+
+
 # mysql --execute="select * from sitemanager.b_lang"
 # mysql --execute="select * from sitemanager.b_lang_domain"
 
