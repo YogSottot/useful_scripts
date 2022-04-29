@@ -1,0 +1,28 @@
+---
+job1:
+  stage: loop
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - |+
+      for i in `find . -mindepth 1 -maxdepth 1 -type d` ; do
+       cd /home/bitrix/ext_www/$i/local/modules/module_name/ || exit 1
+       git pull || exit 1
+      done
+    - cd /home/bitrix/www/local/modules/module_name/
+    - git pull
+  only:
+    - develop
+  tags:
+    - site.tld-dev
+job2:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+  script:
+    - cd /home/bitrix/www/local/modules/module_name/
+  only:
+    - master
+  tags:
+    - site.tld-master
