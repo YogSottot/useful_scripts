@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-ssh_host="${1}"
+source_ssh_host="${1}"
 source_dir="${2}"
 target_dir="${3}"
 
-source_version=`ssh ${ssh_host} "grep -m 1 SM_VERSION ${source_dir}/bitrix/modules/main/classes/general/version.php | tr -dc '0-9.'"`
+source_version=`ssh ${source_ssh_host} "grep -m 1 SM_VERSION ${source_dir}/bitrix/modules/main/classes/general/version.php | tr -dc '0-9.'"`
 target_version=`grep -m 1 SM_VERSION ${target_dir}/bitrix/modules/main/classes/general/version.php | tr -dc '0-9.'`
 
 echo source_version: "${source_version}"

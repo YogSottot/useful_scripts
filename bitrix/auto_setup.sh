@@ -28,9 +28,12 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh
 # wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/mydumper_bitrixdb_sample.sh
 # wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_bitrixdb_sample.sh
-# wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_ssh_sample.sh
-# wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona_ssh_sample.sh
-# wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/update_db.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_ssh_sample.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/mydumper_bitrixdb_manual.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_bitrixdb_manual.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/compare_bx_version.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/percona_ssh_sample.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/update_db.sh
 
 chmod +x *.sh
 #yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm

@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
-database="$1"
+set -e
+source_ssh_host="$1"
+source_dir="$2"
+
+target_dir="$3"
 
 printf "Start percona backup\n"
-ssh spec.prod "/opt/backup/percona-db.sh"
+ssh ${source_ssh_host} "/opt/backup/percona-db.sh"
+
+printf "Start percona rsync\n"
+rsync -a ${source_ssh_host}:/opt/backup/db /opt/backup
 
 printf "Start percona restore\n"
 /opt/backup/percona-restore.sh
@@ -11,11 +18,11 @@ printf "Start mysql_upgrade\n"
 /usr/bin/mysql_upgrade
 
 printf "Update db settings after restore\n"
-/opt/backup/update_db.sh ${database}
+/opt/backup/update_db.sh ${target_dir}
 
 printf "Remove managed_cache\n"
-rm -rf /home/bitrix/www/bitrix/managed_cache/*
+rm -rf ${target_dir}/bitrix/managed_cache/*
 
 printf "Start rsync upload\n"
-rsync -a spec.prod:/home/bitrix/www/upload/ /home/bitrix/www/upload/ --delete
+rsync -a ${source_ssh_host}:${source_dir}/upload/ ${target_dir}/upload/ --delete
 printf "Rsync finished!\n"

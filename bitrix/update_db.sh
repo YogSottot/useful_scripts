@@ -1,6 +1,24 @@
 #!/usr/bin/env bash
+set -e
 
-database="$1"
+doc_root="$1"
+
+if [ -z ${doc_root} ]; then
+	echo Usage: $0 /path/to/document/root
+	exit 1
+fi
+
+dbconn=${doc_root}/bitrix/php_interface/dbconn.php
+
+readcfg() {
+	grep $1 ${dbconn} | sed 's/.*"\(.*\)".*/\1/'
+}
+
+host=`readcfg DBHost`
+username=`readcfg DBLogin`
+password=`readcfg DBPassword`
+database=`readcfg DBName`
+
 
 printf "Start update db settings\n"
 # disable auto backup
