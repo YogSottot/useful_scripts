@@ -5,6 +5,9 @@ source_dir="$2"
 
 target_dir="$3"
 
+printf "Check bx versions\n"
+/opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
+
 printf "Start percona backup\n"
 ssh ${source_ssh_host} "/opt/backup/percona-db.sh"
 
@@ -25,4 +28,4 @@ rm -rf ${target_dir}/bitrix/managed_cache/*
 
 printf "Start rsync upload\n"
 rsync -a ${source_ssh_host}:${source_dir}/upload/ ${target_dir}/upload/ --delete
-printf "Rsync finished!\n"
+printf "Rsync upload finished!\n"
