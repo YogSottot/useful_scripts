@@ -28,7 +28,8 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh
 # wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/mydumper_bitrixdb_sample.sh
 # wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_bitrixdb_sample.sh
-wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_ssh_sample.sh
+# wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_ssh_auto.sh
+wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_ssh_manual.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/mydumper_bitrixdb_manual.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/myloader_bitrixdb_manual.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/compare_bx_version.sh

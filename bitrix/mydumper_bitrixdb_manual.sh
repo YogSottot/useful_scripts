@@ -4,7 +4,6 @@ set -e
 # yum install libzstd -y 
 
 doc_root="$1"
-target_ssh_host="$2"
 
 cpu=`nproc --ignore=1`
 
@@ -78,8 +77,3 @@ printf "Start second dump db\n"
 mydumper --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$)" --outputdir "${backup_dir}" 
 
 mydumper --version > "${backup_dir}"/mydumper_version
-
-printf "Start rsync db\n"
-rsync -a ${backup_dir} ${target_ssh_host}:/opt/backup/
-rm -rf ${backup_dir}/*
-
