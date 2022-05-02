@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-set -e
-# https://github.com/mydumper/mydumper/releases
-# yum install libzstd -y
 
 source_ssh_host="$1"
 source_dir="$2"
