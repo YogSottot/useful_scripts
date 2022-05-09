@@ -23,7 +23,7 @@ password=`readcfg DBPassword`
 database=`readcfg DBName`
 
 
-printf "Start update db settings\n"
+printf "Start update db settings for: ${database}\n"
 # disable auto backup
 mysql --execute="update ${database}.b_option set VALUE='0' where NAME='dump_auto_enable_auto';"
 # set установка для разработки

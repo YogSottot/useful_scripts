@@ -61,5 +61,5 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir -p ${backup_dir}
 fi
 
-printf "Start load dump db\n"
+printf "Start load dump db: ${database}\n"
 myloader --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables
