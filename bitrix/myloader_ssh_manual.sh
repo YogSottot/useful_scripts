@@ -19,7 +19,7 @@ printf "Delete dump db from source\n"
 ssh ${source_ssh_host} "rm -rf /opt/backup/mydumper/"
 
 printf "Start myloader restore\n"
-/opt/backup/mydumper_bitrixdb_manual.sh ${target_dir}
+/opt/backup/myloader_bitrixdb_manual.sh ${target_dir}
 printf "Delete dump db from target\n"
 rm -rf /opt/backup/mydumper
 
