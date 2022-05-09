@@ -114,6 +114,11 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acm
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/locations.conf -N -P /etc/nginx/bx/site_settings/default/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/site_settings/default/
 
+# limit_req
+# wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/limit_req/map/ddos.conf  -N -P /etc/nginx/bx/maps/
+# wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/limit_req/settings/ddos.conf  -N -P /etc/nginx/bx/settings/
+# wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/limit_req/site_settings/default/ddos.conf  -N -P /etc/nginx/bx/site_settings/default/
+
 # cf updater
 # wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/cloudflare_ip_updater.sh -N -P /etc/cron.daily/
 
