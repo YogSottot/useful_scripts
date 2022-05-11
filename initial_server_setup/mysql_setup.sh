@@ -72,6 +72,9 @@ skip-networking
 sync_binlog = 0
 default_password_lifetime=0
 
+skip_log_bin = 1
+event_scheduler = 0
+
 # if hdd
 # innodb_flush_neighbors=1
 # if ssd
@@ -81,6 +84,15 @@ thread_stack=256K
 
 # disagree with https://dev.1c-bitrix.ru/community/forums/messages/forum32/topic122887/message621578/#message621578
 # innodb_strict_mode = ON
+
+# https://stackoverflow.com/a/63490321
+# innodb_lru_scan_depth=100  # from 1024 to conserve 90% CPU cycles used for function
+# innodb_io_capacity=1900  # from 200 to allow more IOPSecond to your storage device
+# innodb_flush_neighbors=2  # from 0 to expedite writing to current extent
+# innodb_max_dirty_pages_pct_lwm=1  # from 10 percent to expedite writes
+# innodb_max_dirty_pages_pct=1  # from 90 percent to reduce innodb_buffer_pool_pages_dirty count
+# innodb_change_buffer_max_size=50  # from 25 percent to expedite your high volume activity
+
 EOT
 
 systemctl restart mysql
