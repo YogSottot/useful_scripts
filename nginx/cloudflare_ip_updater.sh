@@ -38,6 +38,14 @@ echo "" >> $CLOUDFLARE_IP_RANGES_FILE_PATH
 
 chown $WWW_USER:$WWW_GROUP $CLOUDFLARE_IP_RANGES_FILE_PATH
 
+# cloudflare_firewalld
+# cat $CLOUDFLARE_IPSV4_LOCAL_FILE >> /tmp/cloudflare-ips
+# echo "" >> /tmp/cloudflare-ips
+# cat $CLOUDFLARE_IPSV6_LOCAL_FILE >> /tmp/cloudflare-ips
+# echo "" >> /tmp/cloudflare-ips
+# cat /opt/backup/cloudflare_custom_ip.txt > /tmp/cloudflare-ips
+# /opt/backup/cloudflare_firewalld.sh /tmp/cloudflare-ips
+
 
 rm -rf $CLOUDFLARE_IPSV4_LOCAL_FILE
 rm -rf $CLOUDFLARE_IPSV6_LOCAL_FILE
