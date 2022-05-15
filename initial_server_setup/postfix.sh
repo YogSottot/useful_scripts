@@ -4,7 +4,8 @@ set -e
 # bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/postfix.sh)
 
 # mail
-yum install cyrus-sasl-plain postfix -y
+# qshape deferred
+yum install cyrus-sasl-plain postfix postfix-perl-scripts -y
 alternatives --set mta /usr/sbin/sendmail.postfix
 hostname=`/bin/hostname`
 # postfix limits
@@ -27,6 +28,7 @@ message_size_limit = 0
 virtual_mailbox_limit = 0
 mydestination = localhost.$mydomain, localhost
 virtual_alias_maps = hash:/etc/postfix/virtual
+maximal_queue_lifetime = 1d
 EOT
 
 # добавляем отправку почты локальных пользователей
