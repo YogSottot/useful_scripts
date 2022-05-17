@@ -29,6 +29,7 @@ virtual_mailbox_limit = 0
 mydestination = localhost.$mydomain, localhost
 virtual_alias_maps = hash:/etc/postfix/virtual
 maximal_queue_lifetime = 1d
+bounce_queue_lifetime = 5h
 EOT
 
 # добавляем отправку почты локальных пользователей
