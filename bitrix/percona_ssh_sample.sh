@@ -45,7 +45,7 @@ rsync -a ${source_ssh_host}:${source_dir}/upload/ ${target_dir}/upload/ --delete
 # full sync for stage
 # rsync --exclude '/robots.txt' --exclude '/bitrix/cache/*' --exclude '/bitrix/backup/*' --exclude '/bitrix/managed_cache/*'  --exclude '/bitrix/stack_cache/*' --exclude '/bitrix/html_pages/*' --exclude '/bitrix/.settings.php' --exclude '/bitrix/.settings_extra.php' --exclude '/bitrix/php_interface/dbconn.php'  -a ${source_ssh_host}:${source_dir}/ ${target_dir}/ --delete
 # full sync for ext_site
-# rsync --exclude '/robots.txt'  --exclude '/bitrix/' --exclude '/images/'  --exclude '/upload/' -a ${source_ssh_host}:/home/bitrix/ext_www/domain.tld/ /home/bitrix/ext_www/domain.tld/ --delete
+# rsync --exclude '/robots.txt'  --exclude '/bitrix' --exclude '/images'  --exclude '/upload' -a ${source_ssh_host}:/home/bitrix/ext_www/domain.tld/ /home/bitrix/ext_www/domain.tld/ --delete
 printf "Rsync upload finished!\n"
 
 printf "Sync finished succesfull!\n"
