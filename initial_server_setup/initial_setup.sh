@@ -74,7 +74,7 @@ mail.add_x_header = Off
 pcre.recursion_limit = 100000
 cgi.fix_pathinfo = 0
 max_input_vars = 100000
-error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+;error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
 EOT
 mv -f /etc/php.d/20-curl.ini.disabled /etc/php.d/20-curl.ini
 systemctl reload httpd
