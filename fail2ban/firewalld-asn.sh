@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# let's encrypt AS: 13649 16509
+
 # if AS815 AS10439 AS14061
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh | bash -s -- 815 10439 14061
 # wget  https://raw.githubusercontent.com/YogSottot/useful_scripts/master/fail2ban/firewalld-asn.sh
