@@ -59,7 +59,7 @@ EOF
 ## some settings for bitrix
 
 # systemd's units autorestart
-mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/nginx.service.d/override.conf && mkdir -p /etc/systemd/system/httpd.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/httpd.service.d/override.conf && mkdir -p /etc/systemd/system/memcached.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/memcached.service.d/override.conf && systemctl daemon-reload
+mkdir -p /etc/systemd/system/nginx.service.d && echo -e '[Service]\nRestart=on-failure\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/nginx.service.d/override.conf && mkdir -p /etc/systemd/system/httpd.service.d && echo -e '[Service]\nRestart=on-failure\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/httpd.service.d/override.conf && mkdir -p /etc/systemd/system/memcached.service.d && echo -e '[Service]\nRestart=on-failure\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=1000000' >> /etc/systemd/system/memcached.service.d/override.conf && systemctl daemon-reload
 
 # nginx settings
 # pagespeed: rollback gzip, explicit configuration in /etc/nginx/bx/settings/z_bx_custom.conf:1
@@ -85,7 +85,7 @@ echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* so
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/sysctl.sh | bash
 
 # mysql limits
-mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nLimitNPROC=65535\nLimitNOFILE=1000000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
+mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=1000000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
 
 # ntpd often desync
 systemctl stop ntpd

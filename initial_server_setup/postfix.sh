@@ -9,7 +9,7 @@ yum install cyrus-sasl-plain postfix postfix-perl-scripts -y
 alternatives --set mta /usr/sbin/sendmail.postfix
 hostname=`/bin/hostname`
 # postfix limits
-mkdir -p /etc/systemd/system/postfix.service.d && echo -e '[Service]\nRestart=on-failure\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/postfix.service.d/override.conf && systemctl daemon-reload
+mkdir -p /etc/systemd/system/postfix.service.d && echo -e '[Service]\nRestart=on-failure\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=100000'  >> /etc/systemd/system/postfix.service.d/override.conf && systemctl daemon-reload
 
 cat <<\EOT >> /etc/postfix/main.cf
 #default_destination_concurrency_limit = 500
