@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+#ipset create cloudflare-v4 hash:net family inet
+#ipset create cloudflare-v6 hash:net family inet6
+
 #iptables -I INPUT -p tcp -m set --match-set cloudflare-v4 src -m multiports --dports 80,443 -j ACCEPT
 #ip6tables -I INPUT -p tcp -m set --match-set cloudflare-v6 src -m multiports --dports 80,443 -j ACCEPT
 
