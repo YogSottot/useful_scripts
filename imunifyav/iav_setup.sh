@@ -149,5 +149,5 @@ sed -i "s/SYS_GID_MAX               999/SYS_GID_MAX               599/g" /etc/lo
 
 # imunify-antivirus submit false-positive <file>
 # imunify-antivirus submit false-negative <file>
-
+# /opt/ai-bolit/ai-bolit-hoster.php --smart --deobfuscate --avdb /var/imunify360/files/sigs/v1/aibolit/ai-bolit-hoster-full.db --memory=1024M --hs /var/imunify360/files/sigs/v1/aibolit/hyperscan --ignore-quarantine  --use-template-in-path --with-suspicious --rapid-account-scan /home/.rapid-scan-db/bitrix --rapid-scan-rescan-frequency 1 --size=0 --mode=2  --path=/home/bitrix/ --report=/opt/report_2022.06.28.html 
 # https://cloudlinux.zendesk.com/hc/en-us/articles/360014490279--Imunify-agent-is-not-running-troubleshooting
