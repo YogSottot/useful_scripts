@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -e
+set -eo pipefail
+
 source_ssh_host="$1"
 source_dir="$2"
 

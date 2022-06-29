@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -eo pipefail
 
 xtrabackup --decompress --remove-original --target-dir=/opt/backup/db
 xtrabackup --prepare --target-dir=/opt/backup/db

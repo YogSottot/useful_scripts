@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -eo pipefail
 
 doc_root=$1
 backup_name=`/bin/hostname`

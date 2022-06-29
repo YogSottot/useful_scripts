@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -eo pipefail
 
 basedir=/home/bitrix/www/logs
 destdir=${basedir} # if you want rotated files in the same directories

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 SCRIPTNAME=$(basename $0)
 LOCKDIR="/var/lock/${SCRIPTNAME}_${rc_file}"

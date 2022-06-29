@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -eo pipefail
 
 mkdir -p /opt/backup/inc/
 # delete inc older then 15 hours

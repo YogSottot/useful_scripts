@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 rc_dir="/opt/backup/restic/rc.files"
 rc_file="$1"

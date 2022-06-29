@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eo pipefail
 
 doc_root="$1"
 
@@ -35,7 +35,9 @@ mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE
 mysql --execute="UPDATE ${database}.b_option SET VALUE='N' WHERE b_option.MODULE_ID='security' AND b_option.NAME='otp_mandatory_using';"
 
 # удаление старых доменных имён
-mysql --execute="DELETE FROM ${database}.b_lang_domain WHERE LID='s1';"
+mysql --execute="DELETE FROM ${database}.b_lang_domain;"
+# удаление путей к сайтам
+mysql --execute="UPDATE ${database}.b_lang SET DOC_ROOT = NULL WHERE DOC_ROOT is not null;"
 
 # изменение политики безопасности, чтобы не разлогинивало.
 mysql --execute="UPDATE ${database}.b_group SET SECURITY_POLICY='a:12:{s:15:"SESSION_TIMEOUT";s:4:"3600";s:15:"SESSION_IP_MASK";s:7:"0.0.0.0";s:13:"MAX_STORE_NUM";s:3:"100";s:13:"STORE_IP_MASK";s:7:"0.0.0.0";s:13:"STORE_TIMEOUT";s:4:"4320";s:17:"CHECKWORD_TIMEOUT";s:2:"60";s:15:"PASSWORD_LENGTH";s:2:"10";s:18:"PASSWORD_UPPERCASE";s:1:"Y";s:18:"PASSWORD_LOWERCASE";s:1:"Y";s:15:"PASSWORD_DIGITS";s:1:"Y";s:20:"PASSWORD_PUNCTUATION";s:1:"Y";s:14:"LOGIN_ATTEMPTS";s:1:"3";}	' WHERE b_group.ID='1';"

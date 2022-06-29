@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -eo pipefail
 
 doc_root=$1
 if [ -z ${doc_root} ]; then

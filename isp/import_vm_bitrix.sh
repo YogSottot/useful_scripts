@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 # use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/isp/import_vm_bitrix.sh | bash -s -- old_ip new_ip
 # после импорта нужно поменять старый ip на новый не только в /etc/sysconfig/network-scripts/ifcfg-eth0

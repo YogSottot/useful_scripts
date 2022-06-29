@@ -1,5 +1,5 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -eo pipefail
 
 rm -rf /opt/backup/db.prev
 mv /opt/backup/db /opt/backup/db.prev

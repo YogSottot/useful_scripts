@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 (
   # Wait for lock on /var/lock/.myscript.exclusivelock (fd 200) for 10 seconds
@@ -13,6 +14,7 @@
 # Here's an approach that combines atomic directory locking with a check for stale lock via PID and restart if stale. 
 
 #!/usr/bin/env bash
+set -eo pipefail
 
 SCRIPTNAME=$(basename $0)
 LOCKDIR="/var/lock/${SCRIPTNAME}"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eo pipefail
 # https://github.com/mydumper/mydumper/releases
 # yum install libzstd -y
 
