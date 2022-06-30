@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # use
-#  curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/bx_ext_ip.sh | bash -s 
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/bx_ext_ip.sh | bash -s
 
 ip=`ip -4  addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`
 

@@ -114,6 +114,9 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/acm
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/locations.conf -N -P /etc/nginx/bx/site_settings/default/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/seo.conf -N -P /etc/nginx/bx/site_settings/default/
 
+# block ip access
+curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/bx_ext_ip.sh | bash -s
+
 # limit_req
 # wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/limit_req/map/ddos.conf  -N -P /etc/nginx/bx/maps/
 # wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/nginx/limit_req/settings/ddos.conf  -N -P /etc/nginx/bx/settings/
