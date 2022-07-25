@@ -3,6 +3,9 @@ set -eo pipefail
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/isp/kill_semaphores.sh | bash -s -- user
 
+# or
+# ipcs -s | awk -v user=bitrix '$3==user {system("ipcrm -s "$2)}'
+
 PATH="/bin:/usr/bin"
 USER=$1
 
