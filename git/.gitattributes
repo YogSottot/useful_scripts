@@ -1,10 +1,35 @@
 # Общие настройки, которые всегда должны быть использованы для настроек вашего языка.
 # Автоматическое определение текстовых файлов и выполнение нормализации LF
 # http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+# git config --global core.eol lf
 # git ls-files --eol
 # git add --renormalize .
-#
-* text=auto
+# or
+# git rm --cached -r . && git reset --hard
+# or
+# git read-tree --empty
+# git add .
+# git commit -m "Introduce end-of-line normalization"
+# Define text file attributes.
+# - Treat them as text.
+# - Ensure no CRLF line-endings, neither on checkout nor on checkin.
+# - Detect whitespace errors.
+#   - Exposed by default in `git diff --color` on the CLI.
+#   - Validate with `git diff --check`.
+#   - Deny applying with `git apply --whitespace=error-all`.
+#   - Fix automatically with `git apply --whitespace=fix`.
+
+*.css text eol=lf diff=css
+*.html text eol=lf diff=html
+*.js text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.php text eol=lf diff=php
+*.inc text eol=lf
+
+# Auto-detect text files, ensure they use LF (not recommended).
+#* text=auto eol=lf
 
 #
 # Строка выше будет обрабатывать все файлы, которых нет в списке ниже.
@@ -21,8 +46,8 @@
 *.PDF     diff=astextplain
 *.rtf     diff=astextplain
 *.RTF     diff=astextplain
-*.md text
-*.tex text
+*.md text diff=markdown
+*.tex text diff=tex
 *.adoc text
 *.textile text
 *.mustache text
@@ -30,6 +55,9 @@
 *.tab text
 *.tsv text
 *.sql text
+*.vcproj text eol=crlf
+*.sh text eol=lf diff=bash
+*.py text eol=lf diff=python
 
 # Graphics
 *.png binary
@@ -40,6 +68,9 @@
 *.tiff binary
 *.ico binary
 *.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
 # SVG по дефолту рассматривается как бинарный. Если вы хотите, чтобы он распознавался как текст, закомментируйте  следующую строку и раскомментируйте следующую за ней.
 *.svg binary
 #*.svg text
