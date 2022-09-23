@@ -31,10 +31,10 @@ crontab -l | { cat; echo "30 1 * * * /usr/local/bin/restic self-update > /dev/nu
 crontab -l | { cat; echo "30 3 * * 7 /opt/backup/restic/restic-wrapper.sh $1 $3 forget --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 > /dev/null 2>&1 || true"; } | crontab -
 crontab -l | { cat; echo "30 3 1 */2 * /opt/backup/restic/restic-wrapper.sh $1 $3 check > /dev/null 2>&1 || true"; } | crontab -
 
-echo 'do not forget to fill data in rc.file and init repor with > restic init'
+echo 'do not forget to fill data in rc.file and init repo with > restic init'
 
 # https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html
 
 # source restic/rc.files/www.rc
-# restic  init
-
+# restic init --repository-version 2
+# https://restic.readthedocs.io/en/stable/045_working_with_repos.html#upgrading-the-repository-format-version
