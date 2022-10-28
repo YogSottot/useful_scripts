@@ -18,6 +18,9 @@ rsync -a ${source_ssh_host}:/opt/backup/db /opt/backup
 printf "Start percona restore\n"
 /opt/backup/percona-restore.sh
 
+printf "Delete dump db from source\n"
+ssh ${source_ssh_host} "rm -rf /opt/backup/db"
+
 printf "Start mysql_upgrade\n"                                                                                                                                                            
 /usr/bin/mysql_upgrade
 
