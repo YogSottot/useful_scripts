@@ -30,25 +30,25 @@ EOT
 systemctl enable zabbix-agent
 systemctl start zabbix-agent
 
-if  yum info Percona-Server-server-* | egrep -q installed  ; then
+#if  yum info Percona-Server-server-* | egrep -q installed  ; then
 
-yum install percona-zabbix-templates -y
+#yum install percona-zabbix-templates -y
 
-cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf  /etc/zabbix/zabbix_agentd.d/
+#cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf  /etc/zabbix/zabbix_agentd.d/
 
-service zabbix-agent restart
+#service zabbix-agent restart
 
-dbuser=`grep user /root/.my.cnf | cut -d = -f2`
-dbpassword=`grep password /root/.my.cnf | cut -d = -f2`
+#dbuser=`grep user /root/.my.cnf | cut -d = -f2`
+#dbpassword=`grep password /root/.my.cnf | cut -d = -f2`
 # Remove surrounding quotes only if there are surrounding quotes.
-dbpassword="${dbpassword%\'}"
-dbpassword="${dbpassword#\'}"
+#dbpassword="${dbpassword%\'}"
+#dbpassword="${dbpassword#\'}"
 
-cat <<EOT >> /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php.cnf
-<?php
-\$mysql_user = '${dbuser}';
-\$mysql_pass = '${dbpassword}';
-EOT
+#cat <<EOT >> /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php.cnf
+#<?php
+#\$mysql_user = '${dbuser}';
+#\$mysql_pass = '${dbpassword}';
+#EOT
 
 # Тестируем скрипт
 # /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh gg
@@ -56,7 +56,8 @@ EOT
 # Аналогично
 # /usr/bin/php -q /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php --host localhost --items gg
 
-cp /root/.my.cnf ~zabbix/
+mkdir -p /var/lib/zabbix/
+cp /root/.my.cnf /var/lib/zabbix/
 
 #Проверяем под пользователем zabbix
 # sudo -u zabbix -H /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh running-slave
@@ -67,8 +68,8 @@ cp /root/.my.cnf ~zabbix/
 
 chown -R zabbix:zabbix /var/lib/zabbix/
 chmod 640 /var/lib/zabbix/.my.cnf
-chmod 640 /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php.cnf
-chmod 664 /tmp/localhost-mysql_cacti_stats.txt
-chown zabbix:zabbix /tmp/localhost-mysql_cacti_stats.txt ;
-
-fi
+#chmod 640 /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php.cnf
+#chmod 664 /tmp/localhost-mysql_cacti_stats.txt
+#chown zabbix:zabbix /tmp/localhost-mysql_cacti_stats.txt ;
+service zabbix-agent restart
+#fi
