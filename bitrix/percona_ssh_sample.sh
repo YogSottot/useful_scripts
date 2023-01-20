@@ -21,7 +21,10 @@ printf "Start percona restore\n"
 printf "Delete dump db from source\n"
 ssh ${source_ssh_host} "rm -rf /opt/backup/db"
 
-printf "Start mysql_upgrade\n"                                                                                                                                                            
+printf "Delete dump db from target\n"                                                                                                                 
+rm -rf /opt/backup/db
+
+printf "Start mysql_upgrade\n"
 /usr/bin/mysql_upgrade
 
 printf "Update db settings after restore\n"
