@@ -33,6 +33,8 @@ alias lst='ls -alt --time-style=long-iso'
 export VISUAL=nano
 EOT
 
+ssh-keygen -t ed25519 -q -f "$HOME/.ssh/ed25519" -N ""
+
 mkdir -p ~/.config/htop
 mkdir -p /opt/letsencrypt/
 chown bitrix. /opt/letsencrypt/
@@ -54,6 +56,9 @@ echo -e 'export VISUAL=nano' >> ~/.bashrc
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 touch ~/.nanorc
 find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
+ssh-keygen -t ed25519 -q -f "$HOME/.ssh/ed25519" -N ""
+touch "$HOME/.ssh/authorized_keys"
+chmod 640 "$HOME/.ssh/authorized_keys"
 EOF
 
 ## some settings for bitrix
