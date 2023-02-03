@@ -139,7 +139,10 @@ nginx -t && systemctl reload nginx
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/bitrixlog -N -P /etc/logrotate.d/
 
 # disable httpd access logs
-find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/CustomLog/#CustomLog/g' 
+find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/CustomLog/#CustomLog/g'
+# set real ip in httpd logs
+find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/LogFormat "%h/LogFormat "%a/g' 
+LogFormat "%h
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
