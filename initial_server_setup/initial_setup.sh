@@ -58,8 +58,11 @@ touch ~/.nanorc
 find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
 ssh-keygen -t ed25519 -q -f "$HOME/.ssh/ed25519" -N ""
 touch "$HOME/.ssh/authorized_keys"
-chmod 640 "$HOME/.ssh/authorized_keys"
+chmod 644 "$HOME/.ssh/authorized_keys"
 EOF
+
+# secure purpose
+chown root. /home/bitrix/.ssh/authorized_keys
 
 ## some settings for bitrix
 
