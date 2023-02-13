@@ -91,20 +91,21 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
+nice -n 19 ionice -c2 -n7 \
 mydumper --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
- 
+
 mydumper --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}"   >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 mydumper --version > "${backup_dir}"/mydumper_version
+
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup MYDUMPER monthly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
-else
-    mailx -s "$(echo -e  "Backup MYDUMPER monthly for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+    mailx -s "$(echo -e  "Backup MYDUMPER hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 fi
 
-#rm -rf ${backup_dir}/*
+rm -rf ${backup_dir}/*
 exit 0
