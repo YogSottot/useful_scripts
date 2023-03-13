@@ -134,6 +134,8 @@ systemctl reload nginx
 # php settings
 cat <<EOT >> /etc/php.d/z_bx_custom.ini
 ;allow_url_fopen = Off
+;allow_url_include = Off
+;disable_functions=eval,exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source
 mail.add_x_header = Off
 pcre.recursion_limit = 100000
 cgi.fix_pathinfo = 0
@@ -141,6 +143,14 @@ max_input_vars = 100000
 ;error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
 EOT
 mv -f /etc/php.d/20-curl.ini.disabled /etc/php.d/20-curl.ini
+
+# security
+# yum install php-snuffleupagus -y
+# wget https://raw.githubusercontent.com/jvoisin/snuffleupagus/master/config/default_php8.rules -N -O /etc/php.d/snuffleupagus-default_php8.rules
+# php 7
+# wget https://raw.githubusercontent.com/jvoisin/snuffleupagus/master/config/default.rules -N -O /etc/php.d/snuffleupagus-default_php7.rules
+
+
 systemctl reload httpd
 
 # system limits
