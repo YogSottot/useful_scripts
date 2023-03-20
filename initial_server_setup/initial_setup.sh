@@ -56,15 +56,16 @@ echo -e 'export VISUAL=nano' >> ~/.bashrc
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/liquidpromptrc -N -O ~/.config/liquidpromptrc
 touch ~/.nanorc
 find /usr/share/nano -name '*.nanorc' -printf "include %p\n" > ~/.nanorc
-ssh-keygen -t ed25519 -q -f "$HOME/.ssh/ed25519" -N ""
-touch "$HOME/.ssh/authorized_keys"
-chmod 644 "$HOME/.ssh/authorized_keys"
+ssh-keygen -t ed25519 -q -f "/home/bitrix/.ssh/ed25519" -N ""
+touch "/home/bitrix/.ssh/authorized_keys"
+chmod 644 "/home/bitrix/.ssh/authorized_keys"
 EOF
 
 # secure purpose
 chown root. /home/bitrix/.ssh/authorized_keys
 
 # let's encrypt
+mkdir -p /etc/letsencrypt/renewal-hooks/deploy/
 echo -e '#!/bin/sh\nservice nginx reload' > /etc/letsencrypt/renewal-hooks/deploy/nginx.sh
 chmod +x /etc/letsencrypt/renewal-hooks/deploy/nginx.sh
 
@@ -211,7 +212,7 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_s
 find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/CustomLog/#CustomLog/g'
 # set real ip in httpd logs
 find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/LogFormat "%h/LogFormat "%a/g' 
-LogFormat "%h
+#LogFormat "%h
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
