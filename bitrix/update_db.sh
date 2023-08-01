@@ -70,3 +70,6 @@ mysql --execute="UPDATE ${database}.b_group SET SECURITY_POLICY='a:12:{s:15:"SES
 
 #mysql --execute="update sitemanager.b_lang set EMAIL='test@domain.tld' where LID='s1';"
 #mysql --execute="update sitemanager.b_lang set EMAIL='test@domain.tld' where LID='s2';"
+
+# Доступ к публичной части закрыт
+# mysql --execute="UPDATE ${database}.b_option SET VALUE='Y' WHERE b_option.MODULE_ID='main' AND b_option.NAME='site_stopped';"

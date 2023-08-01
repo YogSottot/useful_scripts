@@ -151,9 +151,6 @@ mv -f /etc/php.d/20-curl.ini.disabled /etc/php.d/20-curl.ini
 # php 7
 # wget https://raw.githubusercontent.com/jvoisin/snuffleupagus/master/config/default.rules -N -O /etc/php.d/snuffleupagus-default_php7.rules
 
-
-systemctl reload httpd
-
 # system limits
 echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 1000000\n* hard nofile 1000000' > /etc/security/limits.d/20-nproc.conf  && sysctl --system
 
@@ -213,6 +210,8 @@ find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/CustomLog/#CustomLog/g'
 # set real ip in httpd logs
 find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/LogFormat "%h/LogFormat "%a/g' 
 #LogFormat "%h
+
+systemctl reload httpd
 
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
