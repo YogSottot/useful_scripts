@@ -62,4 +62,4 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 printf "Start load dump db: ${database}\n"
-myloader --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables
+myloader --defaults-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables

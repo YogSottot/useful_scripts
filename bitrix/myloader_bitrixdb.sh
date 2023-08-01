@@ -66,4 +66,4 @@ trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 
 printf "Start load dump db: ${database}\n"
-myloader --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables
+myloader --defaults-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables

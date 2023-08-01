@@ -52,3 +52,14 @@ rsync -a ${source_ssh_host}:${source_dir}/upload/ ${target_dir}/upload/ --delete
 printf "Rsync upload finished!\n"
 
 printf "Sync finished succesfull!\n"
+
+# add into /root/.my.cnf
+# [mydumper]
+# user=
+# password=
+# socket=/var/lib/mysqld/mysqld.sock
+
+# [myloader]
+# user=
+# password=
+#socket=/var/lib/mysqld/mysqld.sock
