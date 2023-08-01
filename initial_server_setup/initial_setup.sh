@@ -155,6 +155,8 @@ mv -f /etc/php.d/20-curl.ini.disabled /etc/php.d/20-curl.ini
 echo -e 'root soft nproc unlimited\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 1000000\n* hard nofile 1000000' > /etc/security/limits.d/20-nproc.conf  && sysctl --system
 
 curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/sysctl.sh | bash
+curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/mydumper_cnf_setup.sh | bash
+
 
 # mysql limits
 mkdir -p /etc/systemd/system/mysqld.service.d && echo -e '[Service]\nRestartSec=5\nLimitNPROC=65535\nLimitNOFILE=1000000'  >> /etc/systemd/system/mysqld.service.d/override.conf && systemctl daemon-reload
