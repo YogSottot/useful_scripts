@@ -7,7 +7,12 @@ if [ -z ${doc_root} ]; then
 	exit
 fi
 
-name=`/bin/hostname`
+name="$2"
+
+if [ -z ${name} ]; then
+	name=`/bin/hostname`
+fi
+
 
 #backup_dir=${doc_root}/bitrix/backup
 backup_dir=/opt/backup/backup_"${name}"
