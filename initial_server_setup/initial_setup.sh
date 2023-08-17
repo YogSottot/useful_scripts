@@ -29,6 +29,7 @@ alias mc='mc -x'
 #alias a2bud='curl -sL https://raw.githubusercontent.com/richardforth/apache2buddy/master/apache2buddy.pl | perl'
 alias door='wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/test.php'
 alias lst='ls -alt --time-style=long-iso'
+alias ncdu='ncdu --color off'
 [[ $- = *i* ]] && source /opt/liquidprompt/liquidprompt
 export VISUAL=nano
 EOT

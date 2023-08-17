@@ -2,7 +2,7 @@
 set -eo pipefail
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- rc_file relative_to_backup_root_site_dir your_mail
-
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- www www mail@mail.tld
 mkdir -p /opt/backup/restic/{rc.files,exclude} && cd /opt/backup/
 chmod 700 /opt/backup/
 cd /opt/backup/restic/
