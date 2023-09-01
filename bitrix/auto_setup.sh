@@ -45,6 +45,9 @@ chmod +x *.sh
 yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3
 pip3 install python-swiftclient --user
 
+# reclaim space in non-blocking manner
+# pt-online-schema-change --alter "ENGINE=InnoDB" D=dbname,t=tablename --execute
+
 # for restore upload directly from bitrix
 #sudo -i -u bitrix bash << EOF
 #pip install python-swiftclient --user
