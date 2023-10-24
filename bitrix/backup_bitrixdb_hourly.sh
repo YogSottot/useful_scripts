@@ -84,8 +84,10 @@ function getValueFromINI2() {
 }
 
 sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
+project=$(getValueFromINI "$sectionContent" "project");
 login=$(getValueFromINI "$sectionContent" "login");
-userkey=$(getValueFromINI "$sectionContent" "password");
+password=$(getValueFromINI "$sectionContent" "password");
+url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 cd ${doc_root} && \
@@ -95,7 +97,7 @@ mysqldump -e --add-drop-table --add-locks \
 -h${host} -uroot --default-character-set=${charset} \
 ${database} | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 

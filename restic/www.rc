@@ -1,12 +1,12 @@
 # rc template for restic wiht swift repo on selectel
 
 # restic
-export ST_AUTH="https://auth.selcdn.ru/v1.0"
-export ST_USER=""
-export ST_KEY=""
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
 export RESTIC_PASSWORD=""
-export RESTIC_REPOSITORY="swift:container_name:/www"
+export RESTIC_REPOSITORY="s3:https://s3.ru-1.storage.selcloud.ru:/container_name/www"
 export BACKUP_ROOT="/home/bitrix/"
+
 
 # if use msmtp
 #export sendmail="/usr/bin/msmtp"
