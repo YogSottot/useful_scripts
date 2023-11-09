@@ -37,6 +37,9 @@
 # User-specific stuff:
 .idea/
 
+# vscode settings
+.vscode
+
 ## File-based project format:
 *.iws
 
