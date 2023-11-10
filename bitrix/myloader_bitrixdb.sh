@@ -26,16 +26,17 @@ if [ -z ${name} ]; then
 	name=`/bin/hostname`
 fi
 
-dbconn=${doc_root}/bitrix/php_interface/dbconn.php
+settings=${doc_root}/bitrix/.settings.php
 
 readcfg() {
-	grep $1 ${dbconn} | sed 's/.*"\(.*\)".*/\1/'
+        grep -m 1 $1 ${settings} | sed "s/.*' => '\(.*\)',.*/\1/"
 }
 
-host=`readcfg DBHost`
-username=`readcfg DBLogin`
-password=`readcfg DBPassword`
-database=`readcfg DBName`
+host=`readcfg host`
+username=`readcfg login`
+password=`readcfg password`
+database=`readcfg database`
+
 
 SCRIPTNAME=$(basename $0)
 LOCKDIR="/var/lock/bitrixdb_${database}"

@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 set -eo pipefail
-# https://github.com/mydumper/mydumper/releases
-# yum install libzstd -y 
 
 doc_root="$1"
 mail="$2"
 name="$3"
-
-cpu=`nproc --ignore=1`
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -31,6 +27,7 @@ host=`readcfg host`
 username=`readcfg login`
 password=`readcfg password`
 database=`readcfg database`
+
 
 utf=`grep 'BX_UTF' ${dbconn} | grep true`
 
@@ -66,8 +63,8 @@ trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 # Do stuff
 
+
 #backup_dir=${doc_root}/bitrix/backup
-#backup_dir=/opt/backup/mydumper
 backup_dir=/opt/backup/backup_"${name}"
 
 if [ ! -e ${backup_dir} ]; then
@@ -89,26 +86,26 @@ function getValueFromINI2() {
 }
 
 sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
-project=$(getValueFromINI "$sectionContent" "project");
 login=$(getValueFromINI "$sectionContent" "login");
-password=$(getValueFromINI "$sectionContent" "password");
-url=$(getValueFromINI "$sectionContent" "auth-url");
+userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
+cd ${doc_root} && \
 nice -n 19 ionice -c2 -n7 \
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
-
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}"   >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
-
-mydumper --version > "${backup_dir}"/mydumper_version
-
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 129600" --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+mysqldump -e --add-drop-table --add-locks \
+--skip-lock-tables --single-transaction --quick \
+-h${host} -uroot --default-character-set=${charset} \
+${database} | pv -L 10m  | \
+nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
+nice -n 19 ionice -c2 -n7 /usr/local/bin/rclone --config=/opt/backup/rclone.conf --header "X-Delete-After: 604800" --checksum -q sync ${backup_dir} selectel_s3:${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_daily_"${name}" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup MYDUMPER hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+else
+    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 fi
 
 rm -rf ${backup_dir}/*

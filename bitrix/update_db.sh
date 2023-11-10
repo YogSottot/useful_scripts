@@ -8,20 +8,16 @@ if [ -z ${doc_root} ]; then
 	exit 1
 fi
 
-dbconn=${doc_root}/bitrix/php_interface/dbconn.php
+settings=${doc_root}/bitrix/.settings.php
 
 readcfg() {
-	grep $1 ${dbconn} | sed 's/.*"\(.*\)".*/\1/'
+        grep -m 1 $1 ${settings} | sed "s/.*' => '\(.*\)',.*/\1/"
 }
 
-# example for use bitrix/.settings.php instead of bitrix/php_interface/dbconn.php
-# grep database /home/bitrix/www/bitrix/.settings.php | sed "s/.*'\(.*\)',\.*/\1/"
-
-host=`readcfg DBHost`
-username=`readcfg DBLogin`
-password=`readcfg DBPassword`
-database=`readcfg DBName`
-
+host=`readcfg host`
+username=`readcfg login`
+password=`readcfg password`
+database=`readcfg database`
 
 printf "Start update db settings for: ${database}\n"
 # disable auto backup
@@ -49,7 +45,7 @@ mysql --execute="UPDATE ${database}.b_group SET SECURITY_POLICY='a:12:{s:15:"SES
     mysql --execute="update ${database}.b_lang set SERVER_NAME='dev.example.tld' where LID='s1';"
 
     # Доменное имя: (список доменных имен, каждое в новой строке) для сайта s1 / s2 / s3
-    mysql --execute="INSERT INTO ${database}.b_lang_domain (LID, domain) VALUES ('s1','dev.example.tld'),('s1','dev2.example.tld'),('s2','dev3.example.tld'),('s2','dev4.example.tld'),('s3','dev5.example.tld'),('s3','dev2.example.org');"
+    # mysql --execute="INSERT INTO ${database}.b_lang_domain (LID, domain) VALUES ('s1','dev.example.tld'),('s1','dev2.example.tld'),('s2','dev3.example.tld'),('s2','dev4.example.tld'),('s3','dev5.example.tld'),('s3','dev2.example.org');"
 #fi
 
 # mysql --execute="select * from sitemanager.b_lang"

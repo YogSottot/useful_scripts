@@ -20,16 +20,18 @@ if [ -z ${name} ]; then
 	name=`/bin/hostname`
 fi
 
+settings=${doc_root}/bitrix/.settings.php
 dbconn=${doc_root}/bitrix/php_interface/dbconn.php
 
 readcfg() {
-	grep $1 ${dbconn} | sed 's/.*"\(.*\)".*/\1/'
+        grep -m 1 $1 ${settings} | sed "s/.*' => '\(.*\)',.*/\1/"
 }
 
-host=`readcfg DBHost`
-username=`readcfg DBLogin`
-password=`readcfg DBPassword`
-database=`readcfg DBName`
+host=`readcfg host`
+username=`readcfg login`
+password=`readcfg password`
+database=`readcfg database`
+
 
 utf=`grep 'BX_UTF' ${dbconn} | grep true`
 
@@ -88,8 +90,10 @@ function getValueFromINI2() {
 }
 
 sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
+project=$(getValueFromINI "$sectionContent" "project");
 login=$(getValueFromINI "$sectionContent" "login");
-userkey=$(getValueFromINI "$sectionContent" "password");
+password=$(getValueFromINI "$sectionContent" "password");
+url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 nice -n 19 ionice -c2 -n7 \
@@ -99,7 +103,7 @@ mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-lock
 
 mydumper --version > "${backup_dir}"/mydumper_version
 
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
