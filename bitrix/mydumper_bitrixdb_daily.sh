@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 # https://github.com/mydumper/mydumper/releases
-# yum install libzstd -y 
+# yum install zstd libzstd -y 
 
 doc_root="$1"
 mail="$2"
