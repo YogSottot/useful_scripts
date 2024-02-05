@@ -34,7 +34,7 @@ alias ncdu='ncdu --color off'
 export VISUAL=nano
 EOT
 
-ssh-keygen -t ed25519 -q -f "$HOME/.ssh/ed25519" -N ""
+ssh-keygen -t ed25519 -q -f "$HOME/.ssh/id_ed25519" -N ""
 
 mkdir -p ~/.config/htop
 mkdir -p /opt/letsencrypt/
