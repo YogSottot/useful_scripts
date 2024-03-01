@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/convert-dir-to-utf8.sh
 # https://stackoverflow.com/a/52823709
 # apt-get -y install recode uchardet > /dev/null
 # yum -y install recode uchardet
