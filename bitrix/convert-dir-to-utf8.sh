@@ -4,7 +4,7 @@
 # https://stackoverflow.com/a/52823709
 # apt-get -y install recode uchardet > /dev/null
 # yum -y install recode uchardet
-find "$1" -name '*' -type f -exec grep -Iq . {} \; -print0 |
+find "$1" -name '*.php' -type f -exec grep -Iq . {} \; -print0 |
 while IFS= read -r -d $'\0' LINE_FILE; do
   CHARSET=$(uchardet $LINE_FILE)
   REENCSED=`echo $CHARSET | sed 's#^x-mac-#mac#'`
