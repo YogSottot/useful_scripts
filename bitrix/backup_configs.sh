@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -o pipefail
 
 doc_root=$1
 if [ -z ${doc_root} ]; then
@@ -27,8 +27,15 @@ tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
 tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
 tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
 tar cfp - -C /opt/backup/ restic/ | gzip -c > ${backup_dir}/restic.tgz
+tar cfp - -C /opt/backup/ scripts | gzip -c > ${backup_dir}/backup_scripts.tgz
 tar cfp - -C /etc/ logrotate.d/ | gzip -c > ${backup_dir}/logrotate.d.tgz
 tar cfp - -C /etc/ sysconfig/ | gzip -c > ${backup_dir}/sysconfig.tgz
+tar cfp - -C /home/bitrix/ .ssh/ | gzip -c > ${backup_dir}/bitrix_ssh.tgz
+tar cfp - -C /root/.ssh/config | gzip -c > ${backup_dir}/root_ssh_config.tgz
+tar cfp - -C /etc/ systemd/ | gzip -c > ${backup_dir}/systemd.tgz
+tar cfp - -C /etc/ sudoers.d/ | gzip -c > ${backup_dir}/sudoers.tgz
+tar cfp - -C /etc/ zabbix/ | gzip -c > ${backup_dir}/zabbix.tgz
+
 php -v > ${backup_dir}/php_version.txt
 cd ${doc_root} && cd bitrix/html_pages/ && tar cfpz ${backup_dir}/composite_config.tgz .config.php
 

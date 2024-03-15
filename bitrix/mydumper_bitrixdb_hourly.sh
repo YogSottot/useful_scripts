@@ -88,7 +88,7 @@ function getValueFromINI2() {
         echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/");
 }
 
-sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
+sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/scripts/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
 project=$(getValueFromINI "$sectionContent" "project");
 login=$(getValueFromINI "$sectionContent" "login");
 password=$(getValueFromINI "$sectionContent" "password");

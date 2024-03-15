@@ -59,15 +59,16 @@ function getValueFromINI2() {
         echo $(echo "$sourceData" | sed -n '/^'${paramName}'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/");
 }
 
-sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
+sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/scripts/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
 login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
+cd /opt/backup
 nice -n 19 ionice -c2 -n7 \
 sudo -u postgres pg_dumpall | \
-nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/postgresql_${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/postgresql_${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log 
+nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K "${userkey}" upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
