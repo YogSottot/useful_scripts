@@ -31,7 +31,7 @@ tar cfp - -C /opt/backup/ scripts | gzip -c > ${backup_dir}/backup_scripts.tgz
 tar cfp - -C /etc/ logrotate.d/ | gzip -c > ${backup_dir}/logrotate.d.tgz
 tar cfp - -C /etc/ sysconfig/ | gzip -c > ${backup_dir}/sysconfig.tgz
 tar cfp - -C /home/bitrix/ .ssh/ | gzip -c > ${backup_dir}/bitrix_ssh.tgz
-tar cfp - -C /root/.ssh/config | gzip -c > ${backup_dir}/root_ssh_config.tgz
+tar cfp - -C /root/.ssh/ config | gzip -c > ${backup_dir}/root_ssh_config.tgz
 tar cfp - -C /etc/ systemd/ | gzip -c > ${backup_dir}/systemd.tgz
 tar cfp - -C /etc/ sudoers.d/ | gzip -c > ${backup_dir}/sudoers.tgz
 tar cfp - -C /etc/ zabbix/ | gzip -c > ${backup_dir}/zabbix.tgz
