@@ -10,6 +10,7 @@ chmod 700 /opt/backup/
 #wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_hourly.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_daily.sh
+#wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_daily_rclone.sh
 #wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_postgresql_daily.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_mailcow.sh
 #wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh

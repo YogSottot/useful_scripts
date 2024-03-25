@@ -97,7 +97,7 @@ mysqldump -e --add-drop-table --add-locks \
 -h${host} -uroot --default-character-set=${charset} \
 ${database} | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-nice -n 19 ionice -c2 -n7 /usr/local/bin/rclone --config=/opt/backup/rclone.conf --header "X-Delete-After: 604800" --checksum -q sync ${backup_dir} selectel_s3:${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_daily_"${name}" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+nice -n 19 ionice -c2 -n7 /usr/local/bin/rclone --config=/opt/backup/scripts/rclone.conf --checksum -q copy ${backup_dir} selectel_s3:${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_daily_"${name}" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
