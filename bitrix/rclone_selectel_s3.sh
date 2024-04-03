@@ -144,8 +144,8 @@ type = s3
 provider = Other
 access_key_id = 
 secret_access_key = 
-endpoint = https://s3.ru-1.storage.selcloud.ru
-acl = private
+region = ru-1
+endpoint = s3.ru-1.storage.selcloud.ru
 EOT
 
 chmod 600 /opt/backup/rclone.conf

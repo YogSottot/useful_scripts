@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+# curl https://rclone.org/install.sh | bash
+
 doc_root="$1"
 mail="$2"
 name="$3"
