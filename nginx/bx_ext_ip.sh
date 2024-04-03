@@ -12,7 +12,7 @@ server {
     listen 80;
     listen [::]:80 default_server;
     listen 443 ssl http2;
-    listen [::] 443 ssl http2;
+    listen [::]:443 ssl http2;
     
     server_name ${ip};
     
