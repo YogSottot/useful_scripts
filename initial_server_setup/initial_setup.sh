@@ -216,6 +216,8 @@ find /etc/httpd/ -type f -print0 | xargs -0 sed -i 's/LogFormat "%h/LogFormat "%
 
 systemctl reload httpd
 
+bash <(curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/initial_server_setup/yum_cron_secure.sh)
+
 echo "Do you wish to install postfix?"
 select yn in "Yes" "No"; do
     case $yn in
