@@ -27,6 +27,7 @@
 *.txt text eol=lf
 *.php text eol=lf diff=php
 *.inc text eol=lf
+*.py text eol=lf
 
 # Auto-detect text files, ensure they use LF (not recommended).
 #* text=auto eol=lf
