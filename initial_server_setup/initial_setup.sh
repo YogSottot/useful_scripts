@@ -110,7 +110,7 @@ POST_HOOK=""
 #
 # An example to run a script to alert each cert would be:
 # DEPLOY_HOOK="--deploy-hook /usr/local/bin/cert-notifier.sh"
-DEPLOY_HOOK="--deploy-hook 'systemctl reload nginx'"
+DEPLOY_HOOK="--deploy-hook 'systemctl restart nginx'"
 
 # Any other misc arguments for the renewal
 # See certbot -h renew for full list
