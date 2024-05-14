@@ -96,7 +96,7 @@ cd ${doc_root} && \
 nice -n 19 ionice -c2 -n7 \
 mysqldump -e --add-drop-table --add-locks \
 --skip-lock-tables --single-transaction --quick \
--h${host} -uroot --default-character-set=${charset} \
+-h${host} -uroot --default-character-set=${charset} --ignore-table=${database}.b_xml_tree_import_1c \
 ${database} | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
 nice -n 19 ionice -c2 -n7 /usr/local/bin/rclone --config=/opt/backup/scripts/rclone.conf --checksum -q copy ${backup_dir} selectel_s3:${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_daily_"${name}" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
