@@ -44,8 +44,8 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 chmod +x *.sh
 #yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm
 #yum -y install https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-utilities-1.6.5-1.el7.noarch.rpm
-yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3 zstd
-pip3 install python-swiftclient --user
+yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3 python36-netaddr zstd
+pip3 install python-swiftclient python-keystoneclient --user
 
 # reclaim space in non-blocking manner
 # pt-online-schema-change --alter "ENGINE=InnoDB" D=dbname,t=tablename --execute
