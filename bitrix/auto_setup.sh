@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www notify@mail.tld backup_name
 
 mkdir -p /opt/backup/scripts
 cd /opt/backup/scripts
@@ -44,7 +44,7 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 chmod +x *.sh
 #yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm
 #yum -y install https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-utilities-1.6.5-1.el7.noarch.rpm
-yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3
+yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3 zstd
 pip3 install python-swiftclient --user
 
 # reclaim space in non-blocking manner
@@ -56,9 +56,9 @@ pip3 install python-swiftclient --user
 #EOF
 #crontab -l | { cat; echo "30 */3 * * * /opt/backup/scripts/backup_bitrixdb_native.sh $1 > /dev/null 2>&1 || true" ; } | crontab -
 #crontab -l | { cat; echo "#20 */3 * * * /opt/backup/scripts/percona-db-stream.sh $1 $2 > /dev/null 2>&1 || true"; } | crontab -
-crontab -l | { cat; echo "05 0 * * * /opt/backup/scripts/backup_configs.sh $1 > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "05 0 * * * /opt/backup/scripts/backup_configs.sh $1 $3 > /dev/null 2>&1 || true"; } | crontab -
 #crontab -l | { cat; echo "10 1 * * * /opt/backup/scripts/backup_bitrix_files.sh $1 > /dev/null 2>&1 || true"; } | crontab -
-crontab -l | { cat; echo "15 1 * * * /opt/backup/scripts/backup_bitrixdb_daily.sh $1 > /dev/null 2>&1 || true"; } | crontab -
-#crontab -l | { cat; echo "40 */3 * * * /opt/backup/scripts/backup_bitrixdb_hourly.sh $1 > /dev/null 2>&1 || true"; } | crontab -
+crontab -l | { cat; echo "15 1 * * * /opt/backup/scripts/backup_bitrixdb_daily.sh $1 $2 $3 > /dev/null 2>&1 || true"; } | crontab -
+#crontab -l | { cat; echo "40 */3 * * * /opt/backup/scripts/backup_bitrixdb_hourly.sh $1 $2 $3 > /dev/null 2>&1 || true"; } | crontab -
 
 #curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash -s -- $1
