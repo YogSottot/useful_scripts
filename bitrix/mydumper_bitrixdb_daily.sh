@@ -97,21 +97,25 @@ url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 nice -n 19 ionice -c2 -n7 \
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}"   >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 180s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}"   >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 mydumper --version > "${backup_dir}"/mydumper_version
 
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} ${backup_dir}/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
 # output
-if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup MYDUMPER daily for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+#timeout -k 15s 3600s your_command
+
+if [ "${exitcode}" -eq 124 ]; then
+    mailx -s "$(echo -e  "Backup MYDUMPER hourly for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"$
+elif [ "${exitcode}" -ne 0 ]; then
+    mailx -s "$(echo -e  "Backup MYDUMPER hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${$
 else
-    mailx -s "$(echo -e  "Backup MYDUMPER daily for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+    mailx -s "$(echo -e  "Backup MYDUMPER daily for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"$
 fi
 
 rm -rf ${backup_dir}/*

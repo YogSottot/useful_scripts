@@ -1,0 +1,27 @@
+---
+services:                                                                                                                                     
+  ntopng:
+    image: ntop/ntopng:stable
+    container_name: ntopng
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./data:/var/lib/ntopng:rw
+    environment:
+      - TZ=Europe/Moscow
+    command: >
+      --interface ens32
+      --http-prefix="/ntopng"
+      #--disable-autologout
+      #--community
+      #--daemon
+      --data-dir=/var/lib/ntopng
+      #--httpdocs-dir=/usr/share/ntopng/httpdocs
+      #--callbacks-dir=/usr/share/ntopng/scripts
+    ports:
+      - "3000:3000"
+
+volumes:
+  data:

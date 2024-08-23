@@ -74,14 +74,14 @@ function getValueFromINI() {
 	local sourceData="$1"; local paramName="$2";
 	## 1. Get value "platform=%OUR_VALUE%"
 	## 2. Remove illegal characters
-	"$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p' | tr -d "\r" | tr -d "\n")"
+	echo "$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p' | tr -d "\r" | tr -d "\n")"
 }
 
 function getValueFromINI2() {
         local sourceData="$1"; local paramName="$2";
         ## 1. Get value "platform=%OUR_VALUE%"
         ## 2. Remove illegal characters
-        "$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/")"
+        echo "$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/")"
 }
 
 sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/scripts/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
@@ -92,20 +92,24 @@ url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 cd "${doc_root}" && \
-nice -n 19 ionice -c2 -n7 \
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 \
 mysqldump -e --add-drop-table --add-locks \
 --skip-lock-tables --single-transaction --quick \
 -h"${host}" -uroot --default-character-set=${charset} --ignore-table="${database}".b_xml_tree_import_1c \
 "${database}" | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 zstd -c > "${backup_dir}"/"${name}".sql.zst 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 exitcode="$?"
 
 # output
-if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is error\nContent-Type: text/plain; charset=UTF-8")" "${mail}" < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+#timeout -k 15s 3600s your_command
+
+if [ "${exitcode}" -eq 124 ]; then
+    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"$
+elif [ "${exitcode}" -ne 0 ]; then
+    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${$
 else
-    mailx -s "$(echo -e  "Backup bitrixdb daily for ${name} is succesfull\nContent-Type: text/plain; charset=UTF-8")" "${mail}" < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+    mailx -s "$(echo -e  "Backup mysqldump daily for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"$
 fi
 
 rm -rf "${backup_dir:?}"/*
