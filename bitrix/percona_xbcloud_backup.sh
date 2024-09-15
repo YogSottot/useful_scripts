@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eo pipefail
 
 # Configuration
 SWIFT_CONTAINER="your_container"

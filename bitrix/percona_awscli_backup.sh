@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eo pipefail
 
 # apt install awscli percona-xtrabackup
 

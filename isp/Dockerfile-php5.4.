@@ -1,0 +1,85 @@
+FROM centos:7
+
+# Install deps repository
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* && \
+    echo -e '[ispmanager-base]\nname=ispmanager-base\nenabled=1\nmirrorlist=http://mirrors.download.ispmanager.com/repo/centos/base/mirrorlist.txt\ngpgcheck=0' > /etc/yum.repos.d/ispsystem-base.repo && \
+    yum -y install epel-release && \
+    yum -y install httpd php php-bcmath php-cli php-common php-pear \
+    php-fedora-autoloader php-gd php-intl php-kolab-net-ldap3 php-ldap \
+    php-mbstring php-mysql php-pdo php-pear-Auth-SASL php-pear-Mail-Mime \
+    php-pear-Net-IDNA2 php-pear-Net-LDAP2 php-pear-Net-SMTP \
+    php-pear-Net-Sieve php-pear-Net-Socket php-pgsql \
+    php-php-gettext php-process php-pspell php-tcpdf \
+    php-tcpdf-dejavu-sans-fonts php-tidy php-xml php-ioncube-isp && \
+    yum clean all 
+
+# Configure Apache
+RUN sed -i 's/^#ServerName www.example.com:80/ServerName localhost/' /etc/httpd/conf/httpd.conf && \
+    ln -sf /dev/stdout /var/log/httpd/access_log && \
+    ln -sf /dev/stderr /var/log/httpd/error_log && \
+    echo -e 'RemoteIPHeader X-Forwarded-For\nRemoteIPInternalProxy 172.17.0.1' > /etc/httpd/conf.modules.d/11-remoteip.conf && \
+    sed -i 's/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
+
+# Configure php
+RUN echo -e 'zend_extension = /usr/lib64/php/modules/ioncube/ioncube_loader_lin_5.4.so' > /etc/php.d/ioncube-isp.ini && \
+    echo "engine = On" > /etc/php.d/custom.ini && \
+    echo "short_open_tag = On" >> /etc/php.d/custom.ini && \
+    echo "asp_tags = Off" >> /etc/php.d/custom.ini && \
+    echo "precision = 14" >> /etc/php.d/custom.ini && \
+    echo "output_buffering = 4096" >> /etc/php.d/custom.ini && \
+    echo "zlib.output_compression = Off" >> /etc/php.d/custom.ini && \
+    echo "auto_globals_jit = On" >> /etc/php.d/custom.ini && \
+    echo "implicit_flush = Off" >> /etc/php.d/custom.ini && \
+    echo "unserialize_callback_func =" >> /etc/php.d/custom.ini && \
+    echo "serialize_precision = 17" >> /etc/php.d/custom.ini && \
+    echo "disable_functions =" >> /etc/php.d/custom.ini && \
+    echo "disable_classes =" >> /etc/php.d/custom.ini && \
+    echo "zend.enable_gc = On" >> /etc/php.d/custom.ini && \
+    echo "expose_php = On" >> /etc/php.d/custom.ini && \
+    echo "max_execution_time = 300" >> /etc/php.d/custom.ini && \
+    echo "max_input_time = 300" >> /etc/php.d/custom.ini && \
+    echo "memory_limit = 256M" >> /etc/php.d/custom.ini && \
+    echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /etc/php.d/custom.ini && \
+    echo "display_errors = Off" >> /etc/php.d/custom.ini && \
+    echo "display_startup_errors = Off" >> /etc/php.d/custom.ini && \
+    echo "log_errors = On" >> /etc/php.d/custom.ini && \
+    echo "log_errors_max_len = 1024" >> /etc/php.d/custom.ini && \
+    echo "ignore_repeated_errors = Off" >> /etc/php.d/custom.ini && \
+    echo "ignore_repeated_source = Off" >> /etc/php.d/custom.ini && \
+    echo "report_memleaks = On" >> /etc/php.d/custom.ini && \
+    echo "track_errors = Off" >> /etc/php.d/custom.ini && \
+    echo "html_errors = On" >> /etc/php.d/custom.ini && \
+    echo "variables_order = \"GPCS\"" >> /etc/php.d/custom.ini && \
+    echo "request_order = \"GP\"" >> /etc/php.d/custom.ini && \
+    echo "register_argc_argv = Off" >> /etc/php.d/custom.ini && \
+    echo "post_max_size = 1024M" >> /etc/php.d/custom.ini && \
+    echo "auto_prepend_file =" >> /etc/php.d/custom.ini && \
+    echo "auto_append_file =" >> /etc/php.d/custom.ini && \
+    echo "default_mimetype = \"text/html\"" >> /etc/php.d/custom.ini && \
+    echo "default_charset = \"UTF-8\"" >> /etc/php.d/custom.ini && \
+    echo "doc_root =" >> /etc/php.d/custom.ini && \
+    echo "user_dir =" >> /etc/php.d/custom.ini && \
+    echo "enable_dl = Off" >> /etc/php.d/custom.ini && \
+    echo "file_uploads = On" >> /etc/php.d/custom.ini && \
+    echo "upload_max_filesize = 1024M" >> /etc/php.d/custom.ini && \
+    echo "max_file_uploads = 500" >> /etc/php.d/custom.ini && \
+    echo "allow_url_fopen = On" >> /etc/php.d/custom.ini && \
+    echo "allow_url_include = Off" >> /etc/php.d/custom.ini && \
+    echo "default_socket_timeout = 60" >> /etc/php.d/custom.ini && \
+    echo "session.save_path = /tmp" >> /etc/php.d/custom.ini && \
+    echo "upload_tmp_dir = /tmp" >> /etc/php.d/custom.ini && \
+    echo "pdo_mysql.default_socket = /var/run/mysql.sock" >> /etc/php.d/custom.ini && \
+    echo "mysql.default_socket = /var/run/mysql.sock" >> /etc/php.d/custom.ini && \
+    echo "mysqli.default_socket = /var/run/mysql.sock" >> /etc/php.d/custom.ini && \
+    echo "date.timezone = Europe/Moscow" >> /etc/php.d/custom.ini
+    
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache on container run
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
