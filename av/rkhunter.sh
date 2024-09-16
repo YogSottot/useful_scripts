@@ -36,8 +36,6 @@ main() {
 
 main "$@"
 
-
-
 $pkg_manager -y install rkhunter inotify-tools unhide s-nail unzip
 
 # generate db
@@ -52,3 +50,46 @@ echo 'ALLOWHIDDENDIR=/dev/shm/byobu-*/.last.tmux' >> /etc/rkhunter.conf.local
 echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/.last.tmux/*' >> /etc/rkhunter.conf.local
 echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*/*' >> /etc/rkhunter.conf.local
 echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*' >> /etc/rkhunter.conf.local
+
+if [[ "$pkg_manager" == "dnf" ]]; then
+    mkdir -p /etc/dnf/plugins/post-transaction-actions.d/
+    echo -e '*:any:/usr/local/sbin/update_rkhunter_db.sh ${name}' > /etc/dnf/plugins/post-transaction-actions.d/rkhunter.action
+
+    cat <<EOT > /usr/local/sbin/update_rkhunter_db.sh
+#!/bin/bash
+
+# output parameters if wrong number of arguments given
+usage() {
+  echo "CLI parameters:"
+  echo "update_rkhunter_db.sh package_name"
+}
+# Check argument count
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+elif [ $# -gt 1 ]; then
+  usage
+  exit 1
+fi
+
+update_rkhunter_hash() {
+  echo "Updating hash for $1"
+  echo `rkhunter --propupd $1`
+}
+
+process_packages() {
+  packagefiles=$(dnf repoquery -l $1 2>/dev/null | sort | uniq)
+  for file in $packagefiles
+  do
+    if grep -q $file /var/lib/rkhunter/db/rkhunter.dat; then
+      update_rkhunter_hash $file
+    fi
+  done
+}
+
+process_packages $1
+EOT
+
+chmod +x /usr/local/sbin/update_rkhunter_db.sh
+
+fi
