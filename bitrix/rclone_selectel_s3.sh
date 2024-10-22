@@ -138,7 +138,7 @@ version=`rclone --version 2>>errors | head -n 1`
 
 printf "\n${version} has successfully installed."
 
-cat <<EOT >> /opt/backup/rclone.conf
+cat <<EOT >> /opt/backup/scripts/rclone.conf
 [selectel_s3]
 type = s3
 provider = Other
@@ -148,7 +148,7 @@ region = ru-1
 endpoint = s3.ru-1.storage.selcloud.ru
 EOT
 
-chmod 600 /opt/backup/rclone.conf
+chmod 600 /opt/backup/scripts/rclone.conf
 
 
 
