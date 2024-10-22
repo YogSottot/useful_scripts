@@ -7,7 +7,7 @@ set -e
 # 3 - installed version of rclone is up to date
 # 4 - supported unzip tools are not available
 
-# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone.sh | bash -s -- /home/bitrix/www
+# use curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/rclone_selectel_s3 | bash -s -- /home/bitrix/www
 set -e
 
 #when adding a tool to the list make sure to also add it's corresponding command further in the script
