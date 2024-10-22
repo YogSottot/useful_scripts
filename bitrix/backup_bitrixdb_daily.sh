@@ -101,6 +101,9 @@ nice -n 19 ionice -c2 -n7 zstd -c > "${backup_dir}"/"${name}".sql.zst 2>/tmp/"${
 timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-region-name ru-1 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 exitcode="$?"
 
+# альтернативный вариант
+# swift --os-auth-url https://cloud.api.selcloud.ru/identity/v3 --auth-version 3 --os-tenant-name <название_проекта> --os-username <имя_пользователя> --os-password <пароль пользователя> --os-user-domain-name <номер_аккаунта> --os-project-domain-name <номер_аккаунта> --os-region-name ru-1 list
+
 # output
 #timeout -k 15s 3600s your_command
 
