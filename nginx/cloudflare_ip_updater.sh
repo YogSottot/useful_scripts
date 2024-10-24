@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -eo pipefail
 
 
 CLOUDFLARE_IP_RANGES_FILE_PATH="/etc/nginx/bx/maps/cloudflare.conf"
-WWW_GROUP="bitrix"
-WWW_USER="bitrix"
+WWW_GROUP="root"
+WWW_USER="root"
 
 
 CLOUDFLARE_IPSV4_REMOTE_FILE="https://www.cloudflare.com/ips-v4"
