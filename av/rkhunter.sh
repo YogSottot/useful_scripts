@@ -44,12 +44,18 @@ rkhunter --propupd
 
 
 find /etc/sysconfig/rkhunter -type f -print0 | xargs -0 sed -i 's/MAILTO\=root\@localhost/MAILTO\='${mail}'/g'
-echo 'ALLOWHIDDENDIR=/etc/.hg' >> /etc/rkhunter.conf.local
-echo 'ALLOWHIDDENFILE=/etc/.hgignore' >> /etc/rkhunter.conf.local
-echo 'ALLOWHIDDENDIR=/dev/shm/byobu-*/.last.tmux' >> /etc/rkhunter.conf.local
-echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/.last.tmux/*' >> /etc/rkhunter.conf.local
-echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*/*' >> /etc/rkhunter.conf.local
-echo 'ALLOWDEVFILE=/dev/shm/byobu-*-????????/*' >> /etc/rkhunter.conf.local
+
+cat <<EOT > /etc/rkhunter.conf.local
+ALLOWHIDDENDIR=/etc/.hg
+ALLOWHIDDENFILE=/etc/.hgignore
+ALLOWHIDDENDIR=/dev/shm/byobu-*/.last.tmux
+ALLOWDEVFILE=/dev/shm/byobu-*-????????/.last.tmux/*
+ALLOWDEVFILE=/dev/shm/byobu-*-????????/*/*
+ALLOWDEVFILE=/dev/shm/byobu-*-????????/*
+ALLOWDEVFILE=/dev/shm/sem.mp-????????
+ALLOWDEVFILE=/dev/shm/PostgreSQL.??????????
+ALLOWDEVFILE=/dev/shm/PostgreSQL.*
+EOT
 
 if [[ "$pkg_manager" == "dnf" ]]; then
     mkdir -p /etc/dnf/plugins/post-transaction-actions.d/
