@@ -28,7 +28,9 @@ chmod +x  /opt/iav/*.sh
 sed -i "s/your_mail/${mail}/g" /opt/iav/iav_hook.sh
 
 
-wget https://repo.imunify360.cloudlinux.com/defence360/imav-deploy.sh
+#wget https://repo.imunify360.cloudlinux.com/defence360/imav-deploy.sh
+wget http://imun.0fr.ru/defence360/imav-deploy.sh
+sed -i 's|https://repo.imunify360.cloudlinux.com|http://imun.0fr.ru|g' imav-deploy.sh
 bash imav-deploy.sh
 rm -f imav-deploy.sh
 
