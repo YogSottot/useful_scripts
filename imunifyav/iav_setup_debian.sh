@@ -162,7 +162,7 @@ systemctl restart imunify-notifier.service
 
 # imunify-antivirus submit false-positive --reason REASON <file>
 # imunify-antivirus submit false-negative <file>
-# /opt/alt/php-internal/usr/bin/php -c /opt/alt/php-internal/etc/php.d.all/posix.ini /opt/ai-bolit/ai-bolit.php --smart --deobfuscate --avdb /var/imunify360/files/sigs/v1/aibolit/ai-bolit-hoster-full.db --memory=1024M --hs /var/imunify360/files/sigs/v1/aibolit/hyperscan --ignore-quarantine  --use-template-in-path --with-suspicious --size=0 --mode=2  --path=/var/www/ --report=/var/www/bitrix/default/bitrix/backup/report_`date +%Y-%m-%d-%H:%M:%S`.html
+# /opt/alt/php-internal/usr/bin/php -c /opt/alt/php-internal/etc/php.d.all/posix.ini /opt/ai-bolit/ai-bolit.php --smart --deobfuscate --avdb /var/imunify360/files/sigs/v1/aibolit/ai-bolit-hoster-full.db --memory=1024M --hs /var/imunify360/files/sigs/v1/aibolit/hyperscan --scan=php,htaccess,js --with-suspicious --ignore-quarantine  --use-template-in-path --with-suspicious --size=0 --mode=2  --path=/var/www/ --report=/var/www/bitrix/default/bitrix/backup/report_`date +%Y-%m-%d-%H:%M:%S`.html 
 
 # https://cloudlinux.zendesk.com/hc/en-us/articles/360014490279--Imunify-agent-is-not-running-troubleshooting
 # https://firstvds.ru/technology/site-viruses-removal-checklist
