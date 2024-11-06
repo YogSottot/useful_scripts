@@ -8,7 +8,29 @@ chmod 700 /opt/backup/
 cd /opt/backup/restic/
 
 # for mounting
-yum install bzip2 fuse mailx jq -y
+get_pkg_manager() {
+    local os_info; os_info=$(grep "^ID=" /etc/os-release | cut -d= -f2 | tr -d '"')
+
+    if [[ "$os_info" == "debian" || "$os_info" == "ubuntu" ]]; then
+        pkg_manager="apt"
+    elif [[ "$os_info" == "rhel" || "$os_info" == "almalinux" || "$os_info" == "rocky" || "$os_info" == "centos" || "$os_info" == "oracle" ]]; then
+        pkg_manager="dnf"
+    else
+        printf "OS not supported!\n" >&2
+        return 1
+    fi
+}
+
+main() {
+    if ! get_pkg_manager; then
+        exit 1
+    fi
+    printf "Package manager: %s\n" "$pkg_manager"
+}
+
+main "$@"
+
+$pkg_manager -y install bzip2 fuse s-nail jq
 
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-wrapper.sh -N -P /opt/backup/restic/
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/restic-restore.sh -N -P /opt/backup/restic/

@@ -31,12 +31,25 @@ rm -rf ${target_dir}/bitrix/managed_cache/*
 rm -rf ${target_dir}/bitrix/cache/*
 rm -rf ${target_dir}/bitrix/stack_cache/*
 
+# Comparisons:
+#  -eq   equal to
+#  -ne   not equal to
+#  -lt   less than
+#  -le   less than or equal to
+#  -gt   greater than
+#  -ge   greater than or equal to
+
+# help test
+# "if -f" operator returns true if file exists and is not a directory
 # "if -e” statement, produces a “true” output if any specified file exists
 # “if -s” operator returns true if a file exists and also if it is not empty
 # "if -d” operator returns true if your file is a directory
 # “if -h” operator returns true if your file is a symbolic link
+# "if -w" operator will be true if the current user can write the file
 # “if -r” operator will be true if the current user can read the file
 # “if -O” operator will be true if the current user owns the file
+# “if -x” operator will be true if the file is executable
+
 if [ -s /etc/sysconfig/memcached ]; then
     printf "Restart memcached\n"
     systemctl restart memcached
