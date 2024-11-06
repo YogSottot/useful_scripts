@@ -33,5 +33,5 @@ login=$(getValueFromINI "$sectionContent" "login");
 userkey=$(getValueFromINI "$sectionContent" "password");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
-nice -n 19 ionice -c2 -n7 /usr/bin/php -f /opt/backup/backup-db.php ${doc_root} && nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 259200" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && echo OK && exit
+nice -n 19 ionice -c2 -n7 /usr/bin/php -f /opt/backup/backup-db.php ${doc_root} && nice -n 19 ionice -c2 -n7 /usr/bin/swift -q -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 259200" --object-name `date +%Y-%m-%d-%H:%M`_DB_Only/ ${storage_dir} ${backup_dir}/ ; rm -rf ${backup_dir}/* && echo OK && exit
 echo Error

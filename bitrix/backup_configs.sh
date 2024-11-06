@@ -23,14 +23,18 @@ fi
 
 tar cfp - -C /etc/ nginx/ | gzip -c > ${backup_dir}/nginx.tgz
 tar cfp - -C /etc/ httpd/ | gzip -c > ${backup_dir}/httpd.tgz
+tar cfp - -C /etc/ apache2/ | gzip -c > ${backup_dir}/httpd.tgz
 tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
+tar cfp - -C /etc/ php/ | gzip -c > ${backup_dir}/php.tgz
 tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz
 tar cfp - -C /var/spool/ cron/ | gzip -c > ${backup_dir}/cron.tgz
 tar cfp - -C /opt/backup/ restic/ | gzip -c > ${backup_dir}/restic.tgz
 tar cfp - -C /opt/backup/ scripts | gzip -c > ${backup_dir}/backup_scripts.tgz
 tar cfp - -C /etc/ logrotate.d/ | gzip -c > ${backup_dir}/logrotate.d.tgz
 tar cfp - -C /etc/ sysconfig/ | gzip -c > ${backup_dir}/sysconfig.tgz
+tar cfp - -C /etc/ default/ | gzip -c > ${backup_dir}/default.tgz
 tar cfp - -C /home/bitrix/ .ssh/ | gzip -c > ${backup_dir}/bitrix_ssh.tgz
+tar cfp - -C /var/www/bitrix/ .ssh/ | gzip -c > ${backup_dir}/bitrix_ssh.tgz
 tar cfp - -C /root/.ssh/ config | gzip -c > ${backup_dir}/root_ssh_config.tgz
 tar cfp - -C /etc/ systemd/ | gzip -c > ${backup_dir}/systemd.tgz
 tar cfp - -C /etc/ sudoers.d/ | gzip -c > ${backup_dir}/sudoers.tgz

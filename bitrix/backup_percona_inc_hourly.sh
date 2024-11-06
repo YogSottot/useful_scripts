@@ -76,7 +76,7 @@ storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 nice -n 19 ionice -c2 -n7 \
 xtrabackup --backup --lock-ddl --compress --target-dir=${backup_dir}/${name} --incremental-basedir=${incremental_basedir}  > /tmp/"${SCRIPT_NAME}"_log 2>&1
 
-# nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_percona_daily_"${name}"/ ${storage_dir} ${backup_dir}/${name}/ > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+# nice -n 19 ionice -c2 -n7 /usr/bin/swift -v -A https://auth.selcdn.ru -U ${login} -K ${userkey} upload -H "X-Delete-After: 604800" --object-name `date +%Y-%m-%d-%H:%M`_DB_percona_daily_"${name}"/ ${storage_dir} ${backup_dir}/${name}/ > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
