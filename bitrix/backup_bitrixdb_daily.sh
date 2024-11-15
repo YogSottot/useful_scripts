@@ -108,11 +108,11 @@ exitcode="$?"
 #timeout -k 15s 3600s your_command
 
 if [ "${exitcode}" -eq 124 ]; then
-    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"$
+    mailx -s "$(echo -e  "Backup mysqldump daily for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 elif [ "${exitcode}" -ne 0 ]; then
-    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${$
+    mailx -s "$(echo -e  "Backup mysqldump daily for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 else
-    mailx -s "$(echo -e  "Backup mysqldump daily for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"$
+    mailx -s "$(echo -e  "Backup mysqldump daily for ${name} is Succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
 fi
 
 rm -rf "${backup_dir:?}"/*
