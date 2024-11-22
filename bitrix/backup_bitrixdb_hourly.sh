@@ -37,6 +37,20 @@ else
 	charset=utf8
 fi
 
+find_swift() {
+    local swift_bin
+    if [[ -x /root/.local/bin/swift ]]; then
+        swift_bin="/root/.local/bin/swift"
+    elif [[ -x /usr/bin/swift ]]; then
+        swift_bin="/usr/bin/swift"
+    else
+        printf "ERROR: 'swift' binary not found in /root/.local/bin or /usr/bin.\n" >&2
+        return 1
+    fi
+    printf "%s\n" "$swift_bin"
+}
+find_swift
+
 SCRIPTNAME=$(basename "$0")
 LOCKDIR="/var/lock/bitrixdb_${database}"
 PIDFILE="${LOCKDIR}/pid"
@@ -98,7 +112,7 @@ mysqldump -e --add-drop-table --add-locks \
 -h"${host}" -uroot --default-character-set=${charset} --ignore-table="${database}".b_xml_tree_import_1c \
 "${database}" | pv -L 10m  | \
 nice -n 19 ionice -c2 -n7 zstd -c > "${backup_dir}"/"${name}".sql.zst 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 /usr/bin/swift -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_bin}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 604800" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 exitcode="$?"
 
 # output
