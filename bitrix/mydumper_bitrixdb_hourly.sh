@@ -52,7 +52,9 @@ find_swift() {
     fi
     printf "%s\n" "$swift_bin"
 }
-find_swift
+if ! swift_path=$(find_swift); then
+    exit 1
+fi
 
 SCRIPTNAME=$(basename $0)
 LOCKDIR="/var/lock/bitrixdb_${database}"
@@ -122,7 +124,7 @@ mydumper --version > "${backup_dir}"/mydumper_version
 tar -C /opt/backup -cvf /opt/backup/"${name}_${database}.tar" "backup_${name}"
 rm -rf "${backup_dir}"
 
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_bin}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} /opt/backup/"${name}_${database}.tar" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} /opt/backup/"${name}_${database}.tar" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
