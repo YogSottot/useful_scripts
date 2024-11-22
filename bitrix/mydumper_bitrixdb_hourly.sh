@@ -112,7 +112,7 @@ url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 nice -n 19 ionice -c2 -n7 \
-timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress ZSTD --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 #nice -n 19 ionice -c2 -n7 \
 #timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c|${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
@@ -121,10 +121,11 @@ timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" -
 
 mydumper --version > "${backup_dir}"/mydumper_version
 
-tar -C /opt/backup -cvf /opt/backup/"${name}_${database}.tar" "backup_${name}"
-rm -rf "${backup_dir}"
 
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} /opt/backup/"${name}_${database}.tar" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+tar -C /opt/backup -cvf ${backup_dir}/"${name}_${database}.tar" "backup_${name}"
+rm -rf "${backup_dir}"/*.sql.zst
+
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
@@ -139,6 +140,6 @@ else
     echo "Command completed successfully"
 fi
 
-rm -rf ${backup_dir}/*
-rm -rf /opt/backup/"${name}_${database}.tar"
+rm -rf ${backup_dir}
+#rm -rf /opt/backup/"${name}_${database}".tar
 exit 0
