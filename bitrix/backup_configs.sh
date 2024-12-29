@@ -7,12 +7,21 @@ if [ -z ${doc_root} ]; then
 	exit
 fi
 
-name="$2"
+name="$3"
 
 if [ -z ${name} ]; then
 	name=`/bin/hostname`
 fi
 
+HC_UUID="$2"
+HC_BASE_URL="https://healthcheck.io/ping"
+HC_URL=$HC_BASE_URL/$HC_UUID
+
+# Generate Run IDs
+RID=$(uuidgen)
+
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
 
 #backup_dir=${doc_root}/bitrix/backup
 backup_dir=/opt/backup/backup_"${name}"
@@ -50,3 +59,8 @@ rm -f *.tgz
 # for site links
 # /usr/bin/tar cfp - -C /home/bitrix/ext_www/ dev.domain.tld/ | gzip -c > ${backup_dir}/dev.domain.tld_`date +%Y.%m.%d-%H.%M`.tgz 
 # tar cfp - --exclude=www/bitrix/tmp/* --exclude=www/bitrix/updates/* --exclude=www/bitrix/backup/* --exclude=www/bitrix/*cache/* --exclude=www/bitrix/html_pages/*  -C /home/bitrix/ www/ | gzip -c > ${backup_dir}/${name}_files_`date +%Y.%m.%d-%H.%M`.tar.gz
+
+exitcode="$?"
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 "${HC_URL}/${exitcode}?rid=$RID"
+
