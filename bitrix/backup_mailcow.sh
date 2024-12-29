@@ -5,7 +5,17 @@ set -eo pipefail
 # https://docs.mailcow.email/backup_restore/b_n_r-backup/
 
 mail="$1"
-name="$2"
+name="$3"
+
+HC_UUID="$2"
+HC_BASE_URL="https://hc.s-webs.ru/ping"
+HC_URL=$HC_BASE_URL/$HC_UUID
+
+# Generate Run IDs
+RID=$(uuidgen)
+
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
 
 if [ -z ${name} ]; then
 	name=`/bin/hostname`
@@ -52,6 +62,9 @@ storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 nice -n 19 ionice -c2 -n7 /root/.local/bin/swift -v --os-auth-url "${url}" --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 864000" --object-name `date +%Y-%m-%d-%H:%M`_daily_"${name}"/ ${storage_dir} ${MAILCOW_BACKUP_LOCATION}/ > /tmp/"${SCRIPT_NAME}"_"${name}"_log 2>&1
 
 exitcode="$?"
+
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${name}"_log "${HC_URL}/${exitcode}?rid=$RID"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
