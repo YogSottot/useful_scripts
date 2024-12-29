@@ -5,7 +5,17 @@ set -eo pipefail
 
 doc_root="$1"
 mail="$2"
-name="$3"
+name="$4"
+
+HC_UUID="$3"
+HC_BASE_URL="https://healthchecks.io/ping"
+HC_URL=$HC_BASE_URL/$HC_UUID
+
+# Generate Run IDs
+RID=$(uuidgen)
+
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
 
 cpu=`nproc --ignore=1`
 
@@ -128,6 +138,9 @@ rm -rf "${backup_dir}"/*.sql.zst
 timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_hourly_"${name}"/ ${storage_dir} "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
+
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID"
 
 # output
 #timeout -k 15s 3600s your_command

@@ -43,19 +43,29 @@ elif [[ ! -e "$rc_dir/$rc_file.rc" ]] ; then
 fi
 
 # source rc files
+HC_UUID="$3"
+# Generate Run IDs
+RID=$(uuidgen)
+
 source "$rc_dir/$rc_file.rc"
 #export RESTIC_REPOSITORY=$var_inside_your_rc_file
 #export RESTIC_PASSWORD=$var_inside_your_rc_file
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+
 cd ${BACKUP_ROOT}
 
-/usr/local/bin/restic "${@:3}" > /tmp/restic_log_${rc_file}_${@:3:1} 2>&1
+/usr/local/bin/restic "${@:4}" > /tmp/restic_log_${rc_file}_${@:4:1} 2>&1
 exitcode="$?"
+
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/restic_log_${rc_file}_${@:4:1} "${HC_URL}/${exitcode}?rid=$RID"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:4:1}" on ${hostname} repo ${rc_file} is error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:4:1}
 else
-    mailx -s "$(echo -e  "Restic "${@:3:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:3:1}
+    mailx -s "$(echo -e  "Restic "${@:4:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:4:1}
 fi
 
 /usr/local/bin/restic cache --cleanup

@@ -2,9 +2,10 @@
 set -eo pipefail
 
 doc_root="$1"
+dev_domain="$2"
 
-if [ -z ${doc_root} ]; then
-	echo Usage: $0 /path/to/document/root
+if [ -z ${doc_root} ] || [ -z ${dev_domain} ]; then
+	echo Usage: $0 /path/to/document/root dev_domain.tld
 	exit 1
 fi
 
@@ -40,9 +41,9 @@ mysql --execute="UPDATE ${database}.b_group SET SECURITY_POLICY='a:12:{s:15:"SES
 
 #if [ ${doc_root} == /home/bitrix/ext_www/dev.example.tld ]; then
     # change domain in main module
-    mysql --execute="update ${database}.b_option set VALUE='dev.example.tld' where MODULE_ID='main' and NAME='server_name';"
+    mysql --execute="update ${database}.b_option set VALUE='${dev_domain}' where MODULE_ID='main' and NAME='server_name';"
     # URL сервера (без http://): для сайта s1
-    mysql --execute="update ${database}.b_lang set SERVER_NAME='dev.example.tld' where LID='s1';"
+    mysql --execute="update ${database}.b_lang set SERVER_NAME='${dev_domain}' where LID='s1';"
 
     # Доменное имя: (список доменных имен, каждое в новой строке) для сайта s1 / s2 / s3
     # mysql --execute="INSERT INTO ${database}.b_lang_domain (LID, domain) VALUES ('s1','dev.example.tld'),('s1','dev2.example.tld'),('s2','dev3.example.tld'),('s2','dev4.example.tld'),('s3','dev5.example.tld'),('s3','dev2.example.org');"

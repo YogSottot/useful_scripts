@@ -7,6 +7,8 @@ export RESTIC_PASSWORD=""
 export RESTIC_REPOSITORY="s3:https://s3.ru-1.storage.selcloud.ru:/container_name/www"
 export BACKUP_ROOT="/home/bitrix/"
 
+export HC_BASE_URL="https://healthchecks.io/ping"
+export HC_URL=$HC_BASE_URL/$HC_UUID
 
 # if use msmtp
 #export sendmail="/usr/bin/msmtp"

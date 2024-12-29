@@ -5,7 +5,17 @@ set -eo pipefail
 
 doc_root="$1"
 mail="$2"
-name="$3"
+name="$4"
+
+HC_UUID="$3"
+HC_BASE_URL="https://healthchecks.io/ping"
+HC_URL=$HC_BASE_URL/$HC_UUID
+
+# Generate Run IDs
+RID=$(uuidgen)
+
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -102,6 +112,9 @@ nice -n 19 ionice -c2 -n7 gzip > ${backup_dir}/${name}.sql.gz 2>/tmp/"${SCRIPT_N
 nice -n 19 ionice -c2 -n7 /usr/local/bin/rclone --verbose --config=/opt/backup/scripts/rclone.conf --checksum copy ${backup_dir} selectel_s3:${storage_dir}/`date +%Y-%m-%d-%H:%M`_DB_daily_"${name}" >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
+
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then

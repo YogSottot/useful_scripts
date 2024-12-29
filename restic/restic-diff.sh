@@ -43,15 +43,25 @@ elif [[ ! -e "$rc_dir/$rc_file.rc" ]] ; then
 fi
 
 # source rc files
+HC_UUID="$3"
+# Generate Run IDs
+RID=$(uuidgen)
+
 source "$rc_dir/$rc_file.rc"
 #export RESTIC_REPOSITORY=$var_inside_your_rc_file
 #export RESTIC_PASSWORD=$var_inside_your_rc_file
+# On start script
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+
 cd ${BACKUP_ROOT}
 diff_id=$(echo `/usr/local/bin/restic snapshots --json | /usr/bin/jq -r '.[-2:][].id'`)
 
 
 /usr/local/bin/restic diff ${diff_id} > /tmp/restic_log_diff_${rc_file} 2>&1
 exitcode="$?"
+
+# On end script with exit code and run ID
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/restic_log_diff_${rc_file} "${HC_URL}/${exitcode}?rid=$RID"
 
 # output
 if [ "${exitcode}" -ne "0" ]; then

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -eo pipefail
-# https://github.com/mydumper/mydumper/releases
-# yum install libzstd -y
+# https://github.com/mydumper/mydumper_repo
 
 source_ssh_host="$1"
 source_dir="$2"
 target_dir="$3"
+dev_domain="$4"
 
 printf "Check bx versions\n"
 /opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
@@ -24,7 +24,7 @@ printf "Delete dump db from target\n"
 rm -rf /opt/backup/mydumper
 
 printf "Start update db settings\n"
-/opt/backup/update_db.sh ${target_dir}
+/opt/backup/update_db.sh ${target_dir} ${dev_domain}
 
 printf "Remove cache dirs\n"
 rm -rf ${target_dir}/bitrix/managed_cache/*
@@ -50,7 +50,7 @@ rm -rf ${target_dir}/bitrix/stack_cache/*
 # “if -O” operator will be true if the current user owns the file
 # “if -x” operator will be true if the file is executable
 
-if [ -s /etc/sysconfig/memcached ]; then
+if [ -s /etc/sysconfig/memcached ] || [ -s /etc/default/memcached ]; then
     printf "Restart memcached\n"
     systemctl restart memcached
 fi
