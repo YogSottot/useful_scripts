@@ -39,9 +39,9 @@ wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/ww
 wget https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/www.txt -N -P /opt/backup/restic/exclude/
 chmod +x *.sh
 
-wget https://github.com/restic/restic/releases/download/v0.13.1/restic_0.13.1_linux_amd64.bz2
-bunzip2 restic_0.13.1_linux_amd64.bz2
-mv restic_0.13.1_linux_amd64 /usr/local/bin/restic
+wget https://github.com/restic/restic/releases/download/v0.17.3/restic_0.17.3_linux_amd64.bz2
+bunzip2 restic_0.17.3_linux_amd64.bz2
+mv restic_0.17.3_linux_amd64 /usr/local/bin/restic
 chmod +x /usr/local/bin/restic
 /usr/local/bin/restic self-update
 
