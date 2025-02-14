@@ -1,0 +1,22 @@
+[Unit]
+Description=Hypercorn systemd service.
+After=network.target
+
+[Service]
+Type=simple
+#ExecStartPre=/usr/bin/rm -rf /home/bitrix/www/hypercorn.sock
+ExecStart=/home/bitrix/.local/bin/poetry run hypercorn  --reload app.main:app
+User=bitrix
+Group=bitrix
+WorkingDirectory=/home/bitrix/www/
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+#TimeoutStopSec=5
+RestartSec=5
+Restart=always
+LimitNPROC=65535
+LimitNOFILE=1000000
+LimitSTACK=infinity
+
+[Install]
+WantedBy=multi-user.target

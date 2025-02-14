@@ -1,0 +1,13 @@
+[Unit]
+Description=Uwsgi Monitor service.
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /var/www/bitrix/default/system_configs/systemd/uwsgi_monitor.sh
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
