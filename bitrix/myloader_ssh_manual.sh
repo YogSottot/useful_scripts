@@ -7,6 +7,7 @@ source_dir="$2"
 target_dir="$3"
 dev_domain="$4"
 admins_file="/opt/backup/devadmins.txt"
+domain_list="/opt/backup/domain_list.txt"
 
 printf "Check bx versions\n"
 /opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
@@ -25,7 +26,8 @@ printf "Delete dump db from target\n"
 rm -rf /opt/backup/mydumper
 
 printf "Start update db settings\n"
-/opt/backup/update_db.sh ${target_dir} ${dev_domain}
+# /opt/backup/update_db.sh ${target_dir} ${dev_domain}
+php /opt/backup/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
 
 printf "Add developers accounts"
 php /opt/backup/devadmins.php ${target_dir} ${admins_file}
