@@ -6,7 +6,7 @@ After=syslog.target
 WorkingDirectory=/var/www/bitrix/default
 User=bitrix
 Group=bitrix
-ExecStart=/var/www/bitrix/default/djneira-venv/bin/uwsgi --ini /var/www/bitrix/default/system_configs/uwsgi/neiro.ini
+ExecStart=/var/www/bitrix/default/venv/bin/uwsgi --ini /var/www/bitrix/default/system_configs/uwsgi/uwsgi.ini
 # Requires systemd version 211 or newer
 #RuntimeDirectory=uwsgi
 Restart=always

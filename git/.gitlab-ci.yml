@@ -29,6 +29,13 @@ prod:
     - git commit -am "Autocommit of the local changes from master" || true
     - git pull --strategy=recursive -X theirs origin master
     - git push origin master || true
+    # detect if uncommited or untracked file present
+    - >
+      if [[ -n "$(git status --porcelain)" ]]; then
+        echo "Error: Uncommitted changes detected!";
+        git status;
+        exit 1;
+      fi
     # This dir should exist in dev branch, but not in master
     - rm -rf local/demo/
     - git ls-files -z local/demo/ | xargs -0 git update-index --skip-worktree
