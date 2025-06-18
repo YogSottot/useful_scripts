@@ -55,7 +55,11 @@ $connection->queryExecute("DELETE FROM {$tableName}");
 $rsLang = CLang::GetList($by = "sort", $order = "asc");
 while ($lang = $rsLang->Fetch()) {
     if (!empty($lang["DOC_ROOT"])) {
-        CLang::Update($lang["LID"], array("DOC_ROOT" => null));
+        $langObj = new CLang;
+        if (!$langObj->Update($lang["LID"], ["DOC_ROOT" => false])) {
+            global $APPLICATION;
+            echo "Error updating language {$lang['LID']}: " . $APPLICATION->GetException()->GetString() . "\n";
+        }
     }
 }
 
@@ -72,10 +76,12 @@ if (!$group->Update(1, $arPolicy)) {
 COption::SetOptionString("main", "server_name", $devDomain);
 
 // Update the SERVER_NAME for site "s1" using CSite::Update instead of CLang::Update
-$site = new CSite();
-if (!$site->Update("s1", array("SERVER_NAME" => $devDomain))) {
-    echo "Error updating site 's1': " . $site->LAST_ERROR . "\n";
+$siteObj = new CSite;
+if (!$siteObj->Update("s1", array("SERVER_NAME" => $devDomain))) {
+    global $APPLICATION;
+    echo "Error updating site 's1': " . $APPLICATION->GetException()->GetString() . "\n";
 }
+
 
 /*
  *  --- Process domains from file ---

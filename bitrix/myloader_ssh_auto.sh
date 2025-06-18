@@ -4,9 +4,10 @@ set -eo pipefail
 source_ssh_host="$1"
 source_dir="$2"
 target_dir="$3"
-mail="$4"
+dev_domain="$4"
+mail="$5"
 
-HC_UUID="$5"
+HC_UUID="$6"
 HC_BASE_URL="https://healthchecks.io/ping"
 HC_URL=$HC_BASE_URL/$HC_UUID
 
@@ -18,7 +19,7 @@ curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
 
 SCRIPTNAME=$(basename $0)
 
-/opt/backup/myloader_ssh_manual.sh ${source_ssh_host} ${source_dir} ${target_dir} > /tmp/"${SCRIPT_NAME}"_"${source_ssh_host}"_log 2>&1
+/opt/backup/myloader_ssh_manual.sh ${source_ssh_host} ${source_dir} ${target_dir} ${dev_domain} > /tmp/"${SCRIPT_NAME}"_"${source_ssh_host}"_log 2>&1
 
 exitcode="$?"
 

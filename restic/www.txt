@@ -18,7 +18,6 @@ www/*sitemap*.xml
 *.log
 *.gz
 *.tar
-*.sql
 *.zip
 *.bak
 *.tmp
