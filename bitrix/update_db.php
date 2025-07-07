@@ -11,6 +11,8 @@ define("NO_KEEP_STATISTIC", true);
 define("NOT_CHECK_PERMISSIONS", true);
 define("BX_CRONTAB_SUPPORT", true);
 define("CLI_MODE", true);
+define("NO_AGENT_CHECK", true);
+define("STOP_STATISTICS", true);
 
 // Set DOCUMENT_ROOT if not set
 if (!isset($_SERVER["DOCUMENT_ROOT"]) || empty($_SERVER["DOCUMENT_ROOT"])) {
@@ -107,6 +109,29 @@ if (file_exists($domainListFN)) {
     }
 } else {
     echo "Domain list file not found: $domainListFN\n";
+}
+
+// --- Disable CDN if enabled ---
+$rs = $DB->Query('SELECT * FROM b_bitrixcloud_option WHERE NAME="cdn_config_active" AND PARAM_VALUE=1');
+if ($rs && $rs->Fetch()) {
+    $rs2 = $DB->Query('SELECT * FROM b_bitrixcloud_option WHERE NAME="cdn_config_domain"');
+    if (($row = $rs2->Fetch()) && $row['PARAM_VALUE'] !== $_SERVER['HTTP_HOST']) {
+        $DB->Query('UPDATE b_bitrixcloud_option SET PARAM_VALUE=0 WHERE NAME="cdn_config_active"');
+        $DB->Query('UPDATE b_bitrixcloud_option SET PARAM_VALUE=' . (time() + 86400 * 3650) . ' WHERE NAME="cdn_config_expire_time"');
+        echo "<li>CDN отключен</li>\n";
+    }
+}
+
+// --- Disable host restriction (security module) ---
+$rs = $DB->Query('SELECT * FROM b_module_to_module WHERE FROM_MODULE_ID="main" AND MESSAGE_ID="OnPageStart" AND TO_CLASS="Bitrix\\\\Security\\\\HostRestriction"');
+if ($f = $rs->Fetch()) {
+    $rs2 = $DB->Query('SELECT * FROM b_option WHERE MODULE_ID="security" AND NAME="restriction_hosts_hosts"');
+    if ($f2 = $rs2->Fetch()) {
+        if (mb_strpos($f2['VALUE'], $_SERVER['HTTP_HOST']) === false) {
+            $DB->Query('DELETE FROM b_module_to_module WHERE ID=' . intval($f['ID']));
+            echo "<li>Ограничение по хосту отключено</li>\n";
+        }
+    }
 }
 
 /*
