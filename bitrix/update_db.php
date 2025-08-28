@@ -77,11 +77,29 @@ if (!$group->Update(1, $arPolicy)) {
 // Update the main module's server name (without protocol)
 COption::SetOptionString("main", "server_name", $devDomain);
 
-// Update the SERVER_NAME for site "s1" using CSite::Update instead of CLang::Update
-$siteObj = new CSite;
-if (!$siteObj->Update("s1", array("SERVER_NAME" => $devDomain))) {
-    global $APPLICATION;
-    echo "Error updating site 's1': " . $APPLICATION->GetException()->GetString() . "\n";
+// --- Update SERVER_NAME for all sites from domain list ---
+if (file_exists($domainListFN)) {
+    $lines = file($domainListFN, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $siteObj = new CSite;
+
+    foreach ($lines as $line) {
+        $parts = preg_split('/\s+/', trim($line));
+        if (count($parts) < 2) {
+            continue; // в строке должен быть LID + хотя бы один домен
+        }
+
+        $lid    = array_shift($parts);
+        $mainDomain = array_shift($parts); // первый домен — основной (SERVER_NAME)
+
+        if (!$siteObj->Update($lid, array("SERVER_NAME" => $mainDomain))) {
+            global $APPLICATION;
+            echo "Error updating site '{$lid}': " . $APPLICATION->GetException()->GetString() . "\n";
+        } else {
+            echo "Updated site '{$lid}' SERVER_NAME => {$mainDomain}\n";
+        }
+    }
+} else {
+    echo "Domain list file not found: $domainListFN\n";
 }
 
 
