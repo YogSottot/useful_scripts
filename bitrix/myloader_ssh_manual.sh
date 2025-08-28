@@ -6,14 +6,14 @@ source_ssh_host="$1"
 source_dir="$2"
 target_dir="$3"
 dev_domain="$4"
-admins_file="/opt/backup/devadmins.txt"
-domain_list="/opt/backup/domain_list.txt"
+admins_file="/opt/backup/scripts/devadmins.txt"
+domain_list="/opt/backup/scripts/domain_list.txt"
 
 printf "Check bx versions\n"
 /opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
 
 printf "Start mydumper backup\n"
-ssh ${source_ssh_host} "/opt/backup/mydumper_bitrixdb_manual.sh ${source_dir}"
+ssh ${source_ssh_host} "/opt/backup/scripts/mydumper_bitrixdb_manual.sh ${source_dir}"
 
 printf "Start rsync db\n"
 rsync -a ${source_ssh_host}:/opt/backup/mydumper /opt/backup/
@@ -27,10 +27,10 @@ rm -rf /opt/backup/mydumper
 
 printf "Start update db settings\n"
 # /opt/backup/update_db.sh ${target_dir} ${dev_domain}
-php /opt/backup/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
+php /opt/backup/scripts/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
 
 printf "Add developers accounts"
-php /opt/backup/devadmins.php ${target_dir} ${admins_file}
+php /opt/backup/scripts/devadmins.php ${target_dir} ${admins_file}
 
 printf "Remove cache dirs\n"
 rm -rf ${target_dir}/bitrix/managed_cache/*

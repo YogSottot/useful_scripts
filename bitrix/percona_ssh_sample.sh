@@ -5,20 +5,20 @@ source_ssh_host="$1"
 source_dir="$2"
 target_dir="$3"
 dev_domain="$4"
-admins_file="/opt/backup/devadmins.txt"
-domain_list="/opt/backup/domain_list.txt"
+admins_file="/opt/backup/scripts/devadmins.txt"
+domain_list="/opt/backup/scripts/domain_list.txt"
 
 printf "Check bx versions\n"
 /opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
 
 printf "Start percona backup\n"
-ssh ${source_ssh_host} "/opt/backup/percona-db.sh"
+ssh ${source_ssh_host} "/opt/backup/scripts/percona-db.sh"
 
 printf "Start percona rsync\n"
 rsync -a ${source_ssh_host}:/opt/backup/db /opt/backup
 
 printf "Start percona restore\n"
-/opt/backup/percona-restore.sh
+/opt/backup/scripts/percona-restore.sh
 
 printf "Delete dump db from source\n"
 ssh ${source_ssh_host} "rm -rf /opt/backup/db"
@@ -30,10 +30,10 @@ printf "Start mysql_upgrade\n"
 /usr/bin/mysql_upgrade
 
 printf "Update db settings after restore\n"
-php /opt/backup/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
+php /opt/backup/scripts/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
 
 printf "Add developers accounts"
-php /opt/backup/devadmins.php ${target_dir} ${admins_file}
+php /opt/backup/scripts/devadmins.php ${target_dir} ${admins_file}
 
 printf "Remove cache dirs\n"
 rm -rf ${target_dir}/bitrix/managed_cache/*
