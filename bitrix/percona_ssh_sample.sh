@@ -31,6 +31,7 @@ printf "Start mysql_upgrade\n"
 
 printf "Update db settings after restore\n"
 php /opt/backup/scripts/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
+chown bitrix: -R "${target_dir}/bitrix/managed_cache/"
 
 printf "Add developers accounts"
 php /opt/backup/scripts/devadmins.php ${target_dir} ${admins_file}

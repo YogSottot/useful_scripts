@@ -28,6 +28,7 @@ rm -rf /opt/backup/mydumper
 printf "Start update db settings\n"
 # /opt/backup/update_db.sh ${target_dir} ${dev_domain}
 php /opt/backup/scripts/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
+chown bitrix: -R "${target_dir}/bitrix/managed_cache/"
 
 printf "Add developers accounts"
 php /opt/backup/scripts/devadmins.php ${target_dir} ${admins_file}
