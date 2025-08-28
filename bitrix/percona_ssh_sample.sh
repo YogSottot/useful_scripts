@@ -3,8 +3,10 @@ set -eo pipefail
 
 source_ssh_host="$1"
 source_dir="$2"
-
 target_dir="$3"
+dev_domain="$4"
+admins_file="/opt/backup/devadmins.txt"
+domain_list="/opt/backup/domain_list.txt"
 
 printf "Check bx versions\n"
 /opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
@@ -28,7 +30,10 @@ printf "Start mysql_upgrade\n"
 /usr/bin/mysql_upgrade
 
 printf "Update db settings after restore\n"
-/opt/backup/update_db.sh ${target_dir}
+php /opt/backup/update_db.php "${target_dir}" "${dev_domain}" "${domain_list}"
+
+printf "Add developers accounts"
+php /opt/backup/devadmins.php ${target_dir} ${admins_file}
 
 printf "Remove cache dirs\n"
 rm -rf ${target_dir}/bitrix/managed_cache/*

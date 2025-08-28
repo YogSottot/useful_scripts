@@ -1,0 +1,2 @@
+s1 dev.domain.tld new.example.com
+p1 dev3.domain.tld new5.example.com
