@@ -52,7 +52,7 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir -p ${backup_dir}
 fi
 
-myloader --defaults-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir} --overwrite-tables > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+myloader --defaults-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir} --optimize-keys --overwrite-tables > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 

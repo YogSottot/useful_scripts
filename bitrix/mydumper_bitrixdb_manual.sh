@@ -72,9 +72,9 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 printf "Start first dump db: ${database}\n"
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}" 
+mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)))" --outputdir "${backup_dir}" 
 
 printf "Start second dump db: ${database}\n"
-mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --less-locking --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}" 
+mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}" 
 
 mydumper --version > "${backup_dir}"/mydumper_version
