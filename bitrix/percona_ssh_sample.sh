@@ -9,7 +9,7 @@ admins_file="/opt/backup/scripts/devadmins.txt"
 domain_list="/opt/backup/scripts/domain_list.txt"
 
 printf "Check bx versions\n"
-/opt/backup/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
+/opt/backup/scripts/compare_bx_version.sh ${source_ssh_host} ${source_dir} ${target_dir}
 
 printf "Start percona backup\n"
 ssh ${source_ssh_host} "/opt/backup/scripts/percona-db.sh"
