@@ -152,6 +152,8 @@ if ($f = $rs->Fetch()) {
     }
 }
 
+// delete from b_option where MODULE_ID = 'security' and NAME like 'restriction_%'
+
 /*
  * --- Optional: Other settings via Bitrix API ---
  * // Disable pull/push server settings

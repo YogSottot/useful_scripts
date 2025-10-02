@@ -105,6 +105,7 @@ storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 cd ${doc_root} && \
 nice -n 19 ionice -c2 -n7 \
 mysqldump -e --add-drop-table --add-locks \
+--disable-keys --extended-insert --order-by-primary --set-charset --create-options --hex-blob --routines --events --triggers \
 --skip-lock-tables --single-transaction --quick \
 -h${host} -uroot --default-character-set=${charset} --ignore-table=${database}.b_xml_tree_import_1c \
 ${database} | pv -L 10m  | \
