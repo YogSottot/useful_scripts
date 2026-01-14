@@ -131,7 +131,7 @@ mydumper --version > "${backup_dir}"/mydumper_version
 tar -C /opt/backup -cvf ${backup_dir}/"${name}_${database}.tar" "backup_${name}"
 rm -rf "${backup_dir}"/*.sql.zst
 
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7  "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s nice -n 19 ionice -c2 -n7  "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 1209600" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 exitcode="$?"
 
