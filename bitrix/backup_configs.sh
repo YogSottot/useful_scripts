@@ -55,8 +55,8 @@ cd ${doc_root} && cd bitrix/html_pages/ && tar cfpz ${backup_dir}/composite_conf
 
 cd ${backup_dir}
 tar cfp configs.tar *.tgz php_version.txt
-rm -f *.tgz
 rm -f php_version.txt
+rm -f *.tgz
 # for site links
 # /usr/bin/tar cfp - -C /home/bitrix/ext_www/ dev.domain.tld/ | gzip -c > ${backup_dir}/dev.domain.tld_`date +%Y.%m.%d-%H.%M`.tgz 
 # tar cfp - --exclude=www/bitrix/tmp/* --exclude=www/bitrix/updates/* --exclude=www/bitrix/backup/* --exclude=www/bitrix/*cache/* --exclude=www/bitrix/html_pages/*  -C /home/bitrix/ www/ | gzip -c > ${backup_dir}/${name}_files_`date +%Y.%m.%d-%H.%M`.tar.gz

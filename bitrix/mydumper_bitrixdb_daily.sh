@@ -124,12 +124,11 @@ url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 nice -n 19 ionice -c2 -n7 \
-timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress ZSTD --sync-thread-lock-mode=AUTO --use-savepoints --triggers --events --routines --hex-blob --exit-if-broken-table-found --order-by-primary --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c)))" --outputdir "${backup_dir}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress ZSTD --sync-thread-lock-mode=AUTO --use-savepoints --triggers --events --routines --hex-blob --exit-if-broken-table-found --order-by-primary --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c)))" --outputdir "${backup_dir}/${name}_${database}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
-mydumper --version > "${backup_dir}"/mydumper_version
+mydumper --version > "${backup_dir}/${name}_${database}"/mydumper_version
 
-tar -C /opt/backup -cvf ${backup_dir}/"${name}_${database}.tar" "backup_${name}"
-rm -rf "${backup_dir}"/*.sql.zst
+tar --remove-files -C /opt/backup -cvf ${backup_dir}/"${name}_${database}.tar" "backup_${name}/${name}_${database}/"
 
 timeout -k 15s 3600s nice -n 19 ionice -c2 -n7  "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 1209600" --object-name `date +%Y-%m-%d-%H:%M`_DB_daily_"${name}"/ ${storage_dir} "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
