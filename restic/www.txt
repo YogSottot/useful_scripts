@@ -8,8 +8,9 @@ www/bitrix/stack_cache/
 www/bitrix/tmp/
 www/bitrix/updates/
 www/.imunifyav
+www/upload/acrit.exportproplus/
 www/upload/resize_cache/
-www/upload/dev2fun.imagecompress
+www/upload/dev2fun.imagecompress/
 www/upload/tmp/
 www/upload/1c_catalog/
 www/upload/1c_catalog_history/
