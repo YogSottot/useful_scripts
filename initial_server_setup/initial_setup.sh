@@ -12,7 +12,7 @@ set -eo pipefail
 # find -type f -name "*.png" -exec optipng -o7 {} \;
 
 # install useful programms
-yum -y install wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion yum-utils nano tmux jpegoptim optipng ImageMagick php-pecl-imagick mysqltuner smem lsof
+yum -y install wget byobu chrony net-tools certbot ncdu iotop htop bind-utils traceroute mc bash-completion cloud-utils-growpart yum-utils nano tmux jpegoptim optipng ImageMagick php-pecl-imagick mysqltuner smem lsof
 # gifsicle ghostscript nodejs
 # npm install -g svgo
 

@@ -1,0 +1,27 @@
+# =============================================================================
+# Конфигурация crontab для параллельного экспорта фидов acrit.exportpro
+# =============================================================================
+#
+# БЫЛО (всё через один процесс с таймаутом 70 секунд):
+#   * * * * * /usr/bin/timeout -k 15s 70s /usr/bin/flock -xn /tmp/acrit.exportpro_tools_cron_events.php -c '/usr/bin/php -f /home/bitrix/www/bitrix/modules/acrit.exportpro/tools/cron_events.php'
+#
+# СТАЛО (параллельный запуск через оркестратор):
+#
+# Инструкция по установке:
+#   1. Закомментируйте или удалите старую строку с cron_events.php
+#   2. Добавьте строку ниже
+#   3. На сервере выполните: chmod +x /home/bitrix/www/bitrix/php_interface/cron/export_feeds.sh
+#   4. Примените crontab: crontab /home/bitrix/www/bitrix/crontab/crontab.cfg
+#
+# Настройки (через переменные окружения):
+#   MAX_PARALLEL=4   — максимум одновременных процессов (по умолчанию 4)
+#   FEED_TIMEOUT=1800 — таймаут одного фида в секундах (по умолчанию 30 минут)
+#
+# =============================================================================
+
+# Запуск оркестратора фидов каждые 5 минут
+# flock предотвращает запуск нового batch, пока предыдущий не завершился
+*/5 * * * * /usr/bin/flock -xn /tmp/acrit_feeds_batch.lock /home/bitrix/www/bitrix/php_interface/cron/export_feeds.sh
+
+# Вариант с настройками:
+# */5 * * * * MAX_PARALLEL=3 FEED_TIMEOUT=2400 /usr/bin/flock -xn /tmp/acrit_feeds_batch.lock /home/bitrix/www/bitrix/php_interface/cron/export_feeds.sh
