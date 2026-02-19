@@ -5,7 +5,6 @@ set -eo pipefail
 
 mkdir -p /opt/backup/scripts
 cd /opt/backup/scripts
-chmod 700 /opt/backup/
 #wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup-db.php
 #wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_native.sh
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/backup_bitrixdb_hourly.sh
@@ -44,6 +43,7 @@ wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix
 wget -N https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/devadmins.php
 
 chmod +x *.sh
+chmod 700 /opt/backup/scripts/config.ini
 #yum -y install https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.7-1.el7.x86_64.rpm
 #yum -y install https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-utilities-1.6.5-1.el7.noarch.rpm
 yum -y install percona-xtrabackup-24 qpress pv percona-toolkit mailx python-pip python3 python36-netaddr zstd
