@@ -15,7 +15,7 @@ HC_URL=$HC_BASE_URL/$HC_UUID
 RID=$(uuidgen)
 
 # On start script
-curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID" || :
 
 cpu=`nproc --ignore=1`
 
@@ -138,7 +138,7 @@ exitcode="$?"
 #timeout -k 15s 3600s your_command
 
 # On end script with exit code and run ID
-curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID"
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID" || :
 
 if [ "${exitcode}" -eq 124 ]; then
     mailx -s "$(echo -e  "Backup MYDUMPER daily for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log

@@ -15,7 +15,7 @@ HC_URL=$HC_BASE_URL/$HC_UUID
 RID=$(uuidgen)
 
 # On start script
-curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID" || :
 
 cpu=`nproc --ignore=1`
 
@@ -138,7 +138,7 @@ timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url 
 exitcode="$?"
 
 # On end script with exit code and run ID
-curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID"
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID" || :
 
 # output
 #timeout -k 15s 3600s your_command
