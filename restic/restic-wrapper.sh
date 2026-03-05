@@ -51,7 +51,7 @@ source "$rc_dir/$rc_file.rc"
 #export RESTIC_REPOSITORY=$var_inside_your_rc_file
 #export RESTIC_PASSWORD=$var_inside_your_rc_file
 # On start script
-curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID" || :
 
 cd ${BACKUP_ROOT}
 
@@ -59,7 +59,7 @@ cd ${BACKUP_ROOT}
 exitcode="$?"
 
 # On end script with exit code and run ID
-curl -fsS -m 30 --retry 5 --data-binary @/tmp/restic_log_${rc_file}_${@:4:1} "${HC_URL}/${exitcode}?rid=$RID"
+curl -fsS -m 30 --retry 5 --data-binary @/tmp/restic_log_${rc_file}_${@:4:1} "${HC_URL}/${exitcode}?rid=$RID" || :
 
 # output
 if [ "${exitcode}" -ne "0" ]; then

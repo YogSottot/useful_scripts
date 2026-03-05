@@ -1,149 +1,152 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -euo pipefail
 
-doc_root="$1"
-mail="$2"
-name="$4"
+# ----------------------------
+# CONFIG / ARGUMENTS
+# ----------------------------
+DOC_ROOT="${1:-}"
+HC_UUID="${2:-}"
+MAIL="${3:-}"
+NAME="${4:-$(hostname)}"
 
-HC_UUID="$3"
 HC_BASE_URL="https://healthchecks.io/ping"
-HC_URL=$HC_BASE_URL/$HC_UUID
+HC_URL="$HC_BASE_URL/$HC_UUID"
+RID=$(/usr/bin/uuidgen)
 
-# Generate Run IDs
-RID=$(uuidgen)
+SCRIPT_NAME="$(basename "$0")"
 
-# On start script
-curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID"
+# ----------------------------
+# FUNCTIONS
+# ----------------------------
+hc() { curl -fsS --max-time 30 --retry 5 "$@" >/dev/null 2>&1 || :; }
+hc_start() { hc "${HC_URL}/start?rid=${RID}"; }
+hc_end() { local code=$1; hc --data-binary @"$LOG_FILE" "${HC_URL}/${code}?rid=${RID}"; }
 
-SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
-
-if [ -z "${doc_root}" ]; then
-	echo Usage: "$0" /path/to/document/root mail [backup_name]
-	exit
-fi
-
-if [ -z "${name}" ]; then
-	name=$(/bin/hostname)
-fi
-
-settings=${doc_root}/bitrix/.settings.php
-dbconn=${doc_root}/bitrix/php_interface/dbconn.php
-
-readcfg() {
-        grep -m 1 "$1" "${settings}" | sed "s/.*' => '\(.*\)',.*/\1/"
-}
-
-host=$(readcfg host)
-username=$(readcfg login)
-password=$(readcfg password)
-database=$(readcfg database)
-
-
-utf=$(grep 'BX_UTF' ${dbconn} | grep true)
-
-if [ -z "$utf" ]; then
-	charset=cp1251
-else
-	charset=utf8
-fi
+readcfg() { local key=$1 file=$2; grep -m1 "$key" "$file" | sed "s/.*' => '\(.*\)',.*/\1/"; }
 
 find_swift() {
-    local swift_bin
-    if [[ -x /root/.local/bin/swift ]]; then
-        swift_bin="/root/.local/bin/swift"
-    elif [[ -x /usr/bin/swift ]]; then
-        swift_bin="/usr/bin/swift"
-    else
-        printf "ERROR: 'swift' binary not found in /root/.local/bin or /usr/bin.\n" >&2
-        return 1
-    fi
-    printf "%s\n" "$swift_bin"
+    for p in "/root/.local/bin/swift" "/usr/bin/swift"; do
+        [[ -x "$p" ]] && { echo "$p"; return 0; }
+    done
+    echo "ERROR: swift binary not found" >&2
+    return 1
 }
-if ! swift_path=$(find_swift); then
-    exit 1
-fi
 
-SCRIPTNAME=$(basename "$0")
-LOCKDIR="/var/lock/bitrixdb_${database}"
-PIDFILE="${LOCKDIR}/pid"
+get_ini_value() { local section="$1" key="$2"; sed -n "/^\[${section}\]/,/^\[/{/^\[/d;/^$/d;s/^${key}\s*=\s*//p}" /opt/backup/scripts/config.ini | tr -d "\r\n/"; }
 
-if ! mkdir "$LOCKDIR" 2>/dev/null
-then
-    # lock failed, but check for stale one by checking if the PID is really existing
-    PID=$(cat "$PIDFILE")
-    if ! kill -0 "$PID" 2>/dev/null
-    then
-       echo "Removing stale lock of nonexistent PID ${PID}" >&2
-       rm -rf "$LOCKDIR"
-       echo "Restarting myself (${SCRIPTNAME})" >&2
-       exec "$0" "$@"
+# ----------------------------
+# READ BITRIX CONFIG
+# ----------------------------
+SETTINGS="${DOC_ROOT}/bitrix/.settings.php"
+
+DB_HOST=$(readcfg host "$SETTINGS")
+#DB_USER=$(readcfg login "$SETTINGS")
+DB_USER=root
+DB_PASS=$(readcfg password "$SETTINGS")
+DB_NAME=$(readcfg database "$SETTINGS")
+DB_CHARSET=$(get_utf_charset "$DBCONN")
+
+SWIFT_BIN=$(find_swift)
+
+# ----------------------------
+# CLOUD CONFIG
+# ----------------------------
+SECTION="cloud"
+PROJECT=$(get_ini_value "$SECTION" "project")
+LOGIN=$(get_ini_value "$SECTION" "login")
+PASSWORD=$(get_ini_value "$SECTION" "password")
+URL=$(get_ini_value "$SECTION" "auth-url")
+STORAGE_DIR=$(get_ini_value "$SECTION" "dir")
+
+# ----------------------------
+# PER-DATABASE LOCK & LOG
+# ----------------------------
+LOCK_DIR="/var/lock/bitrixdb_${DB_NAME}"
+LOG_FILE="/tmp/${SCRIPT_NAME}_${DB_NAME}.log"
+
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+    PID=$(cat "$LOCK_DIR/pid" 2>/dev/null || echo "")
+    if [[ -z "$PID" ]] || ! kill -0 "$PID" 2>/dev/null; then
+        echo "Removing stale lock for DB $DB_NAME (PID $PID)" >&2
+        rm -rf "$LOCK_DIR"
+        exec "$0" "$@"  # restart
     fi
-    echo "$SCRIPTNAME is already running, bailing out" >&2
+    echo "$SCRIPTNAME for DB $DB_NAME already running, exiting" >&2
     exit 1
 else
-    # lock successfully acquired, save PID
-    echo $$ > "$PIDFILE"
+    echo $$ > "$LOCK_DIR/pid"
 fi
 
-trap 'rm -rf ${LOCKDIR}' QUIT INT TERM EXIT
-# Do stuff
+trap 'rm -rf "$LOCK_DIR"' QUIT INT TERM EXIT
 
+# ----------------------------
+# CREATE BACKUP DIR
+# ----------------------------
+BACKUP_DIR="/opt/backup/backup_${NAME}"
+mkdir -p "$BACKUP_DIR"
+: > "$LOG_FILE"
 
-#backup_dir=${doc_root}/bitrix/backup
-backup_dir=/opt/backup/backup_"${name}"
+# ----------------------------
+# HEALTHCHECK START
+# ----------------------------
+hc_start
 
-if [ ! -e "${backup_dir}" ]; then
-	mkdir -p "${backup_dir}"
-fi
+# ----------------------------
+# BACKUP / UPLOAD
+# ----------------------------
+#START_TS=$(date +%s)
 
-function getValueFromINI() {
-	local sourceData="$1"; local paramName="$2";
-	## 1. Get value "platform=%OUR_VALUE%"
-	## 2. Remove illegal characters
-	echo "$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p' | tr -d "\r" | tr -d "\n")"
-}
+{
+    echo "Backup started: $(date -Is)"
+    cd "$DOC_ROOT"
 
-function getValueFromINI2() {
-        local sourceData="$1"; local paramName="$2";
-        ## 1. Get value "platform=%OUR_VALUE%"
-        ## 2. Remove illegal characters
-        echo "$(echo "$sourceData" | sed -n '/^'"${paramName}"'\ =\(.*\)$/s//\1/p'  | tr -d "\r" | tr -d "\n" | tr -d "/")"
-}
+    timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 \
+    mysqldump -e --add-drop-table --add-locks \
+        --skip-lock-tables --single-transaction --quick \
+        -h"$DB_HOST" -u"$DB_USER" --password="$DB_PASS" \
+        --default-character-set="$DB_CHARSET" \
+        --ignore-table="${DB_NAME}.b_xml_tree_import_1c" \
+        --ignore-table="${DB_NAME}.b_sec_wwall_rules" \
+        --ignore-table="${DB_NAME}.b_sec_iprule" \
+        --ignore-table="${DB_NAME}.b_sec_session" \
+        "$DB_NAME" | pv -L 10m | \
+    nice -n 19 ionice -c2 -n7 zstd -c > "$BACKUP_DIR/${NAME}.sql.zst"
 
-sectionContent=$(sed -n '/^\[cloud\]/,/^\[/p' /opt/backup/scripts/config.ini | sed -e '/^\[/d' | sed -e '/^$/d');
-project=$(getValueFromINI "$sectionContent" "project");
-login=$(getValueFromINI "$sectionContent" "login");
-password=$(getValueFromINI "$sectionContent" "password");
-url=$(getValueFromINI "$sectionContent" "auth-url");
-storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
+    timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 \
+    "$SWIFT_BIN" -v --os-auth-url "$URL" --auth-version 3 \
+        --os-region-name ru-1 --os-project-id "$PROJECT" \
+        --os-user-id "$LOGIN" --os-password "$PASSWORD" \
+        upload -H "X-Delete-After: 129600" \
+        --object-name "$(date +%Y-%m-%d-%H:%M)_DB_hourly_${NAME}/" \
+        "$STORAGE_DIR" "$BACKUP_DIR/"
 
-cd "${doc_root}" && \
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 \
-mysqldump -e --add-drop-table --add-locks \
---skip-lock-tables --single-transaction --quick \
--h"${host}" -uroot --default-character-set=${charset} --ignore-table="${database}".b_xml_tree_import_1c \
---ignore-table="${database}".b_sec_wwall_rules \
---ignore-table="${database}".b_sec_iprule \
---ignore-table="${database}".b_sec_session \
-"${database}" | pv -L 10m  | \
-nice -n 19 ionice -c2 -n7 zstd -c > "${backup_dir}"/"${name}".sql.zst 2>/tmp/"${SCRIPT_NAME}"_"${database}"_log && \
-timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 "${swift_path}" -v --os-auth-url "${url}" --os-region-name ru-1 --auth-version 3 --os-project-id "${project}" --os-user-id "${login}" --os-password "${password}" upload -H "X-Delete-After: 129600" --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${name}/" "${storage_dir}" "${backup_dir}"/ >> /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
-exitcode="$?"
+} >"$LOG_FILE" 2>&1 || true
 
-# On end script with exit code and run ID
-curl -fsS -m 30 --retry 5 --data-binary @/tmp/"${SCRIPT_NAME}"_"${database}"_log "${HC_URL}/${exitcode}?rid=$RID"
+EXITCODE=$?
 
+# ----------------------------
+# HEALTHCHECK END
+# ----------------------------
+hc_end "$EXITCODE"
 
-# output
-#timeout -k 15s 3600s your_command
+# ----------------------------
+# EMAIL REPORT
+# ----------------------------
+SUBJECT="Backup mysqldump hourly for ${NAME}"
 
-if [ "${exitcode}" -eq 124 ]; then
-    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Timeout\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
-elif [ "${exitcode}" -ne 0 ]; then
-    mailx -s "$(echo -e  "Backup mysqldump hourly for ${name} is Error\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/"${SCRIPT_NAME}"_"${database}"_log
+if [[ "$EXITCODE" -eq 124 ]]; then
+    SUBJECT+=" is Timeout"
+elif [[ "$EXITCODE" -ne 0 ]]; then
+    SUBJECT+=" is Error"
 else
     echo "Command completed successfully"
 fi
 
-rm -rf "${backup_dir:?}"/*
-exit 0
+mailx -s "$(echo -e "$SUBJECT\nContent-Type: text/plain; charset=UTF-8")" "$MAIL" < "$LOG_FILE"
+
+# ----------------------------
+# CLEANUP
+# ----------------------------
+rm -rf "${BACKUP_DIR:?}"/*
+
+exit "$EXITCODE"
