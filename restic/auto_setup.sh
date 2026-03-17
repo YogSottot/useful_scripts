@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -Eeuo pipefail
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- rc_file relative_to_backup_root_site_dir your_mail hc_uuid
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- www www mail@mail.tld uuid

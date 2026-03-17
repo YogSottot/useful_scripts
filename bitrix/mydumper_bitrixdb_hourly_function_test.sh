@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -xeo pipefail
+set -Eeuo pipefail
 
 # Global Variables
 doc_root="$1"

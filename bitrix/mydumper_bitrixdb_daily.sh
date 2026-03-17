@@ -124,7 +124,7 @@ url=$(getValueFromINI "$sectionContent" "auth-url");
 storage_dir=$(getValueFromINI2 "$sectionContent" "dir");
 
 nice -n 19 ionice -c2 -n7 \
-timeout -k 15s 3600s mydumper --defaults-extra-file /root/.my.cnf --threads "${cpu}" --compress ZSTD --sync-thread-lock-mode=AUTO --use-savepoints --exit-if-broken-table-found --order-by-primary --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_xml_tree_import_1c)))" --outputdir "${backup_dir}/${name}_${database}"  > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
+timeout -k 15s 3600s mydumper --defaults-extra-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite|${database}\.b_xml_tree_import_1c|${database}\.b_sec_wwall_rules|${database}\.b_sec_iprule|${database}\.b_sec_session)))" --outputdir "${backup_dir}" > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 mydumper --version > "${backup_dir}/${name}_${database}"/mydumper_version
 
