@@ -72,7 +72,10 @@ if [ ! -e ${backup_dir} ]; then
 fi
 
 printf "Start first dump db: ${database}\n"
-mydumper --defaults-extra-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite|${database}\.b_xml_tree_import_1c|${database}\.b_sec_wwall_rules|${database}\.b_sec_iprule|${database}\.b_sec_session)))" --outputdir "${backup_dir}" 
+mydumper --defaults-extra-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints  --regex "^(?=(?:(${database}\.)))(?!(?:(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite|${database}\.b_xml_tree_import_1c|${database}\.b_sec_wwall_rules|${database}\.b_sec_iprule|${database}\.b_sec_session)))" --outputdir "${backup_dir}/data" 
+
+printf "Start second dump db: ${database}\n"
+mydumper --defaults-extra-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite|${database}\.b_xml_tree_import_1c|${database}\.b_sec_wwall_rules|${database}\.b_sec_iprule|${database}\.b_sec_session)" --outputdir "${backup_dir}/${name}_${database}/empty" > /tmp/"${SCRIPT_NAME}"_"${database}"_log 2>&1
 
 #printf "Start second dump db: ${database}\n"
 #mydumper --defaults-file /root/.my.cnf --threads "${cpu}" --compress --use-savepoints --no-data --regex "^(${database}\.b_stat|${database}\.b_search|${database}\.b_event_log$|${database}\.b_composite)" --outputdir "${backup_dir}" 

@@ -62,5 +62,9 @@ if [ ! -e ${backup_dir} ]; then
 	mkdir -p ${backup_dir}
 fi
 
-printf "Start load dump db: ${database}\n"
-myloader --defaults-extra-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir} --optimize-keys --drop-table
+printf "Start load 1st dump db: ${database}\n"
+myloader --defaults-extra-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir}/data --optimize-keys --drop-table
+
+# uncomment on 1st use, when create dev-site
+#printf "Start load 2nd dump db: ${database}\n"
+#myloader --defaults-extra-file /root/.my.cnf --threads "${cpu}" --database ${database} --directory ${backup_dir}/data --optimize-keys --drop-table
