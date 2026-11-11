@@ -112,6 +112,18 @@ hc_start
         "$DB_NAME" | pv -L 10m | \
     nice -n 19 ionice -c2 -n7 zstd -c > "$BACKUP_DIR/${NAME}.sql.zst"
 
+    PIPE=("${PIPESTATUS[@]}")
+
+    DUMP_STATUS=${PIPE[0]}   # pg_dumpall
+    ZSTD_STATUS=${PIPE[1]}   # zstd
+
+    if [[ $DUMP_STATUS -ne 0 || $ZSTD_STATUS -ne 0 ]]; then
+        DUMP_STATUS=1
+    else
+        DUMP_STATUS=0
+    fi
+    
+    if [[ $DUMP_STATUS -eq 0 ]]; then
     timeout -k 15s 3600s nice -n 19 ionice -c2 -n7 \
     "$SWIFT_BIN" -v --os-auth-url "$URL" --auth-version 3 \
         --os-region-name ru-1 --os-project-id "$PROJECT" \
@@ -119,10 +131,14 @@ hc_start
         upload -H "X-Delete-After: 1209600" \
         --object-name "$(date +%Y-%m-%d-%H:%M)_DB_daily_${NAME}/" \
         "$STORAGE_DIR" "$BACKUP_DIR/"
+    UPLOAD_STATUS=$?
+    else
+        UPLOAD_STATUS=1
+    fi
+    
+    EXITCODE=$(( DUMP_STATUS != 0 ? DUMP_STATUS : UPLOAD_STATUS ))
 
-} >"$LOG_FILE" 2>&1 || true
-
-EXITCODE=$?
+} >"$LOG_FILE" 2>&1
 
 # ----------------------------
 # HEALTHCHECK END
@@ -149,4 +165,5 @@ mailx -s "$(echo -e "$SUBJECT\nContent-Type: text/plain; charset=UTF-8")" "$MAIL
 # ----------------------------
 rm -rf "${BACKUP_DIR:?}"/*
 
+echo "FINAL EXITCODE=$EXITCODE" >> "$LOG_FILE"
 exit "$EXITCODE"

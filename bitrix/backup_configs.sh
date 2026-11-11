@@ -32,7 +32,7 @@ fi
 
 tar cfp - -C /etc/ nginx/ | gzip -c > ${backup_dir}/nginx.tgz
 tar cfp - -C /etc/ httpd/ | gzip -c > ${backup_dir}/httpd.tgz
-tar cfp - -C /etc/ apache2/ | gzip -c > ${backup_dir}/httpd.tgz
+tar cfp - -C /etc/ apache2/ | gzip -c > ${backup_dir}/apache2.tgz
 tar cfp - -C /etc/ php.d/ | gzip -c > ${backup_dir}/phpd.tgz
 tar cfp - -C /etc/ php/ | gzip -c > ${backup_dir}/php.tgz
 tar cfp - -C /etc/ mysql/ | gzip -c > ${backup_dir}/mysql.tgz

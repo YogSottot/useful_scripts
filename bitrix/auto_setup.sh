@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 # use
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www notify@mail.tld backup_name
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/bitrix/auto_setup.sh | bash -s -- /home/bitrix/www "mail@mail.tld mail2@mail.tld" backup_name
 
 mkdir -p /opt/backup/scripts
 cd /opt/backup/scripts

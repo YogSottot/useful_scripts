@@ -1,0 +1,29 @@
+stages:
+  - deploy
+
+variables:
+  SECRET_DETECTION_ENABLED: "true"
+  DEPLOY_PATH: "/var/www/bitrix/domain.tld"
+
+prod:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - |
+      if [ ! -d "$DEPLOY_PATH/.git" ]; then
+        git clone "$CI_REPOSITORY_URL" "$DEPLOY_PATH"
+      fi
+
+      cd "$DEPLOY_PATH"
+      git remote set-url origin "$CI_REPOSITORY_URL"
+      git checkout "$CI_COMMIT_BRANCH"
+      git pull --strategy=recursive -X theirs origin "$CI_COMMIT_BRANCH"
+
+      if [ -f "$DEPLOY_PATH/.env" ]; then
+        docker compose -f docker-compose.client.yml up -d --build
+      fi
+  only:
+    - master
+  tags:
+    - b24-fvds-group

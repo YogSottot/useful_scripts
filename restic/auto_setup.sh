@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 # use
 # curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- rc_file relative_to_backup_root_site_dir your_mail hc_uuid
-# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- www www mail@mail.tld uuid
+# curl -sL https://raw.githubusercontent.com/YogSottot/useful_scripts/master/restic/auto_setup.sh | bash -s -- www www "mail@mail.tld mail2@mail.tld" uuid
 mkdir -p /opt/backup/restic/{rc.files,exclude} && cd /opt/backup/
 chmod 700 /opt/backup/restic/rc.files/
 cd /opt/backup/restic/
@@ -54,6 +54,11 @@ crontab -l | { cat; echo "30 3 * * 7 /opt/backup/restic/restic-wrapper.sh $1 $3 
 crontab -l | { cat; echo "30 3 1 */2 * /opt/backup/restic/restic-wrapper.sh $1 $3 $4 check > /dev/null 2>&1 || true"; } | crontab -
 
 echo 'do not forget to fill data in rc.file and init repo with > restic init'
+
+# postgresql stream example
+# /opt/backup/restic/restic-wrapper.sh $1 $3 $4 backup --stdin-filename=postgresql.sql --stdin-from-command -- pg_dumpall -U postgres
+# /opt/backup/restic/restic-wrapper.sh $1 $3 $4 backup --stdin-filename=postgresql.sql --stdin-from-command -- /usr/bin/docker exec db /usr/bin/pg_dumpall -U fb24_server
+# https://pgbackrest.org
 
 # https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html
 

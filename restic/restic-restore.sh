@@ -18,3 +18,6 @@ source "$rc_dir/$rc_file.rc"
 /usr/local/bin/restic restore latest --target ${target} --include www/upload > /tmp/restic_log_restore_upload 2>&1
 EOF
 chmod 700 /opt/backup/
+
+# Восстановить конкретный снапшот:
+# restic dump SNAPSHOT_ID /postgresql.sql | docker exec -i db psql -X -U postgres -d postgres

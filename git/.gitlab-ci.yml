@@ -10,9 +10,10 @@ develop:
   script:
     - cd /home/bitrix/ext_www/dev.site.tld/
     - git checkout develop
-    - git commit -am "Autocommit of the local changes from develop" || true
+    - git commit -am "[skip ci] Autocommit of the local changes from develop" || true
     - git pull --strategy=recursive -X theirs origin develop
-    - git push origin develop || true
+    - git push -o ci.skip origin develop || true
+  resource_group: develop
   only:
     - develop
   tags:
@@ -26,9 +27,9 @@ prod:
     - cd /home/bitrix/www/
     - git checkout master
     # Examples of autocommit the local changes made by clients
-    - git commit -am "Autocommit of the local changes from master" || true
+    - git commit -am "[skip ci] Autocommit of the local changes from master" || true
     - git pull --strategy=recursive -X theirs origin master
-    - git push origin master || true
+    - git push -o ci.skip origin master || true
     # detect if uncommited or untracked file present
     - >
       if [[ -n "$(git status --porcelain)" ]]; then
@@ -39,10 +40,37 @@ prod:
     # This dir should exist in dev branch, but not in master
     - rm -rf local/demo/
     - git ls-files -z local/demo/ | xargs -0 git update-index --skip-worktree
+  resource_group: prod
   only:
     - master
   tags:
     - site.tld-master
+    
+stage:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - cd /home/bitrix/www/
+    - git checkout master
+    # фиксируем изменения только в content/
+    - git add content/
+    # commit только если есть изменения
+    - |
+      if ! git diff --cached --quiet; then
+        git commit -m "CI: auto commit content $(date +%F_%T)"
+        git pull --strategy=recursive -X theirs origin master
+        git push -o ci.skip origin master
+      fi
+    - git pull --strategy=recursive -X theirs origin master
+    - docker compose -f docker-compose.yml up -d --build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master" && $CI_COMMIT_MESSAGE !~ /^CI: auto commit content/'
+  tags:
+    - site.tld-stage
+
+    
+
 
 sonarqube-check:
   stage: sonar-scan

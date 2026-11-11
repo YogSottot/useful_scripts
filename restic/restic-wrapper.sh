@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+# rc files to work with
+rc_dir="/opt/backup/restic/rc.files"
+rc_file="$1"
+
 SCRIPTNAME=$(basename $0)
 LOCKDIR="/var/lock/${SCRIPTNAME}_${rc_file}"
 PIDFILE="${LOCKDIR}/pid"
@@ -26,10 +30,6 @@ fi
 trap "rm -rf ${LOCKDIR}" QUIT INT TERM EXIT
 
 # Do stuff
-# rc files to work with
-rc_dir="/opt/backup/restic/rc.files"
-rc_file="$1"
-
 mail="$2"
 hostname=`/bin/hostname`
 
@@ -55,8 +55,12 @@ curl -fsS -m 30 --retry 5 "${HC_URL}/start?rid=$RID" || :
 
 cd ${BACKUP_ROOT}
 
-/usr/local/bin/restic "${@:4}" > /tmp/restic_log_${rc_file}_${@:4:1} 2>&1
-exitcode="$?"
+if /usr/local/bin/restic "${@:4}" > /tmp/restic_log_${rc_file}_${@:4:1} 2>&1; then
+    exitcode=0
+else
+    exitcode=$?
+fi
+
 
 # On end script with exit code and run ID
 curl -fsS -m 30 --retry 5 --data-binary @/tmp/restic_log_${rc_file}_${@:4:1} "${HC_URL}/${exitcode}?rid=$RID" || :
@@ -68,6 +72,6 @@ else
     mailx -s "$(echo -e  "Restic "${@:4:1}" on ${hostname} repo ${rc_file} is succesfull\nContent-Type: text/plain; charset=UTF-8")" ${mail} < /tmp/restic_log_${rc_file}_${@:4:1}
 fi
 
-/usr/local/bin/restic cache --cleanup
+# /usr/local/bin/restic cache --cleanup
 
-exit 0
+exit "$exitcode"

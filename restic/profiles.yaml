@@ -1,0 +1,236 @@
+# yaml-language-server: $schema=https://creativeprojects.github.io/resticprofile/jsonschema/config.json
+# https://superuser.com/questions/1926124/decompress-multiple-mydumper-generated-zstd-gzip-files-into-a-single-tar-file
+
+version: "2"
+
+global:
+  # run 'snapshots' when no command is specified when invoking resticprofile
+  default-command: snapshots
+  # initialize a repository if none exist at location
+  initialize: true
+  # priority is using priority class on windows, and "nice" on unixes
+  priority: low
+  ionice: true
+  # resticprofile won't start a profile if there's less than 100MB of RAM available
+  min-memory: 100
+  
+  # scheduler: crond
+  # scheduler: "crond:/usr/bin/crontab"
+  scheduler: "crontab:*:/etc/cron.d/resticprofile"
+  # scheduler: "crontab:-:/var/spool/cron/crontabs/username"
+
+  send-timeout: 1m
+
+# mixin declarations
+mixins:
+  selectel-repository:
+    default-vars:
+      container_name: {{ .Hostname }}
+      repo_dir_name: {{ .Profile.Name }}
+    repository: s3:https://s3.ru-1.storage.selcloud.ru:/${container_name}/${repo_dir_name}
+
+  retain-default:
+    default-vars:
+      Hourly: false
+      Daily: 14
+      Weekly: 4
+      Monthly: 3
+      Prune: false
+    retention:
+      before-backup: false
+      after-backup: true
+      keep-hourly: $Hourly
+      keep-daily: $Daily
+      keep-weekly: $Weekly
+      keep-monthly: $Monthly
+      keep-tag:
+        - forever
+      prune: $Prune
+      # tag can be a boolean ('true' meaning to copy tag set from 'backup') 
+      # or a custom set of tags.
+      # Default is 'false', meaning that tags are NOT used.
+      tag: true
+      # host can be a boolean ('true' meaning current hostname)
+      # or a string to specify a different hostname
+      host: true
+
+  
+# a group is a profile that will call all profiles one by one
+groups:
+  # when starting a backup on profile "full-backup",
+  # it will run the "default" and "configs" backup profiles
+  full-backup:
+    profiles:
+      - default_domain
+      - server_configs
+
+profiles:
+  # Default profile when not specified on the command line (-n or --name)
+  # There's no default inheritance from the 'default' profile,
+  # you can use the 'inherit' flag if needed
+  default:
+    # LOCAL lockfile so you cannot run the same profile more than once at a time
+    # (it's totally independent of the restic locks on the repository)
+    lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
+    force-inactive-lock: true
+    use:
+      - selectel-repository
+      - retain-default
+
+    env:
+      AWS_ACCESS_KEY_ID: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      RESTIC_PASSWORD: ""
+
+    run-before: 'echo "== run-before profile $PROFILE_NAME and command $PROFILE_COMMAND"'
+    run-after: 'echo "== run-after profile $PROFILE_NAME and command $PROFILE_COMMAND"'
+    run-after-fail: 'echo "== ERROR in profile $PROFILE_NAME command ${PROFILE_COMMAND}: $ERROR_MESSAGE"'
+
+    # The commands of run-finally get the environment of run-after-fail when run-before, run-after or restic failed.
+    # Failures to run commands in run-finally are logged but do not influence environment, return code nor running of further commands listed in run-finally. This makes it the perfect choice for custom cleanup tasks that must always run.
+    run-finally: 'echo "== run-finally from profile $PROFILE_NAME after command $PROFILE_COMMAND"'
+    # auto remove old cache directories
+    cleanup-cache: true
+
+    backup:
+      exclude-caches: true
+      one-file-system: true
+      skip-if-unchanged: true
+      schedule-log: /tmp/resticprofile_$PROFILE_COMMAND_$PROFILE_NAME.log
+      schedule-priority: background
+      verbose: true
+      tag:
+          - "{{ .Profile.Name }}"
+      iexclude:
+      - "*.log.old"
+      - "*.log"
+      - "*.gz"
+      - "*.tar"
+      - "*.zip"
+      - "*.bak"
+      - "*.tmp"
+      - "lost+found"
+      - ".DS_Store"
+      - "Thumbs.db"
+      - ".idea/"
+
+    check:
+      read-data: true
+      schedule-log: /tmp/resticprofile_$PROFILE_COMMAND_$PROFILE_NAME.log
+
+    diff:
+      metadata: true
+
+    forget:
+      use:
+        - retain-default
+      host: true
+      keep-tag:
+        - forever
+      path: true
+      prune: true
+      tag: true
+      
+    ls:
+      host: true
+      human-readable: true
+      tag: true
+
+
+  default_domain:
+
+    inherit: default
+    base-dir: /var/www/bitrix/"
+
+    backup:
+      schedule: "02:30"
+      source:
+      - "default"
+      - "default/bitrix/html_pages/.config.php"
+      - "default/bitrix/html_pages/enabled"
+      iexclude...:
+      - "default/bitrix/backup/"
+      - "default/bitrix/cache/"
+      - "default/bitrix/catalog_export/"
+      - "default/bitrix/html_pages/"
+      - "default/bitrix/managed_cache/"
+      - "default/bitrix/php_interface/include/catalog_export/logs/"
+      - "default/bitrix/stack_cache/"
+      - "default/bitrix/tmp/"
+      - "default/bitrix/updates/"
+      - "default/.imunifyav"
+      - "default/upload/resize_cache/"
+      - "default/upload/tmp/"
+      - "default/upload/1c_catalog*"
+      - "default/upload/1c_catalog_history/"
+      - "default/upload/1c_exchange/"
+      - "default/*sitemap*.xml"
+
+    # check command of profile
+    check:
+      # check the repository the first day of each second month at 3:45
+      # weekdays year-month-day hour:minute:second
+      schedule: "*-*/2-01 03:45"
+
+
+  server_configs:
+
+    inherit: default
+
+    backup:
+      schedule: "00:30"
+      source:
+      - "/etc/"
+      - "/var/spool/cron/"
+      - "/home/bitrix/.ssh/"
+      - "/var/www/bitrix/.ssh/"
+      - "/root/.ssh/"
+      - "/root/.env.menu"
+
+    # check command of profile
+    check:
+      # check the repository the first day of each second month at 3:45
+      # weekdays year-month-day hour:minute:second
+      schedule: "*-*/2-01 00:45"
+
+  mysql_db_daily:
+
+    inherit: default
+
+    backup:
+      schedule: "01:30"
+      stdin: true
+      stdin-command: "mysqldump --all-databases --add-drop-table --add-locks --disable-keys --extended-insert --order-by-primary --set-charset --create-options --hex-blob --routines --events --triggers --skip-lock-tables --single-transaction --quick"
+      stdin-filename: "dump.sql"
+      tag:
+        - mysql
+        - stdin
+
+    # check command of profile
+    check:
+      # check the repository the first day of each second month at 3:45
+      # weekdays year-month-day hour:minute:second
+      schedule: "*-*/2-01 00:45"
+
+  mysql_db_hourly:
+
+    use:
+      - name: retain-default
+        Hourly: 48
+
+    inherit: default
+
+    backup:
+      schedule: "*/2:10"
+      stdin: true
+      stdin-command: "mydumper --all-databases --add-drop-table --add-locks --disable-keys --extended-insert --order-by-primary --set-charset --create-options --hex-blob --routines --events --triggers --skip-lock-tables --single-transaction --quick"
+      stdin-filename: "dump.sql"
+      tag:
+        - mysql
+        - stdin
+
+    # check command of profile
+    check:
+      # check the repository the first day of each second month at 3:45
+      # weekdays year-month-day hour:minute:second
+      schedule: "*-*/2-01 03:45"
