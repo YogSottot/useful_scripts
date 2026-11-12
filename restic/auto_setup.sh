@@ -60,6 +60,14 @@ echo 'do not forget to fill data in rc.file and init repo with > restic init'
 # /opt/backup/restic/restic-wrapper.sh $1 $3 $4 backup --stdin-filename=postgresql.sql --stdin-from-command -- /usr/bin/docker exec db /usr/bin/pg_dumpall -U fb24_server
 # https://pgbackrest.org
 
+# mysql
+# /opt/backup/restic/restic-wrapper.sh $1 $3 $4 backup --stdin-filename=mysql.xbstream --stdin-from-command -- /usr/bin/xtrabackup --backup --stream=xbstream --parallel=4
+# /opt/backup/restic/restic-wrapper.sh $1 $3 $4 backup --stdin-filename=mariadb.xbstream --stdin-from-command -- /usr/bin/mariadb-backup --backup --stream=xbstream --parallel=4
+
+
+# restic stats --mode raw-data
+# restic stats --mode restore-size
+
 # https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html
 
 # source restic/rc.files/www.rc

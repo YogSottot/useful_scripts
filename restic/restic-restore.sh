@@ -21,3 +21,19 @@ chmod 700 /opt/backup/
 
 # Восстановить конкретный снапшот:
 # restic dump SNAPSHOT_ID /postgresql.sql | docker exec -i db psql -X -U postgres -d postgres
+
+# mysql
+# mkdir -p /restore/mysql
+# restic dump SNAPSHOT_ID /mysql.xbstream | xbstream -x -C /restore/mysql
+# xtrabackup --prepare --target-dir=/restore/mysql
+
+# mkdir -p /restore/mariadb
+# restic dump SNAPSHOT_ID /mariadb.xbstream | mbstream -x -C /restore/mariadb
+# mariadb-backup --prepare --target-dir=/restore/mariadb
+
+# systemctl stop mysql
+# rm -rf /var/lib/mysql
+# xtrabackup --move-back --target-dir=/restore/mysql
+# mariadb-backup --move-back --target-dir=/restore/mariadb
+# chown mysql:mysql -R /var/lib/mysql
+# systemctl start mysql
