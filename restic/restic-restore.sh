@@ -37,3 +37,10 @@ chmod 700 /opt/backup/
 # mariadb-backup --move-back --target-dir=/restore/mariadb
 # chown mysql:mysql -R /var/lib/mysql
 # systemctl start mysql
+
+# for gitlab
+# /opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1 GZIP_RSYNCABLE=yes SKIP=tar
+# cd /var/opt/gitlab/backups
+# tar -cf "${BACKUP_ID}_gitlab_backup.tar" backup_information.yml db repositories *.tar.gz
+# ${BACKUP_ID} inside backup_information.yml
+# /opt/gitlab/bin/gitlab-backup restore BACKUP="$BACKUP_ID"
