@@ -1,6 +1,6 @@
 # Bitrix Composite Cache Warmup
 
-`bitrix-composite-warmup.py` — последовательный прогрев композитного HTML-кеша 1С-Битрикс по URL из XML sitemap. Скрипт контролирует системную нагрузку и доступную память, учитывает популярность страниц по nginx `access.log`, сохраняет прогресс в SQLite и поддерживает повторные инкрементальные запуски.
+`bitrix-composite-warmup-sqlite.py` — последовательный прогрев композитного HTML-кеша 1С-Битрикс по URL из XML sitemap. Скрипт контролирует системную нагрузку и доступную память, учитывает популярность страниц по nginx `access.log`, сохраняет прогресс в SQLite и поддерживает повторные инкрементальные запуски.
 
 > **Важно:** HTTP 200 не гарантирует, что Битрикс сформировал композитный кеш. Скрипт выполняет HTTP-запросы, а не управляет внутренними механизмами Битрикс. Если кеш уже существует, запрос может получить готовую страницу. Для полной перегенерации предварительно очистите композитный кеш штатными средствами Битрикс. Не удаляйте его вручную без понимания конфигурации.
 
@@ -18,9 +18,9 @@
 ## Быстрый старт
 
 ```bash
-chmod +x bitrix-composite-warmup.py
+chmod +x bitrix-composite-warmup-sqlite.py
 
-./bitrix-composite-warmup.py \
+./bitrix-composite-warmup-sqlite.py \
   https://example.ru/sitemap.xml \
   --max-load 8 \
   --delay 5 \
@@ -36,7 +36,7 @@ chmod +x bitrix-composite-warmup.py
 ### Рекомендуемый запуск
 
 ```bash
-./bitrix-composite-warmup.py \
+./bitrix-composite-warmup-sqlite.py \
   https://example.ru/sitemap.xml \
   --max-load 8 \
   --delay 5 \
@@ -162,7 +162,7 @@ chmod +x bitrix-composite-warmup.py
 Принудительный обход всех URL:
 
 ```bash
-./bitrix-composite-warmup.py https://example.ru/sitemap.xml \
+./bitrix-composite-warmup-sqlite.py https://example.ru/sitemap.xml \
   --db /var/tmp/example-warmup.sqlite3 --full
 ```
 
@@ -171,7 +171,7 @@ chmod +x bitrix-composite-warmup.py
 Перепроверять успешные URL, обработанные более 7 суток назад:
 
 ```bash
-./bitrix-composite-warmup.py https://example.ru/sitemap.xml \
+./bitrix-composite-warmup-sqlite.py https://example.ru/sitemap.xml \
   --db /var/tmp/example-warmup.sqlite3 --refresh-days 7
 ```
 
@@ -180,7 +180,7 @@ chmod +x bitrix-composite-warmup.py
 Для ограниченного прогона (например, первые 1000 приоритетных URL):
 
 ```bash
-./bitrix-composite-warmup.py https://example.ru/sitemap.xml \
+./bitrix-composite-warmup-sqlite.py https://example.ru/sitemap.xml \
   --db /var/tmp/example-warmup.sqlite3 \
   --access-log '/var/log/nginx/example.ru.access.log*' \
   --limit 1000
@@ -241,7 +241,7 @@ sqlite3 /var/tmp/example-warmup.sqlite3 \
 
 ```bash
 flock -n /var/lock/example-bitrix-warmup.lock \
-  /usr/bin/python3 /opt/scripts/bitrix-composite-warmup.py \
+  /usr/bin/python3 /opt/scripts/bitrix-composite-warmup-sqlite.py \
   https://example.ru/sitemap.xml \
   --db /var/tmp/example-warmup.sqlite3 \
   --access-log '/var/log/nginx/example.ru.access.log*' \
@@ -261,8 +261,8 @@ flock -n /var/lock/example-bitrix-warmup.lock \
 ## Диагностика
 
 ```bash
-python3 bitrix-composite-warmup.py --help
-python3 -m py_compile bitrix-composite-warmup.py
+python3 bitrix-composite-warmup-sqlite.py --help
+python3 -m py_compile bitrix-composite-warmup-sqlite.py
 ```
 
 Проверьте, что sitemap содержит правильные URL, `access.log` относится к нужному vhost, у процесса есть доступ к SQLite/логам/кешу и что запросы действительно формируют композитную HTML-страницу. Для проверки результата используйте заголовки ответа и настройку композитного кеша в Битрикс; один лишь код HTTP 200 недостаточен.
